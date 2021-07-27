@@ -1,0 +1,12 @@
+{
+  "name": "ForMe",
+  "displayName": "ForMe",
+  "expo": {
+    "name": "ForMe",
+    "slug": "ForMe",
+    "version": "1.0.0",
+    "assetBundlePatterns": [
+      "**/*"
+    ]
+  }
+}
