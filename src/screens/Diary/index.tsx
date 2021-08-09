@@ -1,5 +1,6 @@
 import React from 'react';
-import { View, Text } from 'react-native';
+
+import { View, Text } from '@atoms/Default';
 
 const Diary = (): React.ReactElement => {
   const text = 'Diary';

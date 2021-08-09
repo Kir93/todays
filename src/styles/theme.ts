@@ -1,14 +1,11 @@
-import { DefaultTheme } from 'styled-components/native';
+import { DefaultTheme } from 'styled-components';
 
-const CustomTheme: DefaultTheme = {
-  light: {
-    fontColor: '#222',
-    backgroundColor: '#fff',
-  },
-  dark: {
-    fontColor: '#fff',
-    backgroundColor: '#222',
-  },
+export const WhiteTheme: DefaultTheme = {
+  fontColor: '#222',
+  backgroundColor: '#fff',
 };
 
-export default CustomTheme;
+export const DarkTheme: DefaultTheme = {
+  fontColor: '#fff',
+  backgroundColor: '#222',
+};

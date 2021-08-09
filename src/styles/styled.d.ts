@@ -2,7 +2,7 @@ import 'styled-components';
 
 declare module 'styled-components' {
   export interface DefaultTheme {
-    main: string;
-    disabled: string;
+    backgroundColor: string;
+    fontColor: string;
   }
 }

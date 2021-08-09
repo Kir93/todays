@@ -1,9 +1,8 @@
 import React, { useState } from 'react';
 import * as Font from 'expo-font';
-import styled from 'styled-components/native';
 import AppLoading from 'expo-app-loading';
 import { Ionicons } from '@expo/vector-icons';
-import { View } from 'react-native';
+import { NavigationContainer } from '@react-navigation/native';
 import {
   useFonts,
   NotoSansKR_100Thin,
@@ -14,13 +13,14 @@ import {
   NotoSansKR_900Black,
 } from '@expo-google-fonts/noto-sans-kr';
 
-const Text = styled.Text`
-  font-size: 24px;
-  font-family: 'NotoSansKR_400Regular';
-`;
+import { WhiteTheme, DarkTheme } from '@styles/theme';
+
+import DiaryStackNav from '@navigators/DiaryStackNav';
+import { ThemeProvider } from 'styled-components/native';
 
 export default function App(): React.ReactElement {
   const [loading, setLoading] = useState(true);
+  const [white, setWhite] = useState(false);
   const [fontsLoaded] = useFonts({
     NotoSansKR_100Thin,
     NotoSansKR_300Light,
@@ -39,8 +39,10 @@ export default function App(): React.ReactElement {
     return <AppLoading startAsync={preload} onError={alert} onFinish={onFinish} />;
   }
   return (
-    <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
-      <Text>Open up App.tsx to start working on your app!</Text>
-    </View>
+    <ThemeProvider theme={white ? WhiteTheme : DarkTheme}>
+      <NavigationContainer>
+        <DiaryStackNav />
+      </NavigationContainer>
+    </ThemeProvider>
   );
 }
