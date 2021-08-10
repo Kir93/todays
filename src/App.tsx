@@ -4,7 +4,6 @@ import AppLoading from 'expo-app-loading';
 import { Ionicons } from '@expo/vector-icons';
 import { NavigationContainer } from '@react-navigation/native';
 import {
-  useFonts,
   NotoSansKR_100Thin,
   NotoSansKR_300Light,
   NotoSansKR_400Regular,
@@ -20,22 +19,25 @@ import { ThemeProvider } from 'styled-components/native';
 
 export default function App(): React.ReactElement {
   const [loading, setLoading] = useState(true);
-  const [white, setWhite] = useState(false);
-  const [fontsLoaded] = useFonts({
-    NotoSansKR_100Thin,
-    NotoSansKR_300Light,
-    NotoSansKR_400Regular,
-    NotoSansKR_500Medium,
-    NotoSansKR_700Bold,
-    NotoSansKR_900Black,
-  });
+  const white = false;
+
   const onFinish = () => setLoading(false);
   const preload = async () => {
     const fontsToLoad = [Ionicons.font];
     const fontPromises = fontsToLoad.map((font) => Font.loadAsync(font));
-    await Promise.all<void>([...fontPromises]);
+    await Promise.all<void>([
+      ...fontPromises,
+      Font.loadAsync({
+        NotoSansKR_100Thin,
+        NotoSansKR_300Light,
+        NotoSansKR_400Regular,
+        NotoSansKR_500Medium,
+        NotoSansKR_700Bold,
+        NotoSansKR_900Black,
+      }),
+    ]);
   };
-  if (loading && !fontsLoaded) {
+  if (loading) {
     return <AppLoading startAsync={preload} onError={alert} onFinish={onFinish} />;
   }
   return (
