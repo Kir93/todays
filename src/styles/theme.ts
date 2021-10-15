@@ -1,11 +1,13 @@
 import { DefaultTheme } from 'styled-components';
 
-export const WhiteTheme: DefaultTheme = {
-  fontColor: '#222',
-  backgroundColor: '#fff',
+const Theme: DefaultTheme = {
+  backgroundColor: '#F2F0F0',
+  primaryColor: '#736355',
+  fontColor: '#A69586',
+  lightColor: '#D9CCC5',
+  regular: 'NotoSansKR_400Regular',
+  medium: 'NotoSansKR_500Medium',
+  bold: 'NotoSansKR_700Bold',
 };
 
-export const DarkTheme: DefaultTheme = {
-  fontColor: '#fff',
-  backgroundColor: '#222',
-};
+export default Theme;

@@ -4,7 +4,7 @@ import { useNavigation } from '@react-navigation/native';
 
 import HeaderTitle from '@components/Diary/HeaderTitle';
 import CDateTimePicker from '@components/Common/CDateTimePicker';
-import { DiaryWrapper, FormWrap, Input, Title } from './styles';
+import { DiaryWrapper, FormWrap, Input, SafeAreaView, Title } from './styles';
 
 const Diary = (): React.ReactElement => {
   const navigation = useNavigation();
@@ -24,35 +24,37 @@ const Diary = (): React.ReactElement => {
     });
   }, [date]);
   return (
-    <TouchableWithoutFeedback onPress={onClose}>
-      <DiaryWrapper behavior="padding">
-        <FormWrap>
-          <Title>테스트</Title>
-          <Input />
-          <Input />
-          <Input />
-          <Title>테스트</Title>
-          <Input />
-          <Input />
-          <Input />
-          <Title>테스트</Title>
-          <Input />
-          <Input />
-          <Input />
-          <Title>테스트</Title>
-          <Input />
-          <Input />
-          <Input />
-          <Title>테스트</Title>
-          <Input />
-          <Input />
-          <Input />
-        </FormWrap>
-        {show ? (
-          <CDateTimePicker date={date} show={show} setDate={setDate} setShow={setShow} />
-        ) : null}
-      </DiaryWrapper>
-    </TouchableWithoutFeedback>
+    <SafeAreaView>
+      <TouchableWithoutFeedback onPress={onClose}>
+        <DiaryWrapper behavior="padding">
+          <FormWrap>
+            <Title>테스트</Title>
+            <Input />
+            <Input />
+            <Input />
+            <Title>테스트</Title>
+            <Input />
+            <Input />
+            <Input />
+            <Title>테스트</Title>
+            <Input />
+            <Input />
+            <Input />
+            <Title>테스트</Title>
+            <Input />
+            <Input />
+            <Input />
+            <Title>테스트</Title>
+            <Input />
+            <Input />
+            <Input />
+          </FormWrap>
+          {show ? (
+            <CDateTimePicker date={date} show={show} setDate={setDate} setShow={setShow} />
+          ) : null}
+        </DiaryWrapper>
+      </TouchableWithoutFeedback>
+    </SafeAreaView>
   );
 };
 
