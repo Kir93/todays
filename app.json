@@ -5,8 +5,13 @@
     "name": "ForMe",
     "slug": "ForMe",
     "version": "1.0.0",
-    "assetBundlePatterns": [
-      "**/*"
-    ]
+    "assetBundlePatterns": ["**/*"],
+    "jsEngine": "hermes",
+    "android": {
+      "package": "forMe.kr"
+    },
+    "ios": {
+      "bundleIdentifier": "forMe.kr"
+    }
   }
 }
