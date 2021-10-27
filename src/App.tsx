@@ -4,6 +4,7 @@ import AppLoading from 'expo-app-loading';
 import { Ionicons } from '@expo/vector-icons';
 import { ThemeProvider } from 'styled-components/native';
 import { NavigationContainer } from '@react-navigation/native';
+import { SafeAreaProvider } from 'react-native-safe-area-context';
 import {
   NotoSansKR_400Regular,
   NotoSansKR_500Medium,
@@ -35,9 +36,11 @@ export default function App(): React.ReactElement {
   }
   return (
     <ThemeProvider theme={Theme}>
-      <NavigationContainer>
-        <DiaryStackNav />
-      </NavigationContainer>
+      <SafeAreaProvider>
+        <NavigationContainer>
+          <DiaryStackNav />
+        </NavigationContainer>
+      </SafeAreaProvider>
     </ThemeProvider>
   );
 }

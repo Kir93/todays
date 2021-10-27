@@ -14,9 +14,9 @@ PODS:
     - ExpoModulesCore
   - EXManifests (0.2.2):
     - EXJSONUtils
-  - Expo (43.0.0):
+  - Expo (43.0.1):
     - ExpoModulesCore
-  - ExpoModulesCore (0.4.4):
+  - ExpoModulesCore (0.4.5):
     - React-Core
   - EXSplashScreen (0.13.4):
     - ExpoModulesCore
@@ -507,7 +507,7 @@ EXTERNAL SOURCES:
 
 SPEC CHECKSUMS:
   boost-for-react-native: 39c7adb57c4e60d6c5479dd8623128eb5b3f0f2c
-  DoubleConversion: cf9b38bf0b2d048436d9a82ad2abe1404f11e7de
+  DoubleConversion: cde416483dac037923206447da6e1454df403714
   EXApplication: 0e15240e4d125b62f1cae48759ffbbd32b9286a6
   EXConstants: 6d585d93723b18d7a8c283591a335609e3bc153e
   EXFileSystem: 99aac7962c11c680681819dd9cbca24e20e5b1e7
@@ -515,15 +515,15 @@ SPEC CHECKSUMS:
   EXJSONUtils: f515cf71710855d7ba5bfc6752af3b9a6f6aad01
   EXKeepAwake: 8aa32396a5972d26e75e538603aad0f032396503
   EXManifests: 50e42e01335df4e54109dee7be5a91bfd37347db
-  Expo: f3357f1f9796d0b4d396d0be84c49933671db4ad
-  ExpoModulesCore: 47b403a33ad73770c49d7559615b3ea121a36116
+  Expo: cb542da0f7c8565a58231488066262f079eb1831
+  ExpoModulesCore: 5b6115660c3400f019f75093c061ae0d8c690f8a
   EXSplashScreen: 68390ddb65a5def66ce8cf46a1e14a9b33cdac70
   EXStructuredHeaders: 873e7f329c2f6279c1b1e0229df59c9861560b53
   EXUpdates: 964b7932e8fb332403170cb7cd438f48f6d6c64e
   EXUpdatesInterface: e1c01b4f5ec76bd1d6cc714938f9edf5ef6379b9
   FBLazyVector: e686045572151edef46010a6f819ade377dfeb4b
   FBReactNativeSpec: 02512cee4f394a7ac0e6cb0754346dca14d3cd69
-  glog: 73c2498ac6884b13ede40eda8228cb1eee9d9d62
+  glog: 40a13f7840415b9a77023fbcae0f1e6f43192af3
   hermes-engine: 7d97ba46a1e29bacf3e3c61ecb2804a5ddd02d4f
   libevent: 4049cae6c81cdb3654a443be001fb9bdceff7913
   RCT-Folly: ec7a233ccc97cc556cf7237f0db1ff65b986f27c
@@ -558,4 +558,4 @@ SPEC CHECKSUMS:
 
 PODFILE CHECKSUM: 64beb51818afeaa82e0e469e09e296d4f64043ad
 
-COCOAPODS: 1.10.1
+COCOAPODS: 1.11.2
