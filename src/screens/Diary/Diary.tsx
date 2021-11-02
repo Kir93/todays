@@ -19,6 +19,8 @@ const Diary = (): React.ReactElement => {
   const day = dayjs().day();
   const [focus, setFocus] = useState(false);
   const [area, setArea] = useState('');
+  const [dayInput, setDayInput] = useState('');
+  const [moonInput, setMoonInput] = useState('');
 
   const DayTitle = () => <Text>{`${day}日`}</Text>;
   const headerRight = () => <Text>Right</Text>;
@@ -29,6 +31,9 @@ const Diary = (): React.ReactElement => {
       headerRight,
     });
   }, [day]);
+
+  const onChangeText = (type: 'day' | 'moon') => (value: string) =>
+    type === 'day' ? setDayInput(value) : setMoonInput(value);
 
   const onInputAreaToggle = (type: string) => () => {
     if (focus) {
@@ -57,6 +62,8 @@ const Diary = (): React.ReactElement => {
           </WritingToggleWrap>
           <WritingArea
             multiline
+            value={dayInput}
+            onChangeText={onChangeText('day')}
             onFocus={onInputToggle(true, 'sunny')}
             onBlur={onInputToggle(false, 'sunny')}
             area={area === 'sunny'}
@@ -68,6 +75,8 @@ const Diary = (): React.ReactElement => {
           </WritingToggleWrap>
           <WritingArea
             multiline
+            value={moonInput}
+            onChangeText={onChangeText('moon')}
             onFocus={onInputToggle(true, 'moon')}
             onBlur={onInputToggle(false, 'moon')}
             area={area === 'moon'}
