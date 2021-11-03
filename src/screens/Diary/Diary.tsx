@@ -4,6 +4,8 @@ import { Keyboard } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import { useNavigation } from '@react-navigation/native';
 
+import useInput from '@hooks/useInput';
+
 import { Text } from '@atoms/Default';
 import {
   GoodWardWrap,
@@ -18,9 +20,10 @@ const Diary = (): React.ReactElement => {
   const navigation = useNavigation();
   const day = dayjs().day();
   const [focus, setFocus] = useState(false);
-  const [area, setArea] = useState('');
-  const [dayInput, setDayInput] = useState('');
-  const [moonInput, setMoonInput] = useState('');
+  const [sunny, setSunny] = useState(false);
+  const [moon, setMoon] = useState(false);
+  const [dayInput, onChangeDayInput] = useInput('');
+  const [moonInput, onChangeMoonInput] = useInput('');
 
   const DayTitle = () => <Text>{`${day}日`}</Text>;
   const headerRight = () => <Text>Right</Text>;
@@ -32,54 +35,54 @@ const Diary = (): React.ReactElement => {
     });
   }, [day]);
 
-  const onChangeText = (type: 'day' | 'moon') => (value: string) =>
-    type === 'day' ? setDayInput(value) : setMoonInput(value);
-
-  const onInputAreaToggle = (type: string) => () => {
+  const onInputAreaToggle = (type: 'sunny' | 'moon' | '') => () => {
     if (focus) {
       setFocus(false);
       return Keyboard.dismiss();
     }
-    if (type === 'sunny') setArea((prev) => (prev !== 'sunny' ? 'sunny' : ''));
-    if (type === 'moon') setArea((prev) => (prev !== 'moon' ? 'moon' : ''));
+    if (type === 'sunny') setSunny((prev) => !prev);
+    else if (type === 'moon') setMoon((prev) => !prev);
+    else return null;
   };
 
   const onInputToggle = (toggle: boolean, type: string) => () => {
     setFocus(toggle);
-    if (type === 'sunny') setArea((prev) => (prev !== 'moon' ? 'moon' : ''));
-    if (type === 'moon') setArea((prev) => (prev !== 'sunny' ? 'sunny' : ''));
+    if (type === 'sunny') return toggle ? setMoon(true) : setMoon(false);
+    return toggle ? setSunny(true) : setSunny(false);
   };
 
   return (
     <SafeAreaView>
-      <WritingWrapper onPress={() => Keyboard.dismiss()}>
+      <WritingWrapper onPress={onInputAreaToggle('')}>
         <GoodWardWrap focus={focus}>
           <Text>Good Word</Text>
         </GoodWardWrap>
-        <WritingWrap area={area === 'sunny'}>
+        <WritingWrap area={focus && sunny}>
           <WritingToggleWrap onPress={onInputAreaToggle('sunny')}>
             <Ionicons name="sunny-outline" color="#736355" size={24} />
           </WritingToggleWrap>
           <WritingArea
             multiline
             value={dayInput}
-            onChangeText={onChangeText('day')}
+            onChangeText={onChangeDayInput}
             onFocus={onInputToggle(true, 'sunny')}
             onBlur={onInputToggle(false, 'sunny')}
-            area={area === 'sunny'}
+            area={sunny}
+            done={!focus && dayInput !== ''}
           />
         </WritingWrap>
-        <WritingWrap area={area === 'moon'}>
+        <WritingWrap area={focus && moon}>
           <WritingToggleWrap onPress={onInputAreaToggle('moon')}>
             <Ionicons name="moon-outline" color="#736355" size={24} />
           </WritingToggleWrap>
           <WritingArea
             multiline
             value={moonInput}
-            onChangeText={onChangeText('moon')}
+            onChangeText={onChangeMoonInput}
             onFocus={onInputToggle(true, 'moon')}
             onBlur={onInputToggle(false, 'moon')}
-            area={area === 'moon'}
+            area={moon}
+            done={!focus && moonInput !== ''}
           />
         </WritingWrap>
       </WritingWrapper>

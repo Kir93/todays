@@ -11,7 +11,7 @@ export const WritingWrapper = styled.Pressable`
 
 export const GoodWardWrap = styled.View<{ focus: boolean }>`
   align-items: center;
-  margin: 30px 0 100px;
+  margin: 30px 0;
   ${({ focus }) => focus && { display: 'none' }}
 `;
 
@@ -23,10 +23,10 @@ export const WritingToggleWrap = styled.TouchableOpacity`
   margin: 24px 0;
 `;
 
-export const WritingArea = styled.TextInput<{ area: boolean }>`
+export const WritingArea = styled.TextInput<{ area: boolean; done: boolean }>`
   height: 200px;
   border-radius: 8px;
-  background-color: #fff;
+  background-color: ${({ theme, done }) => (done ? theme.backgroundColor : '#fff')};
   padding: 16px;
   font-family: ${({ theme }) => theme.regular};
   color: ${({ theme }) => theme.primaryColor};
