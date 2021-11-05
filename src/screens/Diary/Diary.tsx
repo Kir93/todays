@@ -5,10 +5,11 @@ import { Ionicons } from '@expo/vector-icons';
 import { useNavigation } from '@react-navigation/native';
 
 import useInput from '@hooks/useInput';
+import maxim from '@utils/maxim.json';
 
 import { Text } from '@atoms/Default';
 import {
-  GoodWardWrap,
+  GoodWordWrap,
   SafeAreaView,
   WritingArea,
   WritingToggleWrap,
@@ -19,13 +20,14 @@ import {
 const Diary = (): React.ReactElement => {
   const navigation = useNavigation();
   const day = dayjs().day();
+  const [randomNumber, setRandomNumber] = useState(0);
   const [focus, setFocus] = useState(false);
   const [sunny, setSunny] = useState(false);
   const [moon, setMoon] = useState(false);
   const [dayInput, onChangeDayInput] = useInput('');
   const [moonInput, onChangeMoonInput] = useInput('');
 
-  const DayTitle = () => <Text>{`${day}日`}</Text>;
+  const DayTitle = () => <Text>{`${day} 日`}</Text>;
   const headerRight = () => <Text>Right</Text>;
 
   useEffect(() => {
@@ -33,6 +35,7 @@ const Diary = (): React.ReactElement => {
       headerTitle: DayTitle,
       headerRight,
     });
+    setRandomNumber(Math.floor(Math.random() * maxim.length));
   }, [day]);
 
   const onInputAreaToggle = (type: 'sunny' | 'moon' | '') => () => {
@@ -54,9 +57,10 @@ const Diary = (): React.ReactElement => {
   return (
     <SafeAreaView>
       <WritingWrapper onPress={onInputAreaToggle('')}>
-        <GoodWardWrap focus={focus}>
-          <Text>Good Word</Text>
-        </GoodWardWrap>
+        <GoodWordWrap focus={focus}>
+          <Text>{maxim[randomNumber].message}</Text>
+          <Text>{maxim[randomNumber].author}</Text>
+        </GoodWordWrap>
         <WritingWrap area={focus && sunny}>
           <WritingToggleWrap onPress={onInputAreaToggle('sunny')}>
             <Ionicons name="sunny-outline" color="#736355" size={24} />
