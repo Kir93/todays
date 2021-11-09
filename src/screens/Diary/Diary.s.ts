@@ -17,9 +17,7 @@ export const GoodWordWrap = styled.View<{ focus: boolean }>`
   ${({ focus }) => focus && { display: 'none' }};
 `;
 
-export const WritingWrap = styled.View<{ area: boolean }>`
-  ${({ area }) => area && { display: 'none' }}
-`;
+export const WritingWrap = styled.View``;
 
 export const WritingToggleWrap = styled.TouchableOpacity`
   margin: 24px 0;

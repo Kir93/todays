@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import dayjs from 'dayjs';
-import { Keyboard } from 'react-native';
+import { Keyboard, TouchableOpacity } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import { useNavigation } from '@react-navigation/native';
 
@@ -27,8 +27,14 @@ const Diary = (): React.ReactElement => {
   const [dayInput, onChangeDayInput] = useInput('');
   const [moonInput, onChangeMoonInput] = useInput('');
 
+  const onNavigateListPage = () => navigation.navigate('List');
+
   const DayTitle = () => <Text>{`${day} 日`}</Text>;
-  const headerRight = () => <Text>Right</Text>;
+  const headerRight = () => (
+    <TouchableOpacity onPress={onNavigateListPage}>
+      <Ionicons name="bookmark-outline" color="#736355" size={18} />
+    </TouchableOpacity>
+  );
 
   useEffect(() => {
     navigation.setOptions({
@@ -61,7 +67,7 @@ const Diary = (): React.ReactElement => {
           <Text>{maxim[randomNumber].message}</Text>
           <Text>{maxim[randomNumber].author}</Text>
         </GoodWordWrap>
-        <WritingWrap area={focus && sunny}>
+        <WritingWrap>
           <WritingToggleWrap onPress={onInputAreaToggle('sunny')}>
             <Ionicons name="sunny-outline" color="#736355" size={24} />
           </WritingToggleWrap>
@@ -75,7 +81,7 @@ const Diary = (): React.ReactElement => {
             done={!focus && dayInput !== ''}
           />
         </WritingWrap>
-        <WritingWrap area={focus && moon}>
+        <WritingWrap>
           <WritingToggleWrap onPress={onInputAreaToggle('moon')}>
             <Ionicons name="moon-outline" color="#736355" size={24} />
           </WritingToggleWrap>
