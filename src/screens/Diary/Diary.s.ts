@@ -1,4 +1,5 @@
 import styled from 'styled-components/native';
+import { WINDOW_HEIGHT } from '@utils/windowSize';
 
 export const SafeAreaView = styled.KeyboardAvoidingView`
   flex: 1;
@@ -9,22 +10,21 @@ export const WritingWrapper = styled.Pressable`
   padding: 12px 24px;
 `;
 
-export const GoodWardWrap = styled.View<{ focus: boolean }>`
+export const GoodWordWrap = styled.View<{ focus: boolean }>`
+  height: 50px;
   align-items: center;
-  margin: 30px 0;
-  ${({ focus }) => focus && { display: 'none' }}
+  margin-top: 15px;
+  ${({ focus }) => focus && { display: 'none' }};
 `;
 
-export const WritingWrap = styled.View<{ area: boolean }>`
-  ${({ area }) => area && { display: 'none' }}
-`;
+export const WritingWrap = styled.View``;
 
 export const WritingToggleWrap = styled.TouchableOpacity`
   margin: 24px 0;
 `;
 
 export const WritingArea = styled.TextInput<{ area: boolean; done: boolean }>`
-  height: 200px;
+  height: ${WINDOW_HEIGHT / 2 - 200}px;
   border-radius: 8px;
   background-color: ${({ theme, done }) => (done ? theme.backgroundColor : '#fff')};
   padding: 16px;
