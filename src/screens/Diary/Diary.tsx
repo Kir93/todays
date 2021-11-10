@@ -8,6 +8,7 @@ import maxim from '@utils/maxim.json';
 import useInput from '@hooks/useInput';
 
 import { Text } from '@atoms/Default';
+
 import {
   GoodWordWrap,
   SafeAreaView,
