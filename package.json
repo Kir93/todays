@@ -6,7 +6,11 @@
     "web": "expo start --web",
     "start": "react-native start",
     "test": "jest",
-    "expo": "expo start"
+    "expo": "expo start",
+    "depcheck": "npx depcheck",
+    "svgo": "npx svgo -f public/svgs",
+    "prepare": "husky install",
+    "lint-staged": "lint-staged"
   },
   "dependencies": {
     "@expo-google-fonts/noto-sans-kr": "^0.2.0",
@@ -50,7 +54,7 @@
     "eslint-plugin-prettier": "^3.4.0",
     "eslint-plugin-react": "^7.24.0",
     "eslint-plugin-react-hooks": "^4.2.0",
-    "husky": "^4.3.8",
+    "husky": "^7.0.4",
     "jest-expo": "^43.0.0",
     "lint-staged": "^11.1.1",
     "prettier": "^2.3.2",
@@ -60,16 +64,10 @@
     "preset": "react-native"
   },
   "private": true,
-  "husky": {
-    "hooks": {
-      "pre-commit": "lint-staged"
-    }
-  },
   "lint-staged": {
-    "*.tsx": [
+    "**/*.{tsx,ts}": [
       "eslint --fix",
-      "prettier --write",
-      "git add"
+      "prettier --write"
     ]
   },
   "name": "ForMe",
