@@ -10,5 +10,5 @@ export const Text = styled.Text`
   font-family: ${({ theme }) => theme.regular};
   font-size: 16px;
   text-align: center;
-  color: ${({ theme }) => theme.fontColor};
+  color: ${({ theme }) => theme.primaryColor};
 `;

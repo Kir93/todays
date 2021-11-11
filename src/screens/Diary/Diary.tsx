@@ -65,8 +65,9 @@ const Diary = (): React.ReactElement => {
     <SafeAreaView>
       <WritingWrapper onPress={onInputAreaToggle('')}>
         <GoodWordWrap focus={focus}>
-          <Text>{maxim[randomNumber].message}</Text>
-          <Text>{maxim[randomNumber].author}</Text>
+          <Text>
+            {maxim[randomNumber].message} -{maxim[randomNumber].author}
+          </Text>
         </GoodWordWrap>
         <WritingWrap>
           <WritingToggleWrap onPress={onInputAreaToggle('sunny')}>
