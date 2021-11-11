@@ -12,7 +12,6 @@ import {
 } from '@expo-google-fonts/noto-sans-kr';
 
 import Theme from '@styles/theme';
-
 import DiaryStackNav from '@navigators/DiaryStackNav';
 
 export default function App(): React.ReactElement {
@@ -34,6 +33,7 @@ export default function App(): React.ReactElement {
   if (loading) {
     return <AppLoading startAsync={preload} onError={alert} onFinish={onFinish} />;
   }
+
   return (
     <ThemeProvider theme={Theme}>
       <SafeAreaProvider>
