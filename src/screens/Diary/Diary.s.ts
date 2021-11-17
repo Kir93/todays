@@ -1,15 +1,6 @@
 import styled from 'styled-components/native';
 import { WINDOW_HEIGHT } from '@utils/windowSize';
 
-export const SafeAreaView = styled.KeyboardAvoidingView`
-  flex: 1;
-  background-color: ${(props) => props.theme.backgroundColor};
-`;
-
-export const WritingWrapper = styled.Pressable`
-  padding: 12px 24px;
-`;
-
 export const GoodWordWrap = styled.View<{ focus: boolean }>`
   height: 50px;
   align-items: center;

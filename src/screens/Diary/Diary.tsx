@@ -1,22 +1,16 @@
 import React, { useEffect, useState } from 'react';
 import dayjs from 'dayjs';
-import { Keyboard, TouchableOpacity } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import { useNavigation } from '@react-navigation/native';
+import { Pressable, Keyboard, TouchableOpacity } from 'react-native';
 
 import maxim from '@utils/maxim.json';
 import useInput from '@hooks/useInput';
 
 import { Text } from '@atoms/Default';
+import AppLayout from '@components/Applayout/AppLayout';
 
-import {
-  GoodWordWrap,
-  SafeAreaView,
-  WritingArea,
-  WritingToggleWrap,
-  WritingWrap,
-  WritingWrapper,
-} from './Diary.s';
+import { GoodWordWrap, WritingArea, WritingToggleWrap, WritingWrap } from './Diary.s';
 
 const Diary = (): React.ReactElement => {
   const navigation = useNavigation();
@@ -62,8 +56,8 @@ const Diary = (): React.ReactElement => {
   };
 
   return (
-    <SafeAreaView>
-      <WritingWrapper onPress={onInputAreaToggle('')}>
+    <AppLayout>
+      <Pressable onPress={onInputAreaToggle('')}>
         <GoodWordWrap focus={focus}>
           <Text>
             {maxim[randomNumber].message} -{maxim[randomNumber].author}
@@ -97,8 +91,8 @@ const Diary = (): React.ReactElement => {
             done={!focus && moonInput !== ''}
           />
         </WritingWrap>
-      </WritingWrapper>
-    </SafeAreaView>
+      </Pressable>
+    </AppLayout>
   );
 };
 

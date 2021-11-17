@@ -1,8 +1,8 @@
 import React from 'react';
 import { View, Text } from 'react-native';
 
-const List = (): React.ReactElement => {
-  const text = 'List';
+const Month = (): React.ReactElement => {
+  const text = 'Month';
   return (
     <View>
       <Text>{text}</Text>
@@ -10,4 +10,4 @@ const List = (): React.ReactElement => {
   );
 };
 
-export default List;
+export default Month;

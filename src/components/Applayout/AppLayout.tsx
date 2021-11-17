@@ -1,8 +1,8 @@
 import React from 'react';
-import { View } from 'react-native';
+import { SafeAreaView } from './AppLayout.s';
 
 const AppLayout = ({ children }: { children: React.ReactElement }): React.ReactElement => (
-  <View>{children}</View>
+  <SafeAreaView>{children}</SafeAreaView>
 );
 
 export default AppLayout;
