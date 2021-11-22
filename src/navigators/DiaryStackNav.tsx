@@ -16,9 +16,9 @@ const screenOptions = {
 
 const DiaryStackNav = (): React.ReactElement => (
   <Stack.Navigator screenOptions={screenOptions}>
+    <Stack.Screen name="Month" component={Month} />
     <Stack.Screen name="List" component={List} />
     <Stack.Screen name="Diary" component={Diary} />
-    <Stack.Screen name="Month" component={Month} />
   </Stack.Navigator>
 );
 
