@@ -1,5 +1,8 @@
-import React from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
+import dayjs from 'dayjs';
 import { LocaleConfig } from 'react-native-calendars';
+import { useNavigation } from '@react-navigation/native';
+import { DateData } from 'react-native-calendars/src/types';
 
 import AppLayout from '@components/Applayout/AppLayout';
 import { MonthCalendar } from './Month.s';
@@ -27,9 +30,35 @@ LocaleConfig.locales.ko = {
 
 const Month = (): React.ReactElement => {
   LocaleConfig.defaultLocale = 'ko';
+  const toDay = dayjs().toDate();
+  const navigation = useNavigation();
+  const [arrow, setArrow] = useState(true);
+  const sunny = { key: 'vacation', color: 'red' };
+  const moon = { key: 'massage', color: 'blue' };
+  const onDisabledArrow = useCallback(
+    (month: DateData[]) => setArrow(month[0].month.toString() !== toDay.getMonth().toString()),
+    [arrow],
+  );
+  useEffect(() => {
+    navigation.setOptions({ headerTitle: '월별보기' });
+  }, []);
+
   return (
     <AppLayout>
-      <MonthCalendar />
+      <MonthCalendar
+        markingType="multi-dot"
+        hideExtraDays
+        disableAllTouchEventsForDisabledDays
+        maxDate={toDay}
+        disableArrowRight={arrow}
+        onVisibleMonthsChange={onDisabledArrow}
+        markedDates={{
+          '2021-11-25': {
+            dots: [sunny, moon],
+          },
+          '2021-11-26': { dots: [moon] },
+        }}
+      />
     </AppLayout>
   );
 };
