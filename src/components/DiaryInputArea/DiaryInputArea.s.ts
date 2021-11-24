@@ -1,16 +1,6 @@
 import styled from 'styled-components/native';
 import { WINDOW_HEIGHT } from '@utils/windowSize';
 
-export const GoodWordWrap = styled.View<{ focus: boolean }>`
-  height: 50px;
-  align-items: center;
-  margin-top: 15px;
-  padding: 0 30px;
-  ${({ focus }) => focus && { display: 'none' }};
-`;
-
-export const WritingWrap = styled.View``;
-
 export const WritingToggleWrap = styled.TouchableOpacity`
   margin: 24px 0;
 `;

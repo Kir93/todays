@@ -8,9 +8,9 @@ import maxim from '@utils/maxim.json';
 import useInput from '@hooks/useInput';
 
 import { Text } from '@atoms/Default';
+import GoodWord from '@components/GoodWord/GoodWord';
 import AppLayout from '@components/Applayout/AppLayout';
-
-import { GoodWordWrap, WritingArea, WritingToggleWrap, WritingWrap } from './Diary.s';
+import DiaryInputArea from '@components/DiaryInputArea/DiaryInputArea';
 
 const Diary = (): React.ReactElement => {
   const navigation = useNavigation();
@@ -58,39 +58,29 @@ const Diary = (): React.ReactElement => {
   return (
     <AppLayout>
       <Pressable onPress={onInputAreaToggle('')}>
-        <GoodWordWrap focus={focus}>
-          <Text>
-            {maxim[randomNumber].message} -{maxim[randomNumber].author}
-          </Text>
-        </GoodWordWrap>
-        <WritingWrap>
-          <WritingToggleWrap onPress={onInputAreaToggle('sunny')}>
-            <Ionicons name="sunny-outline" color="#736355" size={24} />
-          </WritingToggleWrap>
-          <WritingArea
-            multiline
-            value={dayInput}
-            onChangeText={onChangeDayInput}
-            onFocus={onInputToggle(true, 'sunny')}
-            onBlur={onInputToggle(false, 'sunny')}
-            area={sunny}
-            done={!focus && dayInput !== ''}
-          />
-        </WritingWrap>
-        <WritingWrap>
-          <WritingToggleWrap onPress={onInputAreaToggle('moon')}>
-            <Ionicons name="moon-outline" color="#736355" size={24} />
-          </WritingToggleWrap>
-          <WritingArea
-            multiline
-            value={moonInput}
-            onChangeText={onChangeMoonInput}
-            onFocus={onInputToggle(true, 'moon')}
-            onBlur={onInputToggle(false, 'moon')}
-            area={moon}
-            done={!focus && moonInput !== ''}
-          />
-        </WritingWrap>
+        <GoodWord
+          focus={focus}
+          message={maxim[randomNumber].message}
+          author={maxim[randomNumber].author}
+        />
+        <DiaryInputArea
+          type="sunny"
+          value={dayInput}
+          area={sunny}
+          done={!focus && dayInput !== ''}
+          onChangeText={onChangeDayInput}
+          onInputAreaToggle={onInputAreaToggle}
+          onInputToggle={onInputToggle}
+        />
+        <DiaryInputArea
+          type="moon"
+          value={moonInput}
+          area={moon}
+          done={!focus && moonInput !== ''}
+          onChangeText={onChangeMoonInput}
+          onInputAreaToggle={onInputAreaToggle}
+          onInputToggle={onInputToggle}
+        />
       </Pressable>
     </AppLayout>
   );
