@@ -14,7 +14,7 @@ import DiaryInputArea from '@components/DiaryInputArea/DiaryInputArea';
 
 const Diary = (): React.ReactElement => {
   const navigation = useNavigation();
-  const day = dayjs().day();
+  const day = dayjs().date();
   const [randomNumber, setRandomNumber] = useState(0);
   const [focus, setFocus] = useState(false);
   const [sunny, setSunny] = useState(false);

@@ -1,19 +1,20 @@
 import React, { useEffect } from 'react';
 import dayjs from 'dayjs';
-import { Ionicons } from '@expo/vector-icons';
+
 import { TouchableOpacity } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 
 import { Text } from '@atoms/Default';
 import AppLayout from '@components/Applayout/AppLayout';
 
-import {
-  CardContentsWrap,
-  CardDayText,
-  CardText,
-  DayCardWrapper,
-  DetailContentsWrap,
-} from './List.s';
+import DayCard from '@components/DayCard/DayCard';
+
+const examCardData = [
+  { day: '17', sunnyCardText: '테스테테스트', moonCardText: '밤 일기 테스트세트스' },
+  { day: '14', sunnyCardText: '테스테테스트', moonCardText: '밤 일기 테스트세트스' },
+  { day: '11', sunnyCardText: '테스테테스트', moonCardText: '밤 일기 테스트세트스' },
+  { day: '10', sunnyCardText: '테스테테스트', moonCardText: '밤 일기 테스트세트스' },
+];
 
 const List = (): React.ReactElement => {
   const navigation = useNavigation();
@@ -35,19 +36,11 @@ const List = (): React.ReactElement => {
 
   return (
     <AppLayout>
-      <DayCardWrapper>
-        <CardDayText>17</CardDayText>
-        <CardContentsWrap>
-          <DetailContentsWrap>
-            <Ionicons name="sunny-outline" color="#736355" size={18} />
-            <CardText numberOfLines={1}>내용이 길어지면 어떻게 되는건가요?...</CardText>
-          </DetailContentsWrap>
-          <DetailContentsWrap>
-            <Ionicons name="moon-outline" color="#736355" size={18} />
-            <CardText>내용</CardText>
-          </DetailContentsWrap>
-        </CardContentsWrap>
-      </DayCardWrapper>
+      <>
+        {examCardData.map((data) => (
+          <DayCard key={data?.day} {...data} />
+        ))}
+      </>
     </AppLayout>
   );
 };

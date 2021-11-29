@@ -30,18 +30,18 @@ LocaleConfig.locales.ko = {
 
 const Month = (): React.ReactElement => {
   LocaleConfig.defaultLocale = 'ko';
-  const toDay = dayjs().toDate();
+  const toDay = dayjs();
   const navigation = useNavigation();
   const [arrow, setArrow] = useState(true);
   const sunny = { key: 'vacation', color: 'red' };
   const moon = { key: 'massage', color: 'blue' };
   const onDisabledArrow = useCallback(
-    (month: DateData[]) => setArrow(month[0].month.toString() !== toDay.getMonth().toString()),
+    (month: DateData[]) => setArrow(month[0].month === toDay.month() + 1),
     [arrow],
   );
   useEffect(() => {
-    navigation.setOptions({ headerTitle: '월별보기' });
-  }, []);
+    navigation.setOptions({ headerTitle: `${toDay.year()} 年` });
+  }, [toDay]);
 
   return (
     <AppLayout>
@@ -49,7 +49,7 @@ const Month = (): React.ReactElement => {
         markingType="multi-dot"
         hideExtraDays
         disableAllTouchEventsForDisabledDays
-        maxDate={toDay}
+        maxDate={toDay.toDate()}
         disableArrowRight={arrow}
         onVisibleMonthsChange={onDisabledArrow}
         markedDates={{
