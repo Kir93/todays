@@ -1,5 +1,6 @@
-import React, { useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import dayjs from 'dayjs';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import { Ionicons } from '@expo/vector-icons';
 import { useNavigation } from '@react-navigation/native';
 import { Pressable, Keyboard, TouchableOpacity } from 'react-native';
@@ -19,17 +20,29 @@ const Diary = (): React.ReactElement => {
   const [focus, setFocus] = useState(false);
   const [sunny, setSunny] = useState(false);
   const [moon, setMoon] = useState(false);
-  const [dayInput, onChangeDayInput] = useInput('');
-  const [moonInput, onChangeMoonInput] = useInput('');
+  const [dayInput, onChangeDayInput, setDayInput] = useInput('');
+  const [moonInput, onChangeMoonInput, setMoonInput] = useInput('');
 
-  const onNavigateListPage = () => navigation.navigate('List');
+  const DayTitle = useMemo(() => <Text>{`${day} 日`}</Text>, []);
 
-  const DayTitle = () => <Text>{`${day} 日`}</Text>;
-  const headerRight = () => (
-    <TouchableOpacity onPress={onNavigateListPage}>
-      <Ionicons name="bookmark-outline" color="#736355" size={18} />
-    </TouchableOpacity>
+  const onNavigateListPage = useCallback(() => navigation.navigate('List'), [navigation, day]);
+
+  const headerRight = useCallback(
+    () => (
+      <TouchableOpacity onPress={onNavigateListPage}>
+        <Ionicons name="bookmark-outline" color="#736355" size={18} />
+      </TouchableOpacity>
+    ),
+    [onNavigateListPage],
   );
+
+  const getTodayData = useCallback(async () => {
+    const data = await AsyncStorage.getItem(day.toString());
+    if (!data) return null;
+    const parsingData = JSON.parse(data);
+    setDayInput(parsingData?.day);
+    setMoonInput(parsingData?.moon);
+  }, [day]);
 
   useEffect(() => {
     navigation.setOptions({
@@ -37,11 +50,16 @@ const Diary = (): React.ReactElement => {
       headerRight,
     });
     setRandomNumber(Math.floor(Math.random() * maxim.length));
-  }, [day]);
+    getTodayData();
+  }, [DayTitle, headerRight, day]);
 
-  const onInputAreaToggle = (type: 'sunny' | 'moon' | '') => () => {
+  const onInputAreaToggle = (type: 'sunny' | 'moon' | '') => async () => {
     if (focus) {
       setFocus(false);
+      await AsyncStorage.setItem(
+        day.toString(),
+        JSON.stringify({ day: dayInput, moon: moonInput }),
+      );
       return Keyboard.dismiss();
     }
     if (type === 'sunny') setSunny((prev) => !prev);
