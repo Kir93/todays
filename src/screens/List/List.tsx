@@ -1,23 +1,18 @@
 import React, { useEffect } from 'react';
 import dayjs from 'dayjs';
 
-import { TouchableOpacity } from 'react-native';
+import { FlatList, TouchableOpacity } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 
 import { Text } from '@atoms/Default';
 import AppLayout from '@components/Applayout/AppLayout';
 
 import DayCard from '@components/DayCard/DayCard';
-
-const examCardData = [
-  { day: '17', sunnyCardText: '테스테테스트', moonCardText: '밤 일기 테스트세트스' },
-  { day: '14', sunnyCardText: '테스테테스트', moonCardText: '밤 일기 테스트세트스' },
-  { day: '11', sunnyCardText: '테스테테스트', moonCardText: '밤 일기 테스트세트스' },
-  { day: '10', sunnyCardText: '테스테테스트', moonCardText: '밤 일기 테스트세트스' },
-];
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const List = (): React.ReactElement => {
   const navigation = useNavigation();
+  const monthLength = dayjs().daysInMonth();
   const month = dayjs().month();
 
   const onNavigateMonthPage = () => navigation.navigate('Month');
@@ -28,19 +23,25 @@ const List = (): React.ReactElement => {
     </TouchableOpacity>
   );
 
+  const getMonthData = async () => {
+    const data = await AsyncStorage.getAllKeys();
+  };
+
   useEffect(() => {
     navigation.setOptions({
       headerTitle: MonthTitle,
     });
+    getMonthData();
   }, [month]);
 
   return (
     <AppLayout>
-      <>
-        {examCardData.map((data) => (
-          <DayCard key={data?.day} {...data} />
-        ))}
-      </>
+      <FlatList
+        inverted
+        data={new Array(monthLength)}
+        keyExtractor={(_item, index) => (index + 1).toString()}
+        renderItem={({ index }) => <DayCard key={index} day={index + 1} />}
+      />
     </AppLayout>
   );
 };

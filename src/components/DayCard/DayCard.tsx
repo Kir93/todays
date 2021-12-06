@@ -9,12 +9,12 @@ import {
 } from './DayCard.s';
 
 interface IProps {
-  day: string;
-  sunnyCardText: string;
-  moonCardText: string;
+  day: number;
+  sunnyCardText?: string;
+  moonCardText?: string;
 }
 
-const DayCard = ({ day, sunnyCardText, moonCardText }: IProps): React.ReactElement => (
+const DayCard = ({ day, sunnyCardText = '', moonCardText = '' }: IProps): React.ReactElement => (
   <DayCardWrapper>
     <CardDayText>{day}</CardDayText>
     <CardContentsWrap>
@@ -31,3 +31,5 @@ const DayCard = ({ day, sunnyCardText, moonCardText }: IProps): React.ReactEleme
 );
 
 export default DayCard;
+
+DayCard.defaultProps = { sunnyCardText: '', moonCardText: '' };

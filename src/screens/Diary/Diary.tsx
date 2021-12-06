@@ -15,7 +15,11 @@ import DiaryInputArea from '@components/DiaryInputArea/DiaryInputArea';
 
 const Diary = (): React.ReactElement => {
   const navigation = useNavigation();
-  const day = dayjs().date();
+  const { year, month, day } = {
+    year: dayjs().year().toString(),
+    month: (dayjs().month() + 1).toString(),
+    day: dayjs().date().toString(),
+  };
   const [randomNumber, setRandomNumber] = useState(0);
   const [focus, setFocus] = useState(false);
   const [sunny, setSunny] = useState(false);
@@ -37,7 +41,7 @@ const Diary = (): React.ReactElement => {
   );
 
   const getTodayData = useCallback(async () => {
-    const data = await AsyncStorage.getItem(day.toString());
+    const data = await AsyncStorage.getItem(`${year}-${month}-${day}`);
     if (!data) return null;
     const parsingData = JSON.parse(data);
     setDayInput(parsingData?.day);
@@ -57,7 +61,7 @@ const Diary = (): React.ReactElement => {
     if (focus) {
       setFocus(false);
       await AsyncStorage.setItem(
-        day.toString(),
+        `${year}-${month}-${day}`,
         JSON.stringify({ day: dayInput, moon: moonInput }),
       );
       return Keyboard.dismiss();
