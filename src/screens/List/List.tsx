@@ -14,6 +14,8 @@ const List = (): React.ReactElement => {
   const navigation = useNavigation();
   const monthLength = dayjs().daysInMonth();
   const month = dayjs().month();
+  const toDay = dayjs().date();
+  const defaultData = [...Array(toDay)].map((_v, i) => toDay - i);
 
   const onNavigateMonthPage = () => navigation.navigate('Month');
 
@@ -38,9 +40,10 @@ const List = (): React.ReactElement => {
     <AppLayout>
       <FlatList
         inverted
-        data={new Array(monthLength)}
-        keyExtractor={(_item, index) => (index + 1).toString()}
-        renderItem={({ index }) => <DayCard key={index} day={index + 1} />}
+        data={defaultData}
+        showsVerticalScrollIndicator={false}
+        keyExtractor={(item) => `${month}-${item}`}
+        renderItem={({ item }) => <DayCard key={item} day={item} />}
       />
     </AppLayout>
   );
