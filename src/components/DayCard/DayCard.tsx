@@ -9,22 +9,22 @@ import {
 } from './DayCard.s';
 
 interface IProps {
-  day: number;
-  sunnyCardText?: string;
-  moonCardText?: string;
+  thisDay: number;
+  day?: string;
+  moon?: string;
 }
 
-const DayCard = ({ day, sunnyCardText = '', moonCardText = '' }: IProps): React.ReactElement => (
+const DayCard = ({ thisDay, day = '', moon = '' }: IProps): React.ReactElement => (
   <DayCardWrapper>
-    <CardDayText>{day}</CardDayText>
+    <CardDayText>{thisDay}</CardDayText>
     <CardContentsWrap>
       <DetailContentsWrap>
         <Ionicons name="sunny-outline" color="#736355" size={18} />
-        <CardText numberOfLines={1}>{sunnyCardText}</CardText>
+        <CardText numberOfLines={1}>{day}</CardText>
       </DetailContentsWrap>
       <DetailContentsWrap>
         <Ionicons name="moon-outline" color="#736355" size={18} />
-        <CardText>{moonCardText}</CardText>
+        <CardText>{moon}</CardText>
       </DetailContentsWrap>
     </CardContentsWrap>
   </DayCardWrapper>
@@ -32,4 +32,4 @@ const DayCard = ({ day, sunnyCardText = '', moonCardText = '' }: IProps): React.
 
 export default DayCard;
 
-DayCard.defaultProps = { sunnyCardText: '', moonCardText: '' };
+DayCard.defaultProps = { day: '', moon: '' };

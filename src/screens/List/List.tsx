@@ -1,7 +1,7 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import dayjs from 'dayjs';
 
-import { FlatList, TouchableOpacity } from 'react-native';
+import { FlatList, TouchableOpacity, SafeAreaView } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 
 import { Text } from '@atoms/Default';
@@ -10,12 +10,19 @@ import AppLayout from '@components/Applayout/AppLayout';
 import DayCard from '@components/DayCard/DayCard';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
+interface IList {
+  id: string;
+  thisDay: number;
+  day: string;
+  moon: string;
+}
+
 const List = (): React.ReactElement => {
   const navigation = useNavigation();
-  const monthLength = dayjs().daysInMonth();
-  const month = dayjs().month();
+  const year = dayjs().year();
+  const month = dayjs().month() + 1;
   const toDay = dayjs().date();
-  const defaultData = [...Array(toDay)].map((_v, i) => toDay - i);
+  const [data, setData] = useState<IList[]>([]);
 
   const onNavigateMonthPage = () => navigation.navigate('Month');
 
@@ -25,27 +32,55 @@ const List = (): React.ReactElement => {
     </TouchableOpacity>
   );
 
-  const getMonthData = async () => {
-    const data = await AsyncStorage.getAllKeys();
+  const getMonthData = async (monthData: IList) => {
+    const thisData = await AsyncStorage.getItem(monthData.id);
+    if (thisData) {
+      const parseData = JSON.parse(thisData);
+      return new Promise((resolve) => resolve({ ...monthData, ...parseData }));
+    }
+    return new Promise((resolve) => resolve(monthData));
+  };
+
+  const getMonthDates = async (monthDates: IList[]) => {
+    const render = (await Promise.all(
+      monthDates.map((v) => new Promise((resolve) => resolve(getMonthData(v)))),
+    )) as IList[];
+    setData(render);
   };
 
   useEffect(() => {
     navigation.setOptions({
       headerTitle: MonthTitle,
     });
-    getMonthData();
+    const defaultData = [...Array(toDay)].map((_v, i) => {
+      const thisDay = toDay - i;
+      const id = `${year}-${month}-${thisDay}`.toString();
+      return {
+        id,
+        thisDay,
+        day: '',
+        moon: '',
+      };
+    });
+    getMonthDates(defaultData);
   }, [month]);
 
-  return (
+  return data.length ? (
     <AppLayout>
-      <FlatList
-        inverted
-        data={defaultData}
-        showsVerticalScrollIndicator={false}
-        keyExtractor={(item) => `${month}-${item}`}
-        renderItem={({ item }) => <DayCard key={item} day={item} />}
-      />
+      <SafeAreaView>
+        <FlatList
+          inverted
+          data={data}
+          showsVerticalScrollIndicator={false}
+          keyExtractor={({ id }) => id}
+          renderItem={({ item: { id, ...itemData } }: { item: IList }) => (
+            <DayCard key={id} {...itemData} />
+          )}
+        />
+      </SafeAreaView>
     </AppLayout>
+  ) : (
+    <></>
   );
 };
 
