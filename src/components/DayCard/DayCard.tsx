@@ -9,13 +9,15 @@ import {
 } from './DayCard.s';
 
 interface IProps {
+  id: string;
   thisDay: number;
   day?: string;
   moon?: string;
+  onPress: (day: string) => () => void;
 }
 
-const DayCard = ({ thisDay, day = '', moon = '' }: IProps): React.ReactElement => (
-  <DayCardWrapper>
+const DayCard = ({ id, thisDay, day = '', moon = '', onPress }: IProps): React.ReactElement => (
+  <DayCardWrapper onPress={onPress(id)}>
     <CardDayText>{thisDay}</CardDayText>
     <CardContentsWrap>
       <DetailContentsWrap>

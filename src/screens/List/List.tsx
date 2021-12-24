@@ -25,6 +25,7 @@ const List = (): React.ReactElement => {
   const [data, setData] = useState<IList[]>([]);
 
   const onNavigateMonthPage = () => navigation.navigate('Month');
+  const onNavigateDiaryPage = (day: string) => () => navigation.navigate('Diary', { day });
 
   const MonthTitle = () => (
     <TouchableOpacity onPress={onNavigateMonthPage}>
@@ -74,7 +75,7 @@ const List = (): React.ReactElement => {
           showsVerticalScrollIndicator={false}
           keyExtractor={({ id }) => id}
           renderItem={({ item: { id, ...itemData } }: { item: IList }) => (
-            <DayCard key={id} {...itemData} />
+            <DayCard key={id} onPress={onNavigateDiaryPage} {...{ id, ...itemData }} />
           )}
         />
       </SafeAreaView>
