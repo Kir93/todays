@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import dayjs from 'dayjs';
 
 import { FlatList, TouchableOpacity, SafeAreaView } from 'react-native';
@@ -19,8 +19,8 @@ interface IList {
 
 const List = (): React.ReactElement => {
   const navigation = useNavigation();
-  const year = dayjs().year();
-  const month = dayjs().month() + 1;
+  const [year, setYear] = useState(dayjs().year());
+  const [month, setMonth] = useState(dayjs().month() + 1);
   const toDay = dayjs().date();
   const [data, setData] = useState<IList[]>([]);
 
@@ -49,6 +49,32 @@ const List = (): React.ReactElement => {
     setData(render);
   };
 
+  const onPrevData = useCallback(() => {
+    let nextMonth = month - 1;
+    let nextYear = year;
+    if (month === 1) {
+      nextMonth = 12;
+      nextYear = year - 1;
+      setYear(nextYear);
+    }
+    setMonth(nextMonth);
+    const nextDate = dayjs(`${nextYear}-${nextMonth - 1}`).daysInMonth();
+    const nextDateData = [...Array(nextDate)].map((_v, i) => {
+      const thisDay = nextDate - i;
+      const id = `${nextYear}-${nextMonth}-${thisDay}`.toString();
+      return {
+        id,
+        thisDay,
+        day: '',
+        moon: '',
+      };
+    });
+    navigation.setOptions({
+      headerTitle: MonthTitle,
+    });
+    getMonthDates([...data, ...nextDateData]);
+  }, [data]);
+
   useEffect(() => {
     navigation.setOptions({
       headerTitle: MonthTitle,
@@ -64,7 +90,7 @@ const List = (): React.ReactElement => {
       };
     });
     getMonthDates(defaultData);
-  }, [month]);
+  }, []);
 
   return data.length ? (
     <AppLayout>
@@ -72,7 +98,9 @@ const List = (): React.ReactElement => {
         <FlatList
           inverted
           data={data}
+          onEndReachedThreshold={0.4}
           showsVerticalScrollIndicator={false}
+          onEndReached={onPrevData}
           keyExtractor={({ id }) => id}
           renderItem={({ item: { id, ...itemData } }: { item: IList }) => (
             <DayCard key={id} onPress={onNavigateDiaryPage} {...{ id, ...itemData }} />
