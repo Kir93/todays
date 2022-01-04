@@ -19,9 +19,9 @@ interface IList {
 
 const List = (): React.ReactElement => {
   const navigation = useNavigation();
+  const toDay = dayjs().date();
   const [year, setYear] = useState(dayjs().year());
   const [month, setMonth] = useState(dayjs().month() + 1);
-  const toDay = dayjs().date();
   const [data, setData] = useState<IList[]>([]);
 
   const onNavigateMonthPage = () => navigation.navigate('Month');
@@ -29,7 +29,7 @@ const List = (): React.ReactElement => {
 
   const MonthTitle = () => (
     <TouchableOpacity onPress={onNavigateMonthPage}>
-      <Text>{`${month} 月`}</Text>
+      <Text>月</Text>
     </TouchableOpacity>
   );
 
@@ -69,13 +69,11 @@ const List = (): React.ReactElement => {
         moon: '',
       };
     });
-    navigation.setOptions({
-      headerTitle: MonthTitle,
-    });
     getMonthDates([...data, ...nextDateData]);
   }, [data]);
 
   useEffect(() => {
+    if (data.length) return;
     navigation.setOptions({
       headerTitle: MonthTitle,
     });
@@ -103,7 +101,10 @@ const List = (): React.ReactElement => {
           onEndReached={onPrevData}
           keyExtractor={({ id }) => id}
           renderItem={({ item: { id, ...itemData } }: { item: IList }) => (
-            <DayCard key={id} onPress={onNavigateDiaryPage} {...{ id, ...itemData }} />
+            <React.Fragment key={id}>
+              <DayCard onPress={onNavigateDiaryPage} {...{ id, ...itemData }} />
+              {id.split('-')[2] === '1' ? <Text>{id.split('-')[1]}</Text> : <></>}
+            </React.Fragment>
           )}
         />
       </SafeAreaView>
