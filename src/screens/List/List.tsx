@@ -1,14 +1,15 @@
 import React, { useCallback, useEffect, useState } from 'react';
 import dayjs from 'dayjs';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
-import { FlatList, TouchableOpacity, SafeAreaView } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
+import { FlatList, TouchableOpacity, SafeAreaView } from 'react-native';
 
 import { Text } from '@atoms/Default';
 import AppLayout from '@components/Applayout/AppLayout';
 
 import DayCard from '@components/DayCard/DayCard';
-import AsyncStorage from '@react-native-async-storage/async-storage';
+import ListHeader from '@components/ListHeader/ListHeader';
 
 interface IList {
   id: string;
@@ -103,7 +104,7 @@ const List = (): React.ReactElement => {
           renderItem={({ item: { id, ...itemData } }: { item: IList }) => (
             <React.Fragment key={id}>
               <DayCard onPress={onNavigateDiaryPage} {...{ id, ...itemData }} />
-              {id.split('-')[2] === '1' ? <Text>{id.split('-')[1]}</Text> : <></>}
+              {id.split('-')[2] === '1' ? <ListHeader>{id.split('-')[1]}월</ListHeader> : <></>}
             </React.Fragment>
           )}
         />
