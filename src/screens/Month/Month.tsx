@@ -41,7 +41,7 @@ const Month = (): React.ReactElement => {
   );
   useEffect(() => {
     navigation.setOptions({ headerTitle: `${toDay.year()} 年` });
-  }, [toDay]);
+  }, [toDay.year()]);
 
   return (
     <AppLayout>

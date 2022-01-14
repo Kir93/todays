@@ -30,7 +30,7 @@ const List = (): React.ReactElement => {
 
   const MonthTitle = () => (
     <TouchableOpacity onPress={onNavigateMonthPage}>
-      <Text>月</Text>
+      <Text>{month}月</Text>
     </TouchableOpacity>
   );
 
@@ -50,7 +50,7 @@ const List = (): React.ReactElement => {
     setData(render);
   };
 
-  const onPrevData = useCallback(() => {
+  const onEndReached = useCallback(() => {
     let nextMonth = month - 1;
     let nextYear = year;
     if (month === 1) {
@@ -74,10 +74,13 @@ const List = (): React.ReactElement => {
   }, [data]);
 
   useEffect(() => {
-    if (data.length) return;
     navigation.setOptions({
       headerTitle: MonthTitle,
     });
+  }, [month]);
+
+  useEffect(() => {
+    if (data.length) return;
     const defaultData = [...Array(toDay)].map((_v, i) => {
       const thisDay = toDay - i;
       const id = `${year}-${month}-${thisDay}`.toString();
@@ -91,22 +94,23 @@ const List = (): React.ReactElement => {
     getMonthDates(defaultData);
   }, []);
 
+  const keyExtractor = ({ id }: IList) => id;
+
+  const renderItem = ({ item: { id, ...itemData } }: { item: IList }) => (
+    <React.Fragment key={id}>
+      <DayCard onPress={onNavigateDiaryPage} {...{ id, ...itemData }} />
+      {id.split('-')[2] === '1' ? <ListHeader>{id.split('-')[1]}월</ListHeader> : <></>}
+    </React.Fragment>
+  );
+
   return data.length ? (
     <AppLayout>
       <SafeAreaView>
         <FlatList
           inverted
-          data={data}
           onEndReachedThreshold={0.4}
           showsVerticalScrollIndicator={false}
-          onEndReached={onPrevData}
-          keyExtractor={({ id }) => id}
-          renderItem={({ item: { id, ...itemData } }: { item: IList }) => (
-            <React.Fragment key={id}>
-              <DayCard onPress={onNavigateDiaryPage} {...{ id, ...itemData }} />
-              {id.split('-')[2] === '1' ? <ListHeader>{id.split('-')[1]}월</ListHeader> : <></>}
-            </React.Fragment>
-          )}
+          {...{ data, keyExtractor, onEndReached, renderItem }}
         />
       </SafeAreaView>
     </AppLayout>
