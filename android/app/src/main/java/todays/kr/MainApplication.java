@@ -1,4 +1,4 @@
-package forMe.kr;
+package todays.kr;
 
 import android.app.Application;
 import android.content.Context;
@@ -16,7 +16,6 @@ import expo.modules.ApplicationLifecycleDispatcher;
 import expo.modules.ReactNativeHostWrapper;
 
 import com.facebook.react.bridge.JSIModulePackage;
-import com.swmansion.reanimated.ReanimatedJSIModulePackage;
 
 import java.lang.reflect.InvocationTargetException;
 import java.util.List;
@@ -42,11 +41,6 @@ public class MainApplication extends Application implements ReactApplication {
     @Override
     protected String getJSMainModuleName() {
       return "index";
-    }
-
-    @Override
-    protected JSIModulePackage getJSIModulePackage() {
-      return new ReanimatedJSIModulePackage();
     }
   });
 
@@ -85,7 +79,7 @@ public class MainApplication extends Application implements ReactApplication {
          We use reflection here to pick up the class that initializes Flipper,
         since Flipper library is not available in release mode
         */
-        Class<?> aClass = Class.forName("forMe.kr.ReactNativeFlipper");
+        Class<?> aClass = Class.forName("todays.kr.ReactNativeFlipper");
         aClass
             .getMethod("initializeFlipper", Context.class, ReactInstanceManager.class)
             .invoke(null, context, reactInstanceManager);

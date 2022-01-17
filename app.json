@@ -1,17 +1,17 @@
 {
-  "name": "ForMe",
-  "displayName": "ForMe",
+  "name": "todays",
+  "displayName": "todays",
   "expo": {
-    "name": "ForMe",
-    "slug": "ForMe",
+    "name": "todays",
+    "slug": "todays",
     "version": "1.0.0",
     "assetBundlePatterns": ["**/*"],
     "jsEngine": "hermes",
     "android": {
-      "package": "forMe.kr"
+      "package": "todays.kr"
     },
     "ios": {
-      "bundleIdentifier": "forMe.kr"
+      "bundleIdentifier": "todays.kr"
     }
   }
 }
