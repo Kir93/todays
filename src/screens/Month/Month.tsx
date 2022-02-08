@@ -34,7 +34,13 @@ const Month = (): React.ReactElement => {
 
   useEffect(() => {
     const getMonthData = async () => {
-      console.log(await AsyncStorage.getAllKeys());
+      const thisMonth = await AsyncStorage.multiGet(['2022-2-1', '2022-2-2', '2022-2-8']);
+      /*
+       * const arrayToObject = (array: [string, string | null][]) =>
+       *   array.reduce((acc, row) => ((acc[row[0]] = [...(acc[row[0]] || []), row[1]]), acc), {});
+       */
+
+      // return arrayToObject(thisMonth);
     };
     getMonthData();
   }, [toDay]);
@@ -45,7 +51,7 @@ const Month = (): React.ReactElement => {
         markingType="multi-dot"
         hideExtraDays
         disableAllTouchEventsForDisabledDays
-        maxDate={toDate}
+        maxDate={toDate.toString()}
         disableArrowRight={arrow}
         onVisibleMonthsChange={onDisabledArrow}
         markedDates={{
