@@ -16,11 +16,12 @@ LocaleConfig.locales.ko = monthLocaleData;
 const Month = (): React.ReactElement => {
   LocaleConfig.defaultLocale = 'ko';
   const toDay = dayjs();
-  const toDate = toDay.toDate();
+  const toDate = toDay.toDate().toString();
   const navigation = useNavigation();
   const [year, setYear] = useState(dayjs().year());
   const [month, setMonth] = useState(dayjs().month() + 1);
   const [arrow, setArrow] = useState(true);
+  const [markedDate, setMarkedDate] = useState({});
   const sunny = { key: 'vacation', color: 'red' };
   const moon = { key: 'massage', color: 'blue' };
 
@@ -34,16 +35,12 @@ const Month = (): React.ReactElement => {
 
   useEffect(() => {
     const getMonthData = async () => {
-      const thisMonth = await AsyncStorage.multiGet(['2022-2-1', '2022-2-2', '2022-2-8']);
-      /*
-       * const arrayToObject = (array: [string, string | null][]) =>
-       *   array.reduce((acc, row) => ((acc[row[0]] = [...(acc[row[0]] || []), row[1]]), acc), {});
-       */
-
-      // return arrayToObject(thisMonth);
+      const thisMonth = await AsyncStorage.multiGet(['2022-02-08', '2022-02-09']);
+      // 저장 시 두자리로 저장해야 함.
     };
+
     getMonthData();
-  }, [toDay]);
+  }, [toDate]);
 
   return (
     <AppLayout>
@@ -51,15 +48,10 @@ const Month = (): React.ReactElement => {
         markingType="multi-dot"
         hideExtraDays
         disableAllTouchEventsForDisabledDays
-        maxDate={toDate.toString()}
+        maxDate={toDate}
         disableArrowRight={arrow}
         onVisibleMonthsChange={onDisabledArrow}
-        markedDates={{
-          '2021-11-25': {
-            dots: [sunny, moon],
-          },
-          '2021-11-26': { dots: [moon] },
-        }}
+        markedDates={markedDate}
       />
     </AppLayout>
   );
