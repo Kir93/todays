@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import dayjs from 'dayjs';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
@@ -28,10 +28,13 @@ const List = (): React.ReactElement => {
   const onNavigateMonthPage = () => navigation.navigate('Month');
   const onNavigateDiaryPage = (day: string) => () => navigation.navigate('Diary', { day });
 
-  const MonthTitle = () => (
-    <TouchableOpacity onPress={onNavigateMonthPage}>
-      <Text>{month}月</Text>
-    </TouchableOpacity>
+  const MonthTitle = useMemo(
+    () => (
+      <TouchableOpacity onPress={onNavigateMonthPage}>
+        <Text>{month}月</Text>
+      </TouchableOpacity>
+    ),
+    [month, onNavigateMonthPage],
   );
 
   const getMonthData = async (monthData: IList) => {

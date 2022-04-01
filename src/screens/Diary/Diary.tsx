@@ -39,7 +39,9 @@ const Diary = (): React.ReactElement => {
 
   const getTodayData = useCallback(
     async (getDate?: string) => {
-      const data = await AsyncStorage.getItem(getDate ?? `${year}-${month}-${day}`);
+      const data = await AsyncStorage.getItem(
+        getDate ?? `${year}-${0 + month.slice(-2)}-${0 + day.slice(-2)}`,
+      );
       if (data) {
         const parsingData = JSON.parse(data);
         setDayInput(parsingData?.day);
@@ -79,7 +81,7 @@ const Diary = (): React.ReactElement => {
     if (focus) {
       setFocus(false);
       await AsyncStorage.setItem(
-        `${year}-${month}-${day}`,
+        `${year}-${0 + month.slice(-2)}-${0 + day.slice(-2)}`,
         JSON.stringify({ day: dayInput, moon: moonInput }),
       );
       return Keyboard.dismiss();

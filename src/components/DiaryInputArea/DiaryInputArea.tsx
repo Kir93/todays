@@ -42,4 +42,4 @@ const DiaryInputArea = ({
   </>
 );
 
-export default DiaryInputArea;
+export default React.memo(DiaryInputArea);

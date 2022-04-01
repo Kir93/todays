@@ -17,17 +17,27 @@ const Month = (): React.ReactElement => {
   LocaleConfig.defaultLocale = 'ko';
   const toDay = dayjs();
   const toDate = toDay.toDate().toString();
+  const toMonth = toDay.month() + 1;
   const navigation = useNavigation();
   const [year, setYear] = useState(dayjs().year());
   const [month, setMonth] = useState(dayjs().month() + 1);
+  const [day, setDay] = useState(dayjs().date());
   const [arrow, setArrow] = useState(true);
-  const [markedDate, setMarkedDate] = useState({});
+  const [markedDate, setMarkedDate] = useState<{
+    [key: string]: { dots: { key: string; color: string }[] };
+  }>({});
+  const [loading, setLoading] = useState(true);
   const sunny = { key: 'vacation', color: 'red' };
   const moon = { key: 'massage', color: 'blue' };
 
   const onDisabledArrow = useCallback(
-    (date: DateData[]) => setArrow(date[0].month === month),
-    [arrow],
+    (date: DateData[]) => {
+      setYear(date[0].year);
+      setMonth(date[0].month);
+      setDay(dayjs(date[0].dateString).daysInMonth());
+      setArrow(date[0].month === toMonth);
+    },
+    [toMonth],
   );
   useEffect(() => {
     navigation.setOptions({ headerTitle: `${year} 年` });
@@ -35,14 +45,27 @@ const Month = (): React.ReactElement => {
 
   useEffect(() => {
     const getMonthData = async () => {
-      const thisMonth = await AsyncStorage.multiGet(['2022-02-08', '2022-02-09']);
-      // 저장 시 두자리로 저장해야 함.
+      const defaultData = [...Array(day)].map((_v, i) =>
+        `${year}-${0 + month.toString().slice(-2)}-${`0${i + 1}`.slice(-2)}`.toString(),
+      );
+      const thisMonth = await AsyncStorage.multiGet(defaultData);
+      thisMonth.forEach((v) => {
+        if (v[1] === null) return;
+        const dayData = JSON.parse(v[1]);
+        const dots: { key: string; color: string }[] = [];
+        if (dayData.day) dots.push(sunny);
+        if (dayData.moon) dots.push(moon);
+        setMarkedDate((prev) => {
+          prev[`${v[0]}`] = { dots };
+          return prev;
+        });
+      });
+      setLoading(false);
     };
-
     getMonthData();
-  }, [toDate]);
+  }, [month]);
 
-  return (
+  return !loading ? (
     <AppLayout>
       <MonthCalendar
         markingType="multi-dot"
@@ -54,6 +77,8 @@ const Month = (): React.ReactElement => {
         markedDates={markedDate}
       />
     </AppLayout>
+  ) : (
+    <></>
   );
 };
 
