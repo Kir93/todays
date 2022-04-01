@@ -28,6 +28,7 @@ const DiaryInputArea = ({
         color="#736355"
         size={24}
       />
+      <Ionicons name={area ? 'ios-chevron-up' : 'ios-chevron-down'} color="#736355" size={24} />
     </WritingToggleWrap>
     <WritingArea
       multiline

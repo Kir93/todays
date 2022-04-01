@@ -2,6 +2,9 @@ import styled from 'styled-components/native';
 import { WINDOW_HEIGHT } from '@utils/windowSize';
 
 export const WritingToggleWrap = styled.TouchableOpacity`
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
   margin: 24px 0;
 `;
 

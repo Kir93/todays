@@ -1,7 +1,6 @@
 import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import dayjs from 'dayjs';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import { Ionicons } from '@expo/vector-icons';
 import { useNavigation, useRoute } from '@react-navigation/native';
 import { Pressable, Keyboard, TouchableOpacity } from 'react-native';
 
@@ -28,17 +27,14 @@ const Diary = (): React.ReactElement => {
   const [moon, setMoon] = useState(false);
   const [dayInput, onChangeDayInput, setDayInput] = useInput('');
   const [moonInput, onChangeMoonInput, setMoonInput] = useInput('');
-  const DayTitle = useMemo(() => <Text>{`${day} 日`}</Text>, [day]);
-
   const onNavigateListPage = useCallback(() => navigation.navigate('List'), [navigation, day]);
-
-  const headerRight = useCallback(
+  const DayTitle = useMemo(
     () => (
       <TouchableOpacity onPress={onNavigateListPage}>
-        <Ionicons name="bookmark-outline" color="#736355" size={18} />
+        <Text>{`${day} 日`}</Text>
       </TouchableOpacity>
     ),
-    [onNavigateListPage],
+    [onNavigateListPage, day],
   );
 
   const getTodayData = useCallback(
@@ -59,10 +55,9 @@ const Diary = (): React.ReactElement => {
   useEffect(() => {
     navigation.setOptions({
       headerTitle: DayTitle,
-      headerRight,
     });
     setRandomNumber(Math.floor(Math.random() * maxim.length));
-  }, [DayTitle, headerRight, day, navigation]);
+  }, [DayTitle, day, navigation]);
 
   useEffect(() => {
     if (route.params) {
