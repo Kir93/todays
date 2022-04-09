@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import dayjs from 'dayjs';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
@@ -9,33 +9,58 @@ import { DateData } from 'react-native-calendars/src/types';
 import monthLocaleData from '@utils/monthLocaleData';
 
 import AppLayout from '@components/Applayout/AppLayout';
-import { MonthCalendar } from './Month.s';
+import { MonthCalendar } from './Month.styles';
 
 LocaleConfig.locales.ko = monthLocaleData;
 
+type DotProps = { key: string; color: string };
+interface IMarkDate {
+  [key: string]: { dots: DotProps[] };
+}
+
 const Month = (): React.ReactElement => {
   LocaleConfig.defaultLocale = 'ko';
+  const sunny = useMemo(() => ({ key: 'vacation', color: 'red' }), []);
+  const moon = useMemo(() => ({ key: 'massage', color: 'blue' }), []);
+
   const toDay = dayjs();
-  const toDate = toDay.toDate().toString();
+  const toDate = toDay.toDate().toDateString();
   const toMonth = toDay.month() + 1;
   const navigation = useNavigation();
+
   const [year, setYear] = useState(dayjs().year());
   const [month, setMonth] = useState(dayjs().month() + 1);
   const [day, setDay] = useState(dayjs().date());
   const [arrow, setArrow] = useState(true);
-  const [markedDate, setMarkedDate] = useState<{
-    [key: string]: { dots: { key: string; color: string }[] };
-  }>({});
+  const [markedDate, setMarkedDate] = useState<IMarkDate>({});
   const [loading, setLoading] = useState(true);
-  const sunny = { key: 'vacation', color: 'red' };
-  const moon = { key: 'massage', color: 'blue' };
+
+  const getMonthData = useCallback(async () => {
+    const defaultData = [...Array(day)].map((_v, i) =>
+      `${year}-${0 + month.toString().slice(-2)}-${`0${i + 1}`.slice(-2)}`.toString(),
+    );
+    const thisMonth = await AsyncStorage.multiGet(defaultData);
+    thisMonth.forEach((v) => {
+      if (v[1] === null) return;
+      const dayData = JSON.parse(v[1]);
+      const dots: DotProps[] = [];
+      if (dayData.day) dots.push(sunny);
+      if (dayData.moon) dots.push(moon);
+      setMarkedDate((prev) => {
+        prev[`${v[0]}`] = { dots };
+        return prev;
+      });
+    });
+    setLoading(false);
+  }, [month]);
 
   const onDisabledArrow = useCallback(
     (date: DateData[]) => {
-      setYear(date[0].year);
-      setMonth(date[0].month);
-      setDay(dayjs(date[0].dateString).daysInMonth());
-      setArrow(date[0].month === toMonth);
+      const { year: localYear, month: localMonth, dateString } = date[0];
+      setYear(localYear);
+      setMonth(localMonth);
+      setDay(dayjs(dateString).daysInMonth());
+      setArrow(month === toMonth);
     },
     [toMonth],
   );
@@ -44,28 +69,12 @@ const Month = (): React.ReactElement => {
   }, [year]);
 
   useEffect(() => {
-    const getMonthData = async () => {
-      const defaultData = [...Array(day)].map((_v, i) =>
-        `${year}-${0 + month.toString().slice(-2)}-${`0${i + 1}`.slice(-2)}`.toString(),
-      );
-      const thisMonth = await AsyncStorage.multiGet(defaultData);
-      thisMonth.forEach((v) => {
-        if (v[1] === null) return;
-        const dayData = JSON.parse(v[1]);
-        const dots: { key: string; color: string }[] = [];
-        if (dayData.day) dots.push(sunny);
-        if (dayData.moon) dots.push(moon);
-        setMarkedDate((prev) => {
-          prev[`${v[0]}`] = { dots };
-          return prev;
-        });
-      });
-      setLoading(false);
-    };
     getMonthData();
-  }, [month]);
+  }, [getMonthData]);
 
-  return !loading ? (
+  if (loading) return <></>;
+
+  return (
     <AppLayout>
       <MonthCalendar
         markingType="multi-dot"
@@ -77,8 +86,6 @@ const Month = (): React.ReactElement => {
         markedDates={markedDate}
       />
     </AppLayout>
-  ) : (
-    <></>
   );
 };
 
