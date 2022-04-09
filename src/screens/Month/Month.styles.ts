@@ -8,7 +8,7 @@ export const MonthCalendar = styled(Calendar).attrs(({ theme }) => ({
     textSectionTitleColor: theme.fontColor,
     selectedDayTextColor: theme.fontColor,
     todayTextColor: theme.primaryColor,
-    dayTextColor: theme.lightColor,
+    dayTextColor: theme.fontColor,
     arrowColor: theme.primaryColor,
     monthTextColor: theme.primaryColor,
     indicatorColor: theme.primaryColor,
