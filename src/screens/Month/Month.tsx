@@ -37,7 +37,11 @@ const Month = (): React.ReactElement => {
 
   const getMonthData = useCallback(async () => {
     const defaultData = [...Array(day)].map((_v, i) =>
-      `${year}-${0 + month.toString().slice(-2)}-${`0${i + 1}`.slice(-2)}`.toString(),
+      `${year}-${
+        month.toString().slice(-2).length < 2
+          ? 0 + month.toString().slice(-2)
+          : month.toString().slice(-2)
+      }-${`0${i + 1}`.slice(-2)}`.toString(),
     );
     const thisMonth = await AsyncStorage.multiGet(defaultData);
     thisMonth.forEach((v) => {
@@ -64,6 +68,12 @@ const Month = (): React.ReactElement => {
     },
     [toMonth],
   );
+
+  const onPressRoute = useCallback(
+    (data) => navigation.navigate('Diary', { day: `${data.year}-${data.month}-${data.day}` }),
+    [navigation],
+  );
+
   useEffect(() => {
     navigation.setOptions({ headerTitle: `${year} 年` });
   }, [year]);
@@ -84,6 +94,7 @@ const Month = (): React.ReactElement => {
         disableArrowRight={arrow}
         onVisibleMonthsChange={onDisabledArrow}
         markedDates={markedDate}
+        onDayPress={onPressRoute}
       />
     </AppLayout>
   );

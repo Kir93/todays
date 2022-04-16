@@ -81,7 +81,9 @@ const Diary = (): React.ReactElement => {
     if (focus) {
       setFocus(false);
       await AsyncStorage.setItem(
-        `${year}-${0 + month.slice(-2)}-${0 + day.slice(-2)}`,
+        `${year}-${month.slice(-2).length < 2 ? 0 + month.slice(-2) : month.slice(-2)}-${
+          day.slice(-2).length < 2 ? 0 + day.slice(-2) : day.slice(-2)
+        }`,
         JSON.stringify({ day: dayInput, moon: moonInput }),
       );
       return Keyboard.dismiss();

@@ -65,7 +65,15 @@ const List = (): React.ReactElement => {
     const nextDate = dayjs(`${nextYear}-${nextMonth - 1}`).daysInMonth();
     const nextDateData = [...Array(nextDate)].map((_v, i) => {
       const thisDay = nextDate - i;
-      const id = `${nextYear}-${nextMonth}-${thisDay}`.toString();
+      const id = `${nextYear}-${
+        nextMonth.toString().slice(-2).length < 2
+          ? 0 + nextMonth.toString().slice(-2)
+          : nextMonth.toString().slice(-2)
+      }-${
+        thisDay.toString().slice(-2).length < 2
+          ? 0 + thisDay.toString().slice(-2)
+          : thisDay.toString().slice(-2)
+      }`.toString();
       return {
         id,
         thisDay,
@@ -86,7 +94,15 @@ const List = (): React.ReactElement => {
     if (data.length) return;
     const defaultData = [...Array(toDay)].map((_v, i) => {
       const thisDay = toDay - i;
-      const id = `${year}-${month}-${thisDay}`.toString();
+      const id = `${year}-${
+        month.toString().slice(-2).length < 2
+          ? 0 + month.toString().slice(-2)
+          : month.toString().slice(-2)
+      }-${
+        thisDay.toString().slice(-2).length < 2
+          ? 0 + thisDay.toString().slice(-2)
+          : thisDay.toString().slice(-2)
+      }`.toString();
       return {
         id,
         thisDay,
@@ -102,7 +118,7 @@ const List = (): React.ReactElement => {
   const renderItem = ({ item: { id, ...itemData } }: { item: IList }) => (
     <React.Fragment key={id}>
       <DayCard onPress={onNavigateDiaryPage} {...{ id, ...itemData }} />
-      {id.split('-')[2] === '1' ? <ListHeader>{id.split('-')[1]}월</ListHeader> : <></>}
+      {id.split('-')[2] === '01' ? <ListHeader>{id.split('-')[1]}월</ListHeader> : <></>}
     </React.Fragment>
   );
 
