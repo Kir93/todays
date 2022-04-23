@@ -5,4 +5,5 @@
 - [x] Month Day Press Route API Added
 - [x] Month, List Data Get Error Fixed
 - [ ] List Screen Header Linking Refactoring
+- [ ] App Loading Refactoring
 - [ ] Code Refactoring
