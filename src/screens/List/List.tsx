@@ -1,14 +1,13 @@
 import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import dayjs from 'dayjs';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-
 import { useNavigation } from '@react-navigation/native';
 import { FlatList, TouchableOpacity, SafeAreaView } from 'react-native';
 
 import { Text } from '@atoms/Default';
-import AppLayout from '@components/Applayout/AppLayout';
 
 import DayCard from '@components/DayCard/DayCard';
+import AppLayout from '@components/Applayout/AppLayout';
 import ListHeader from '@components/ListHeader/ListHeader';
 
 interface IList {
@@ -31,10 +30,10 @@ const List = (): React.ReactElement => {
   const MonthTitle = useMemo(
     () => (
       <TouchableOpacity onPress={onNavigateMonthPage}>
-        <Text>{month}月</Text>
+        <Text>주간 일기</Text>
       </TouchableOpacity>
     ),
-    [month, onNavigateMonthPage],
+    [onNavigateMonthPage],
   );
 
   const getMonthData = async (monthData: IList) => {
