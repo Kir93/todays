@@ -1,5 +1,4 @@
 import React, { useCallback, useEffect, useMemo, useState } from 'react';
-import dayjs from 'dayjs';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { useNavigation, useRoute } from '@react-navigation/native';
 import { Pressable, Keyboard, TouchableOpacity } from 'react-native';
@@ -7,6 +6,7 @@ import { Pressable, Keyboard, TouchableOpacity } from 'react-native';
 import maxim from '@utils/maxim.json';
 
 import useInput from '@hooks/useInput';
+import getToday from '@hooks/getToday';
 import useBoolean from '@hooks/useBoolean';
 import convertKey from '@hooks/convertKey';
 
@@ -19,12 +19,7 @@ import DiaryInputArea from '@components/DiaryInputArea/DiaryInputArea';
 const Diary = (): React.ReactElement => {
   const route = useRoute();
   const navigation = useNavigation();
-
-  const [{ year, month, day }, setDate] = useState({
-    year: dayjs().year().toString(),
-    month: (dayjs().month() + 1).toString(),
-    day: dayjs().date().toString(),
-  });
+  const [{ year, month, day }, setDate] = useState(getToday());
   const [randomNumber, setRandomNumber] = useState(0);
   const [focus, toggleFocus] = useBoolean(false);
   const [sunny, toggleSunny] = useBoolean(false);
@@ -45,9 +40,7 @@ const Diary = (): React.ReactElement => {
 
   const getTodayData = useCallback(
     async (getDate?: string) => {
-      const data = await AsyncStorage.getItem(
-        getDate ?? `${year}-${0 + month.slice(-2)}-${0 + day.slice(-2)}`,
-      );
+      const data = await AsyncStorage.getItem(getDate ?? convertKey({ year, month, day }));
       if (data) {
         const parsingData = JSON.parse(data);
         setDayInput(parsingData?.day);
@@ -61,10 +54,11 @@ const Diary = (): React.ReactElement => {
   );
 
   useEffect(() => {
+    const newRandomNumber = Math.floor(Math.random() * maxim.length);
+    setRandomNumber(newRandomNumber);
     navigation.setOptions({
       headerTitle: DayTitle,
     });
-    setRandomNumber(Math.floor(Math.random() * maxim.length));
   }, [DayTitle, day, navigation]);
 
   useEffect(() => {
@@ -74,11 +68,7 @@ const Diary = (): React.ReactElement => {
       setDate({ year: otherDay[0], month: otherDay[1], day: otherDay[2] });
       getTodayData(paramDay);
     } else {
-      setDate({
-        year: dayjs().year().toString(),
-        month: (dayjs().month() + 1).toString(),
-        day: dayjs().date().toString(),
-      });
+      setDate(getToday());
       getTodayData();
     }
   }, [route]);
