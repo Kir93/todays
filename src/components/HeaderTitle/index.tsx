@@ -1,7 +1,7 @@
 import React from 'react';
 import { TouchableOpacity } from 'react-native';
 
-import { convertDateFormat } from '@utils/convertDate';
+import { convertDateFormat } from '@hooks/convertDate';
 
 import { Text } from '@atoms/Default';
 
