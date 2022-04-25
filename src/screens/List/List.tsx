@@ -4,8 +4,9 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import { useNavigation } from '@react-navigation/native';
 import { FlatList, TouchableOpacity, SafeAreaView } from 'react-native';
 
-import { Text } from '@atoms/Default';
+import convertKey from '@hooks/convertKey';
 
+import { Text } from '@atoms/Default';
 import DayCard from '@components/DayCard/DayCard';
 import AppLayout from '@components/Applayout/AppLayout';
 import ListHeader from '@components/ListHeader/ListHeader';
@@ -18,23 +19,14 @@ interface IList {
 }
 
 const List = (): React.ReactElement => {
-  const navigation = useNavigation();
   const toDay = dayjs().date();
+  const navigation = useNavigation();
   const [year, setYear] = useState(dayjs().year());
   const [month, setMonth] = useState(dayjs().month() + 1);
   const [data, setData] = useState<IList[]>([]);
 
   const onNavigateMonthPage = () => navigation.navigate('Month');
   const onNavigateDiaryPage = (day: string) => () => navigation.navigate('Diary', { day });
-
-  const MonthTitle = useMemo(
-    () => (
-      <TouchableOpacity onPress={onNavigateMonthPage}>
-        <Text>주간 일기</Text>
-      </TouchableOpacity>
-    ),
-    [onNavigateMonthPage],
-  );
 
   const getMonthData = async (monthData: IList) => {
     const thisData = await AsyncStorage.getItem(monthData.id);
@@ -62,20 +54,15 @@ const List = (): React.ReactElement => {
     }
     setMonth(nextMonth);
     const nextDate = dayjs(`${nextYear}-${nextMonth - 1}`).daysInMonth();
-    const nextDateData = [...Array(nextDate)].map((_v, i) => {
-      const thisDay = nextDate - i;
-      const id = `${nextYear}-${
-        nextMonth.toString().slice(-2).length < 2
-          ? 0 + nextMonth.toString().slice(-2)
-          : nextMonth.toString().slice(-2)
-      }-${
-        thisDay.toString().slice(-2).length < 2
-          ? 0 + thisDay.toString().slice(-2)
-          : thisDay.toString().slice(-2)
-      }`.toString();
+    const nextDateData = [...Array(nextDate)].map((_, i) => {
+      const id = convertKey({
+        year: nextYear.toString(),
+        month: nextMonth.toString(),
+        day: (nextDate - i).toString(),
+      });
       return {
         id,
-        thisDay,
+        thisDay: nextDate - i,
         day: '',
         moon: '',
       };
@@ -83,28 +70,33 @@ const List = (): React.ReactElement => {
     getMonthDates([...data, ...nextDateData]);
   }, [data]);
 
+  const MonthTitle = useMemo(
+    () => (
+      <TouchableOpacity onPress={onNavigateMonthPage}>
+        <Text>{year}年</Text>
+      </TouchableOpacity>
+    ),
+    [year, onNavigateMonthPage],
+  );
+
   useEffect(() => {
     navigation.setOptions({
       headerTitle: MonthTitle,
     });
-  }, [month]);
+  }, [MonthTitle]);
 
   useEffect(() => {
-    if (data.length) return;
-    const defaultData = [...Array(toDay)].map((_v, i) => {
-      const thisDay = toDay - i;
-      const id = `${year}-${
-        month.toString().slice(-2).length < 2
-          ? 0 + month.toString().slice(-2)
-          : month.toString().slice(-2)
-      }-${
-        thisDay.toString().slice(-2).length < 2
-          ? 0 + thisDay.toString().slice(-2)
-          : thisDay.toString().slice(-2)
-      }`.toString();
+    if (data?.length) return;
+    const defaultData = [...Array(toDay)].map((_, i) => {
+      const id = convertKey({
+        year: year.toString(),
+        month: month.toString(),
+        day: (toDay - i).toString(),
+      });
+
       return {
         id,
-        thisDay,
+        thisDay: toDay - i,
         day: '',
         moon: '',
       };
@@ -117,7 +109,12 @@ const List = (): React.ReactElement => {
   const renderItem = ({ item: { id, ...itemData } }: { item: IList }) => (
     <React.Fragment key={id}>
       <DayCard onPress={onNavigateDiaryPage} {...{ id, ...itemData }} />
-      {id.split('-')[2] === '01' ? <ListHeader>{id.split('-')[1]}월</ListHeader> : <></>}
+      {id.split('-')[2] === '01' && (
+        <ListHeader>
+          {id.split('-')[1] === '01' ? `${id.split('-')[0]}-${id.split('-')[1]}` : id.split('-')[1]}
+          월
+        </ListHeader>
+      )}
     </React.Fragment>
   );
 

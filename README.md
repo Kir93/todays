@@ -5,7 +5,7 @@
 - [x] Month Day Press Route API Added
 - [x] Month, List Data Get Error Fixed
 - [x] Diary Screen Refactoring
-- [ ] List Screen Refactoring
+- [x] List Screen Refactoring
 - [ ] Month Screen Refactoring
 - [ ] App Loading Refactoring
 - [ ] Code Refactoring
