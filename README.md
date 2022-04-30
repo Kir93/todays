@@ -6,7 +6,7 @@
 - [x] Month, List Data Get Error Fixed
 - [x] Diary Screen Refactoring
 - [x] List Screen Refactoring
-- [ ] Month Screen Refactoring
+- [x] Month Screen Refactoring
 - [ ] App Loading Refactoring
 - [ ] Code Refactoring
 - [ ] Android Test

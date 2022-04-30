@@ -6,11 +6,14 @@ import { LocaleConfig } from 'react-native-calendars';
 import { useNavigation } from '@react-navigation/native';
 import { DateData } from 'react-native-calendars/src/types';
 
+import convertKey from '@hooks/convertKey';
+
 import monthLocaleData from '@utils/monthLocaleData';
 
 import AppLayout from '@components/Applayout/AppLayout';
 import { MonthCalendar } from './Month.styles';
 
+LocaleConfig.defaultLocale = 'ko';
 LocaleConfig.locales.ko = monthLocaleData;
 
 type DotProps = { key: string; color: string };
@@ -19,7 +22,6 @@ interface IMarkDate {
 }
 
 const Month = (): React.ReactElement => {
-  LocaleConfig.defaultLocale = 'ko';
   const sunny = useMemo(() => ({ key: 'vacation', color: 'red' }), []);
   const moon = useMemo(() => ({ key: 'massage', color: 'blue' }), []);
 
@@ -37,13 +39,11 @@ const Month = (): React.ReactElement => {
 
   const getMonthData = useCallback(async () => {
     const defaultData = [...Array(day)].map((_v, i) =>
-      `${year}-${
-        month.toString().slice(-2).length < 2
-          ? 0 + month.toString().slice(-2)
-          : month.toString().slice(-2)
-      }-${`0${i + 1}`.slice(-2)}`.toString(),
+      convertKey({ year: year.toString(), month: month.toString(), day: i.toString() }),
     );
+
     const thisMonth = await AsyncStorage.multiGet(defaultData);
+
     thisMonth.forEach((v) => {
       if (v[1] === null) return;
       const dayData = JSON.parse(v[1]);
