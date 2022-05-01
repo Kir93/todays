@@ -8,5 +8,11 @@
 - [x] List Screen Refactoring
 - [x] Month Screen Refactoring
 - [x] App Loading Refactoring
-- [ ] Code Refactoring
+- [ ] Diary Screen Keyboard Dismiss Fix
+- [ ] Diary Screen TextArea Done Fix
 - [ ] Android Test
+  - [x] Navigation
+  - [ ] Diary
+  - [ ] List
+  - [ ] Month
+- [ ] Code Refactoring
