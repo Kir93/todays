@@ -14,6 +14,7 @@ export const WritingArea = styled.TextInput<{ area: boolean; done: boolean }>`
   background-color: ${({ theme, done }) => (done ? theme.backgroundColor : '#fff')};
   border: ${({ theme, done }) => (done ? `1px solid ${theme.lightColor}` : '0')};
   padding: 16px;
+  text-align-vertical: top;
   font-family: ${({ theme }) => theme.regular};
   color: ${({ theme }) => theme.primaryColor};
   ${({ area }) => area && { display: 'none' }}
