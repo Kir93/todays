@@ -5,6 +5,7 @@ import { Ionicons } from '@expo/vector-icons';
 import { ThemeProvider } from 'styled-components/native';
 import { NavigationContainer } from '@react-navigation/native';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
+
 import {
   NotoSansKR_400Regular,
   NotoSansKR_500Medium,
@@ -18,6 +19,7 @@ export default function App(): React.ReactElement {
   const [loading, setLoading] = useState(true);
 
   const onFinish = () => setLoading(false);
+
   const preload = async () => {
     const fontsToLoad = [Ionicons.font];
     const fontPromises = fontsToLoad.map((font) => Font.loadAsync(font));
@@ -30,9 +32,8 @@ export default function App(): React.ReactElement {
       }),
     ]);
   };
-  if (loading) {
-    return <AppLoading startAsync={preload} onError={alert} onFinish={onFinish} />;
-  }
+
+  if (loading) return <AppLoading startAsync={preload} onError={alert} onFinish={onFinish} />;
 
   return (
     <ThemeProvider theme={Theme}>

@@ -7,6 +7,6 @@
 - [x] Diary Screen Refactoring
 - [x] List Screen Refactoring
 - [x] Month Screen Refactoring
-- [ ] App Loading Refactoring
+- [x] App Loading Refactoring
 - [ ] Code Refactoring
 - [ ] Android Test
