@@ -1,7 +1,7 @@
 import React from 'react';
 
 import { Text } from '@atoms/Default';
-import { GoodWordWrap } from './GoodWord.s';
+import { GoodWordWrap } from './GoodWord.styles';
 
 interface IProps {
   focus: boolean;
