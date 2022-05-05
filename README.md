@@ -16,3 +16,5 @@
   - [ ] List
   - [ ] Month
 - [ ] Code Refactoring
+- [ ] Making AAB File
+- [ ] Real Using QA
