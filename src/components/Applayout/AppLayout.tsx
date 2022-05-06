@@ -1,8 +1,19 @@
 import React from 'react';
-import { SafeAreaView } from './AppLayout.s';
+import A from './AppLayout.s';
 
-const AppLayout = ({ children }: { children: React.ReactElement }): React.ReactElement => (
-  <SafeAreaView>{children}</SafeAreaView>
+interface IProps {
+  onPress?: () => void;
+  children: (string | React.ReactElement) | (string | React.ReactElement)[];
+}
+
+const AppLayout = ({ onPress, children }: IProps): React.ReactElement => (
+  <A.AvoidView onPress={onPress}>
+    <A.SafeAreaView>{children}</A.SafeAreaView>
+  </A.AvoidView>
 );
 
 export default AppLayout;
+
+AppLayout.defaultProps = {
+  onPress: () => {},
+};
