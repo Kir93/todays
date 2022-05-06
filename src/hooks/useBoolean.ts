@@ -1,6 +1,8 @@
 import { useCallback, useState } from 'react';
 
-export default (initBoolean = false): [boolean, (toggler?: boolean) => void] => {
+export default (
+  initBoolean = false,
+): [boolean, (toggler?: boolean) => void, React.Dispatch<React.SetStateAction<boolean>>] => {
   const [isBoolean, toggle] = useState(initBoolean);
 
   const toggleFunction = useCallback(
@@ -8,5 +10,5 @@ export default (initBoolean = false): [boolean, (toggler?: boolean) => void] => 
     [],
   );
 
-  return [isBoolean, toggleFunction];
+  return [isBoolean, toggleFunction, toggle];
 };
