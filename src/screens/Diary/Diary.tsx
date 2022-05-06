@@ -1,7 +1,7 @@
 import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { useNavigation, useRoute } from '@react-navigation/native';
-import { Pressable, Keyboard, TouchableOpacity } from 'react-native';
+import { Keyboard, TouchableOpacity } from 'react-native';
 
 import maxim from '@utils/maxim.json';
 
@@ -21,7 +21,7 @@ const Diary = (): React.ReactElement => {
   const navigation = useNavigation();
   const [{ year, month, day }, setDate] = useState(getToday());
   const [randomNumber, setRandomNumber] = useState(0);
-  const [focus, toggleFocus] = useBoolean(false);
+  const [focus, , setFocus] = useBoolean(false);
   const [sunny, toggleSunny] = useBoolean(false);
   const [moon, toggleMoon] = useBoolean(false);
   const [dayInput, onChangeDayInput, setDayInput] = useInput('');
@@ -73,53 +73,50 @@ const Diary = (): React.ReactElement => {
     }
   }, [route]);
 
-  const onInputAreaToggle = (type: 'sunny' | 'moon' | '') => async () => {
-    if (focus) {
-      toggleFocus(false);
+  const onInputAreaToggle = useCallback(
+    (type: 'sunny' | 'moon' | '') => async () => {
+      setFocus(false);
       await AsyncStorage.setItem(
         convertKey({ year, month, day }),
         JSON.stringify({ day: dayInput, moon: moonInput }),
       );
-      return Keyboard.dismiss();
-    }
-    if (type === 'sunny') toggleSunny();
-    else if (type === 'moon') toggleMoon();
-    else return null;
-  };
-
+      Keyboard.dismiss();
+      if (type === 'sunny') toggleSunny();
+      else if (type === 'moon') toggleMoon();
+    },
+    [focus],
+  );
   const onInputToggle = (toggle: boolean, type: string) => () => {
-    toggleFocus(toggle);
+    if (!focus) setFocus(toggle);
     if (type === 'sunny') return toggle ? toggleMoon(true) : toggleMoon(false);
     return toggle ? toggleSunny(true) : toggleSunny(false);
   };
 
   return (
-    <AppLayout>
-      <Pressable onPress={onInputAreaToggle('')}>
-        <GoodWord
-          focus={focus}
-          message={maxim[randomNumber]?.message}
-          author={maxim[randomNumber]?.author}
-        />
-        <DiaryInputArea
-          type="sunny"
-          value={dayInput}
-          area={sunny}
-          done={!focus && dayInput !== ''}
-          onChangeText={onChangeDayInput}
-          onInputAreaToggle={onInputAreaToggle}
-          onInputToggle={onInputToggle}
-        />
-        <DiaryInputArea
-          type="moon"
-          value={moonInput}
-          area={moon}
-          done={!focus && moonInput !== ''}
-          onChangeText={onChangeMoonInput}
-          onInputAreaToggle={onInputAreaToggle}
-          onInputToggle={onInputToggle}
-        />
-      </Pressable>
+    <AppLayout onPress={onInputAreaToggle('')}>
+      <GoodWord
+        focus={focus}
+        message={maxim[randomNumber]?.message}
+        author={maxim[randomNumber]?.author}
+      />
+      <DiaryInputArea
+        type="sunny"
+        value={dayInput}
+        area={sunny}
+        done={!focus && dayInput !== ''}
+        onChangeText={onChangeDayInput}
+        onInputAreaToggle={onInputAreaToggle}
+        onInputToggle={onInputToggle}
+      />
+      <DiaryInputArea
+        type="moon"
+        value={moonInput}
+        area={moon}
+        done={!focus && moonInput !== ''}
+        onChangeText={onChangeMoonInput}
+        onInputAreaToggle={onInputAreaToggle}
+        onInputToggle={onInputToggle}
+      />
     </AppLayout>
   );
 };
