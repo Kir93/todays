@@ -1,7 +1,7 @@
 import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import { useNavigation, useRoute } from '@react-navigation/native';
 import { Keyboard, TouchableOpacity } from 'react-native';
+import { useNavigation, useRoute } from '@react-navigation/native';
 
 import maxim from '@utils/maxim.json';
 
@@ -19,11 +19,13 @@ import DiaryInputArea from '@components/DiaryInputArea/DiaryInputArea';
 const Diary = (): React.ReactElement => {
   const route = useRoute();
   const navigation = useNavigation();
-  const [{ year, month, day }, setDate] = useState(getToday());
   const [randomNumber, setRandomNumber] = useState(0);
+  const [{ year, month, day }, setDate] = useState(getToday());
+
   const [focus, , setFocus] = useBoolean(false);
   const [sunny, toggleSunny] = useBoolean(false);
   const [moon, toggleMoon] = useBoolean(false);
+
   const [dayInput, onChangeDayInput, setDayInput] = useInput('');
   const [moonInput, onChangeMoonInput, setMoonInput] = useInput('');
 
@@ -53,13 +55,36 @@ const Diary = (): React.ReactElement => {
     [day],
   );
 
+  const onInputAreaToggle = useCallback(
+    (type: 'sunny' | 'moon' | '') => async () => {
+      setFocus(false);
+      await AsyncStorage.setItem(
+        convertKey({ year, month, day }),
+        JSON.stringify({ day: dayInput, moon: moonInput }),
+      );
+      Keyboard.dismiss();
+      if (type === 'sunny') toggleSunny();
+      else if (type === 'moon') toggleMoon();
+    },
+    [toggleSunny, toggleMoon, convertKey, Keyboard],
+  );
+
+  const onInputToggle = useCallback(
+    (toggle: boolean, type: string) => () => {
+      if (!focus) setFocus(toggle);
+      if (type === 'sunny') return toggle ? toggleMoon(true) : toggleMoon(false);
+      return toggle ? toggleSunny(true) : toggleSunny(false);
+    },
+    [focus, toggleMoon, toggleSunny],
+  );
+
   useEffect(() => {
     const newRandomNumber = Math.floor(Math.random() * maxim.length);
     setRandomNumber(newRandomNumber);
     navigation.setOptions({
       headerTitle: DayTitle,
     });
-  }, [DayTitle, day, navigation]);
+  }, [maxim, DayTitle, navigation]);
 
   useEffect(() => {
     if (route.params) {
@@ -72,25 +97,6 @@ const Diary = (): React.ReactElement => {
       getTodayData();
     }
   }, [route]);
-
-  const onInputAreaToggle = useCallback(
-    (type: 'sunny' | 'moon' | '') => async () => {
-      setFocus(false);
-      await AsyncStorage.setItem(
-        convertKey({ year, month, day }),
-        JSON.stringify({ day: dayInput, moon: moonInput }),
-      );
-      Keyboard.dismiss();
-      if (type === 'sunny') toggleSunny();
-      else if (type === 'moon') toggleMoon();
-    },
-    [focus],
-  );
-  const onInputToggle = (toggle: boolean, type: string) => () => {
-    if (!focus) setFocus(toggle);
-    if (type === 'sunny') return toggle ? toggleMoon(true) : toggleMoon(false);
-    return toggle ? toggleSunny(true) : toggleSunny(false);
-  };
 
   return (
     <AppLayout onPress={onInputAreaToggle('')}>

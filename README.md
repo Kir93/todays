@@ -12,7 +12,7 @@
 - [ ] Diary Screen TextArea Done Fix
 - [ ] Android Test
   - [x] Navigation
-  - [ ] Diary
+  - [x] Diary
   - [ ] List
   - [ ] Month
 - [ ] Code Refactoring
