@@ -2,11 +2,12 @@ import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import dayjs from 'dayjs';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { useNavigation } from '@react-navigation/native';
-import { FlatList, TouchableOpacity, SafeAreaView } from 'react-native';
+import { TouchableOpacity, SafeAreaView, VirtualizedList } from 'react-native';
 
 import convertKey from '@hooks/convertKey';
 
 import { Text } from '@atoms/Default';
+
 import DayCard from '@components/DayCard/DayCard';
 import AppLayout from '@components/Applayout/AppLayout';
 import ListHeader from '@components/ListHeader/ListHeader';
@@ -121,9 +122,9 @@ const List = (): React.ReactElement => {
   return data.length ? (
     <AppLayout>
       <SafeAreaView>
-        <FlatList
+        <VirtualizedList
           inverted
-          onEndReachedThreshold={0.4}
+          onEndReachedThreshold={0.5}
           showsVerticalScrollIndicator={false}
           {...{ data, keyExtractor, onEndReached, renderItem }}
         />
