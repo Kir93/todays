@@ -8,8 +8,9 @@
 - [x] List Screen Refactoring
 - [x] Month Screen Refactoring
 - [x] App Loading Refactoring
-- [ ] Diary Screen Keyboard Dismiss Fix
-- [ ] Diary Screen TextArea Done Fix
+- [x] Diary Screen Keyboard Dismiss Fix
+- [x] Diary Screen TextArea Done Fix
+- [ ] List Screen ListView changed VirtualizedList
 - [ ] Android Test
   - [x] Navigation
   - [x] Diary
