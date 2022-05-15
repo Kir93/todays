@@ -10,7 +10,7 @@
 - [x] App Loading Refactoring
 - [x] Diary Screen Keyboard Dismiss Fix
 - [x] Diary Screen TextArea Done Fix
-- [ ] List Screen ListView changed VirtualizedList
+- [x] List Screen ListView changed VirtualizedList
 - [ ] Android Test
   - [x] Navigation
   - [x] Diary

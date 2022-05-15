@@ -29,6 +29,10 @@ const List = (): React.ReactElement => {
   const onNavigateMonthPage = () => navigation.navigate('Month');
   const onNavigateDiaryPage = (day: string) => () => navigation.navigate('Diary', { day });
 
+  const keyExtractor = useCallback(({ id }) => id, []);
+
+  const getItemCount = useCallback(() => data.length, [data]);
+
   const getMonthData = async (monthData: IList) => {
     const thisData = await AsyncStorage.getItem(monthData.id);
     if (thisData) {
@@ -45,35 +49,35 @@ const List = (): React.ReactElement => {
     setData(render);
   };
 
-  const onEndReached = useCallback(
-    (nextData) => {
-      let nextMonth = month - 1;
-      let nextYear = year;
-      if (month === 1) {
-        nextMonth = 12;
-        nextYear = year - 1;
-        setYear(nextYear);
-      }
-      setMonth(nextMonth);
-      const nextDate = dayjs(`${nextYear}-${nextMonth - 1}`).daysInMonth();
-      const nextDateData = [...Array(nextDate)].map((_, i) => {
-        const id = convertKey({
-          year: nextYear.toString(),
-          month: nextMonth.toString(),
-          day: (nextDate - i).toString(),
-        });
-        return {
-          id,
-          thisDay: nextDate - i,
-          day: '',
-          moon: '',
-        };
-      });
-      getMonthDates([...nextData, ...nextDateData]);
-    },
-    [data],
-  );
+  const getItem = useCallback((items, index) => items[index], []);
 
+  const onEndReached = useCallback(() => {
+    const beforeData = data;
+    let nextMonth = month - 1;
+    let nextYear = year;
+    if (month === 1) {
+      nextMonth = 12;
+      nextYear = year - 1;
+      setYear(nextYear);
+    }
+    setMonth(nextMonth);
+    const nextDate = dayjs(`${nextYear}-${nextMonth - 1}`).daysInMonth();
+    const nextDateData = [...Array(nextDate)].map((_, i) => {
+      const id = convertKey({
+        year: nextYear.toString(),
+        month: nextMonth.toString(),
+        day: (nextDate - i).toString(),
+      });
+      return {
+        id,
+        thisDay: nextDate - i,
+        day: '',
+        moon: '',
+      };
+    });
+
+    getMonthDates([...beforeData, ...nextDateData]);
+  }, [data]);
   const MonthTitle = useMemo(
     () => (
       <TouchableOpacity onPress={onNavigateMonthPage}>
@@ -108,22 +112,17 @@ const List = (): React.ReactElement => {
     getMonthDates(defaultData);
   }, []);
 
-  const renderItem = ({ item, index }: { item: IList[]; index: number }) =>
-    item.length > index ? (
-      <View key={item[index].id}>
-        <DayCard onPress={onNavigateDiaryPage} {...item[index]} />
-        {item[index].id.split('-')[2] === '01' && (
-          <ListHeader>
-            {item[index].id.split('-')[1] === '01'
-              ? `${item[index].id.split('-')[0]}-${item[index].id.split('-')[1]}`
-              : item[index].id.split('-')[1]}
-            월
-          </ListHeader>
-        )}
-      </View>
-    ) : (
-      <></>
-    );
+  const renderItem = ({ item: { id, ...itemData } }: { item: IList }) => (
+    <View key={id}>
+      {id.split('-')[2] === '01' && (
+        <ListHeader>
+          {id.split('-')[1] === '01' ? `${id.split('-')[0]}-${id.split('-')[1]}` : id.split('-')[1]}
+          월
+        </ListHeader>
+      )}
+      <DayCard onPress={onNavigateDiaryPage} {...{ id, ...itemData }} />
+    </View>
+  );
 
   if (!data.length) return <></>;
 
@@ -133,9 +132,8 @@ const List = (): React.ReactElement => {
         inverted
         onEndReachedThreshold={0.5}
         showsVerticalScrollIndicator={false}
-        getItem={() => data}
-        getItemCount={() => 30}
-        {...{ data, renderItem, onEndReached }}
+        initialNumToRender={toDay}
+        {...{ data, keyExtractor, getItem, getItemCount, renderItem, onEndReached }}
       />
     </AppLayout>
   );
