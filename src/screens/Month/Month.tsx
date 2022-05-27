@@ -11,6 +11,7 @@ import convertKey from '@hooks/convertKey';
 import monthLocaleData from '@utils/monthLocaleData';
 
 import AppLayout from '@components/Applayout/AppLayout';
+
 import { MonthCalendar } from './Month.styles';
 
 LocaleConfig.defaultLocale = 'ko';
@@ -22,20 +23,19 @@ interface IMarkDate {
 }
 
 const Month = (): React.ReactElement => {
-  const sunny = useMemo(() => ({ key: 'vacation', color: 'red' }), []);
-  const moon = useMemo(() => ({ key: 'massage', color: 'blue' }), []);
-
-  const toDay = dayjs();
-  const toDate = toDay.toDate().toDateString();
-  const toMonth = toDay.month() + 1;
+  const maxDate = dayjs().toDate().toDateString();
+  const toMonth = dayjs().month() + 1;
   const navigation = useNavigation();
 
   const [year, setYear] = useState(dayjs().year());
   const [month, setMonth] = useState(dayjs().month() + 1);
   const [day, setDay] = useState(dayjs().date());
-  const [arrow, setArrow] = useState(true);
-  const [markedDate, setMarkedDate] = useState<IMarkDate>({});
+  const [disableArrowRight, setDisableArrowRight] = useState(true);
+  const [markedDates, setMarkedDates] = useState<IMarkDate>({});
   const [loading, setLoading] = useState(true);
+
+  const sunny = useMemo(() => ({ key: 'vacation', color: 'red' }), []);
+  const moon = useMemo(() => ({ key: 'massage', color: 'blue' }), []);
 
   const getMonthData = useCallback(async () => {
     const defaultData = [...Array(day)].map((_v, i) =>
@@ -50,7 +50,7 @@ const Month = (): React.ReactElement => {
       const dots: DotProps[] = [];
       if (dayData.day) dots.push(sunny);
       if (dayData.moon) dots.push(moon);
-      setMarkedDate((prev) => {
+      setMarkedDates((prev) => {
         prev[`${v[0]}`] = { dots };
         return prev;
       });
@@ -58,18 +58,18 @@ const Month = (): React.ReactElement => {
     setLoading(false);
   }, [month]);
 
-  const onDisabledArrow = useCallback(
+  const onVisibleMonthsChange = useCallback(
     (date: DateData[]) => {
       const { year: localYear, month: localMonth, dateString } = date[0];
       setYear(localYear);
       setMonth(localMonth);
       setDay(dayjs(dateString).daysInMonth());
-      setArrow(month === toMonth);
+      setDisableArrowRight(localMonth === toMonth);
     },
     [toMonth],
   );
 
-  const onPressRoute = useCallback(
+  const onDayPress = useCallback(
     (data) => navigation.navigate('Diary', { day: `${data.year}-${data.month}-${data.day}` }),
     [navigation],
   );
@@ -90,11 +90,7 @@ const Month = (): React.ReactElement => {
         markingType="multi-dot"
         hideExtraDays
         disableAllTouchEventsForDisabledDays
-        maxDate={toDate}
-        disableArrowRight={arrow}
-        onVisibleMonthsChange={onDisabledArrow}
-        markedDates={markedDate}
-        onDayPress={onPressRoute}
+        {...{ maxDate, disableArrowRight, onVisibleMonthsChange, markedDates, onDayPress }}
       />
     </AppLayout>
   );
