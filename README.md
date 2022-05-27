@@ -11,6 +11,8 @@
 - [x] Diary Screen Keyboard Dismiss Fix
 - [x] Diary Screen TextArea Done Fix
 - [x] List Screen ListView changed VirtualizedList
+- [x] Month Screen Change Month Fix
+- [x] Month Screen 2nd Refactoring
 - [ ] Android Test
   - [x] Navigation
   - [x] Diary
