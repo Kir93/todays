@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { memo } from 'react';
 import { Ionicons } from '@expo/vector-icons';
 import {
   CardContentsWrap,
@@ -32,6 +32,6 @@ const DayCard = ({ id, thisDay, day = '', moon = '', onPress }: IProps): React.R
   </DayCardWrapper>
 );
 
-export default DayCard;
+export default memo(DayCard);
 
 DayCard.defaultProps = { day: '', moon: '' };
