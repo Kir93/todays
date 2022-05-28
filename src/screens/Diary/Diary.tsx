@@ -12,9 +12,9 @@ import convertKey from '@hooks/convertKey';
 
 import { Text } from '@atoms/Default';
 
-import GoodWord from '@components/GoodWord/GoodWord';
-import AppLayout from '@components/Applayout/AppLayout';
-import DiaryInputArea from '@components/DiaryInputArea/DiaryInputArea';
+import GoodWord from '@components/Diary/GoodWord';
+import DiaryInputArea from '@components/Diary/DiaryInputArea';
+import AppLayout from '@components/Common/AppLayout/AppLayout';
 
 const Diary = (): React.ReactElement => {
   const route = useRoute();

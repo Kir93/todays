@@ -1,6 +1,6 @@
-import React from 'react';
+import React, { FC } from 'react';
 import { Ionicons } from '@expo/vector-icons';
-import { WritingArea, WritingToggleWrap } from './DiaryInputArea.s';
+import D from './Diary.styles';
 
 interface IProps {
   type: 'sunny' | 'moon';
@@ -12,7 +12,7 @@ interface IProps {
   onInputToggle: (toggle: boolean, type: string) => () => void;
 }
 
-const DiaryInputArea = ({
+const DiaryInputArea: FC<IProps> = ({
   type = 'sunny',
   value,
   area = false,
@@ -20,17 +20,17 @@ const DiaryInputArea = ({
   onChangeText,
   onInputAreaToggle,
   onInputToggle,
-}: IProps): React.ReactElement => (
+}) => (
   <>
-    <WritingToggleWrap onPress={onInputAreaToggle(type)}>
+    <D.WritingToggleWrap onPress={onInputAreaToggle(type)}>
       <Ionicons
         name={type === 'sunny' ? 'sunny-outline' : 'moon-outline'}
         color="#736355"
         size={24}
       />
       <Ionicons name={area ? 'ios-chevron-up' : 'ios-chevron-down'} color="#736355" size={24} />
-    </WritingToggleWrap>
-    <WritingArea
+    </D.WritingToggleWrap>
+    <D.WritingArea
       multiline
       value={value}
       onChangeText={onChangeText}

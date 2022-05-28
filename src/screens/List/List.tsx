@@ -9,7 +9,7 @@ import convertKey from '@hooks/convertKey';
 import { Text } from '@atoms/Default';
 
 import DayCard from '@components/List/DayCard/DayCard';
-import AppLayout from '@components/Applayout/AppLayout';
+import AppLayout from '@components/Common/AppLayout/AppLayout';
 import ListHeader from '@components/List/ListHeader/ListHeader';
 import RenderCard from '@components/List/RenderCard';
 
