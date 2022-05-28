@@ -10,7 +10,7 @@ import convertKey from '@hooks/convertKey';
 
 import monthLocaleData from '@utils/monthLocaleData';
 
-import AppLayout from '@components/Applayout/AppLayout';
+import AppLayout from '@components/Common/AppLayout/AppLayout';
 
 import { MonthCalendar } from './Month.styles';
 

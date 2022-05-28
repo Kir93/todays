@@ -1,12 +1,11 @@
-import React from 'react';
-import A from './AppLayout.s';
+import React, { FC } from 'react';
+import A from './AppLayout.styles';
 
 interface IProps {
   onPress?: () => void;
-  children: (string | React.ReactElement) | (string | React.ReactElement)[];
 }
 
-const AppLayout = ({ onPress, children }: IProps): React.ReactElement => (
+const AppLayout: FC<IProps> = ({ children, onPress }) => (
   <A.AvoidView onPress={onPress}>
     <A.SafeAreaView>{children}</A.SafeAreaView>
   </A.AvoidView>
