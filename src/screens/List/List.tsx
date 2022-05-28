@@ -8,9 +8,10 @@ import convertKey from '@hooks/convertKey';
 
 import { Text } from '@atoms/Default';
 
-import DayCard from '@components/DayCard/DayCard';
+import DayCard from '@components/List/DayCard/DayCard';
 import AppLayout from '@components/Applayout/AppLayout';
-import ListHeader from '@components/ListHeader/ListHeader';
+import ListHeader from '@components/List/ListHeader/ListHeader';
+import RenderCard from '@components/List/RenderCard';
 
 interface IList {
   id: string;
@@ -31,7 +32,7 @@ const List = (): React.ReactElement => {
 
   const keyExtractor = useCallback(({ id }) => id, []);
 
-  const getItemCount = useCallback(() => data.length, [data]);
+  const getItemCount = useCallback(() => data.length, [data.length]);
 
   const getMonthData = async (monthData: IList) => {
     const thisData = await AsyncStorage.getItem(monthData.id);
@@ -113,15 +114,7 @@ const List = (): React.ReactElement => {
   }, []);
 
   const renderItem = ({ item: { id, ...itemData } }: { item: IList }) => (
-    <View key={id}>
-      {id.split('-')[2] === '01' && (
-        <ListHeader>
-          {id.split('-')[1] === '01' ? `${id.split('-')[0]}-${id.split('-')[1]}` : id.split('-')[1]}
-          월
-        </ListHeader>
-      )}
-      <DayCard onPress={onNavigateDiaryPage} {...{ id, ...itemData }} />
-    </View>
+    <RenderCard key={id} {...{ id, itemData, onNavigateDiaryPage }} />
   );
 
   if (!data.length) return <></>;
@@ -130,6 +123,7 @@ const List = (): React.ReactElement => {
     <AppLayout>
       <VirtualizedList
         inverted
+        removeClippedSubviews
         onEndReachedThreshold={0.5}
         showsVerticalScrollIndicator={false}
         initialNumToRender={toDay}

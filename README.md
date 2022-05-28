@@ -13,11 +13,11 @@
 - [x] List Screen ListView changed VirtualizedList
 - [x] Month Screen Change Month Fix
 - [x] Month Screen 2nd Refactoring
-- [ ] Android Test
+- [x] Android Test
   - [x] Navigation
   - [x] Diary
-  - [ ] List
-  - [ ] Month
+  - [x] List
+  - [x] Month
 - [ ] Code Refactoring
 - [ ] Making AAB File
 - [ ] Real Using QA
