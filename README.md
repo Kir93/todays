@@ -18,6 +18,7 @@
   - [x] Diary
   - [x] List
   - [x] Month
-- [ ] Code Refactoring
+- [x] Code Refactoring 1st
+- [ ] Code Refactoring 2nd
 - [ ] Making AAB File
 - [ ] Real Using QA
