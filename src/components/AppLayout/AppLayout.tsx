@@ -2,6 +2,7 @@ import React, { FC } from 'react';
 import A from './AppLayout.styles';
 
 interface IProps {
+  children: JSX.Element;
   onPress?: () => void;
 }
 
