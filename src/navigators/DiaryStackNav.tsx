@@ -1,9 +1,9 @@
 import React from 'react';
 import { createStackNavigator, StackNavigationOptions } from '@react-navigation/stack';
 
-import Diary from '@screens/Diary/Diary';
-import List from '@screens/List/List';
-import Month from '@screens/Month/Month';
+import Diary from '@screens/Diary';
+import List from '@screens/List';
+import Month from '@screens/Month';
 
 const Stack = createStackNavigator();
 

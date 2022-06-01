@@ -2,15 +2,13 @@ import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import dayjs from 'dayjs';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { useNavigation } from '@react-navigation/native';
-import { View, TouchableOpacity, VirtualizedList } from 'react-native';
+import { TouchableOpacity, VirtualizedList } from 'react-native';
 
 import convertKey from '@hooks/convertKey';
 
 import { Text } from '@atoms/Default';
 
-import DayCard from '@components/List/DayCard/DayCard';
-import AppLayout from '@components/Common/AppLayout/AppLayout';
-import ListHeader from '@components/List/ListHeader/ListHeader';
+import AppLayout from '@components/AppLayout/AppLayout';
 import RenderCard from '@components/List/RenderCard';
 
 interface IList {
@@ -117,7 +115,7 @@ const List = (): React.ReactElement => {
     <RenderCard key={id} {...{ id, itemData, onNavigateDiaryPage }} />
   );
 
-  if (!data.length) return <></>;
+  if (!data.length) return <Text>Loading...</Text>;
 
   return (
     <AppLayout>

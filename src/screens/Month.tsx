@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useMemo, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import dayjs from 'dayjs';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
@@ -10,17 +10,23 @@ import convertKey from '@hooks/convertKey';
 
 import monthLocaleData from '@utils/monthLocaleData';
 
-import AppLayout from '@components/Common/AppLayout/AppLayout';
-
-import { MonthCalendar } from './Month.styles';
+import AppLayout from '@components/AppLayout/AppLayout';
+import { MonthCalendar } from '@components/Month/Month.styles';
+import { Text } from '@atoms/Default';
 
 LocaleConfig.defaultLocale = 'ko';
 LocaleConfig.locales.ko = monthLocaleData;
 
-type DotProps = { key: string; color: string };
+interface DotProps {
+  key: string;
+  color: string;
+}
 interface IMarkDate {
   [key: string]: { dots: DotProps[] };
 }
+
+const sunny = { key: 'vacation', color: 'red' };
+const moon = { key: 'massage', color: 'blue' };
 
 const Month = (): React.ReactElement => {
   const maxDate = dayjs().toDate().toDateString();
@@ -28,14 +34,11 @@ const Month = (): React.ReactElement => {
   const navigation = useNavigation();
 
   const [year, setYear] = useState(dayjs().year());
-  const [month, setMonth] = useState(dayjs().month() + 1);
+  const [month, setMonth] = useState(toMonth);
   const [day, setDay] = useState(dayjs().date());
   const [disableArrowRight, setDisableArrowRight] = useState(true);
   const [markedDates, setMarkedDates] = useState<IMarkDate>({});
   const [loading, setLoading] = useState(true);
-
-  const sunny = useMemo(() => ({ key: 'vacation', color: 'red' }), []);
-  const moon = useMemo(() => ({ key: 'massage', color: 'blue' }), []);
 
   const getMonthData = useCallback(async () => {
     const defaultData = [...Array(day)].map((_v, i) =>
@@ -82,7 +85,7 @@ const Month = (): React.ReactElement => {
     getMonthData();
   }, [getMonthData]);
 
-  if (loading) return <></>;
+  if (loading) return <Text>Loading...</Text>;
 
   return (
     <AppLayout>

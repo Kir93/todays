@@ -13,13 +13,18 @@ import convertKey from '@hooks/convertKey';
 import { Text } from '@atoms/Default';
 
 import GoodWord from '@components/Diary/GoodWord';
+import AppLayout from '@components/AppLayout/AppLayout';
 import DiaryInputArea from '@components/Diary/DiaryInputArea';
-import AppLayout from '@components/Common/AppLayout/AppLayout';
+
+interface IParams {
+  day: string;
+}
 
 const Diary = (): React.ReactElement => {
   const route = useRoute();
   const navigation = useNavigation();
   const [randomNumber, setRandomNumber] = useState(0);
+  const { message, author } = maxim[randomNumber];
   const [{ year, month, day }, setDate] = useState(getToday());
 
   const [focus, , setFocus] = useBoolean(false);
@@ -88,9 +93,9 @@ const Diary = (): React.ReactElement => {
 
   useEffect(() => {
     if (route.params) {
-      const { day: paramDay } = route.params as { day: string };
-      const otherDay = paramDay.split('-');
-      setDate({ year: otherDay[0], month: otherDay[1], day: otherDay[2] });
+      const { day: paramDay } = route.params as IParams;
+      const [otherYear, otherMonth, otherDay] = paramDay.split('-');
+      setDate({ year: otherYear, month: otherMonth, day: otherDay });
       getTodayData(paramDay);
     } else {
       setDate(getToday());
@@ -100,29 +105,27 @@ const Diary = (): React.ReactElement => {
 
   return (
     <AppLayout onPress={onInputAreaToggle('')}>
-      <GoodWord
-        focus={focus}
-        message={maxim[randomNumber]?.message}
-        author={maxim[randomNumber]?.author}
-      />
-      <DiaryInputArea
-        type="sunny"
-        value={dayInput}
-        area={sunny}
-        done={!focus && dayInput !== ''}
-        onChangeText={onChangeDayInput}
-        onInputAreaToggle={onInputAreaToggle}
-        onInputToggle={onInputToggle}
-      />
-      <DiaryInputArea
-        type="moon"
-        value={moonInput}
-        area={moon}
-        done={!focus && moonInput !== ''}
-        onChangeText={onChangeMoonInput}
-        onInputAreaToggle={onInputAreaToggle}
-        onInputToggle={onInputToggle}
-      />
+      <>
+        <GoodWord {...{ focus, message, author }} />
+        <DiaryInputArea
+          type="sunny"
+          value={dayInput}
+          area={sunny}
+          done={!focus && dayInput !== ''}
+          onChangeText={onChangeDayInput}
+          onInputAreaToggle={onInputAreaToggle}
+          onInputToggle={onInputToggle}
+        />
+        <DiaryInputArea
+          type="moon"
+          value={moonInput}
+          area={moon}
+          done={!focus && moonInput !== ''}
+          onChangeText={onChangeMoonInput}
+          onInputAreaToggle={onInputAreaToggle}
+          onInputToggle={onInputToggle}
+        />
+      </>
     </AppLayout>
   );
 };
