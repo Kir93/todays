@@ -10,7 +10,7 @@ import getToday from '@hooks/getToday';
 import useBoolean from '@hooks/useBoolean';
 import convertKey from '@hooks/convertKey';
 
-import { Text } from '@atoms/Default';
+import Text from '@atoms/Text';
 
 import GoodWord from '@components/Diary/GoodWord';
 import AppLayout from '@components/AppLayout/AppLayout';

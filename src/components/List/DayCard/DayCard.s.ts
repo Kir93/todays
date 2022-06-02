@@ -1,5 +1,5 @@
 import styled from 'styled-components/native';
-import { Text } from '@atoms/Default';
+import { Text } from '@atoms/Text';
 
 export const DayCardWrapper = styled.TouchableOpacity`
   flex-direction: row;

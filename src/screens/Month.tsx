@@ -10,9 +10,9 @@ import convertKey from '@hooks/convertKey';
 
 import monthLocaleData from '@utils/monthLocaleData';
 
+import Text from '@atoms/Text';
 import AppLayout from '@components/AppLayout/AppLayout';
 import { MonthCalendar } from '@components/Month/Month.styles';
-import { Text } from '@atoms/Default';
 
 LocaleConfig.defaultLocale = 'ko';
 LocaleConfig.locales.ko = monthLocaleData;
@@ -90,8 +90,8 @@ const Month = (): React.ReactElement => {
   return (
     <AppLayout>
       <MonthCalendar
-        markingType="multi-dot"
         hideExtraDays
+        markingType="multi-dot"
         disableAllTouchEventsForDisabledDays
         {...{ maxDate, disableArrowRight, onVisibleMonthsChange, markedDates, onDayPress }}
       />

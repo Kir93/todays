@@ -3,7 +3,7 @@ import { TouchableOpacity } from 'react-native';
 
 import { convertDateFormat } from '@hooks/convertDate';
 
-import { Text } from '@atoms/Default';
+import { Text } from '@atoms/Text';
 
 interface IProps {
   date: Date;

@@ -6,7 +6,7 @@ import { TouchableOpacity, VirtualizedList } from 'react-native';
 
 import convertKey from '@hooks/convertKey';
 
-import { Text } from '@atoms/Default';
+import Text from '@atoms/Text';
 
 import AppLayout from '@components/AppLayout/AppLayout';
 import RenderCard from '@components/List/RenderCard';
