@@ -1,6 +1,6 @@
 import React, { FC } from 'react';
 
-import { Text } from '@atoms/Text';
+import Text from '@atoms/Text';
 import D from './Diary.styles';
 
 interface IProps {

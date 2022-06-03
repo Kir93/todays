@@ -1,7 +1,7 @@
 import React, { FC, memo } from 'react';
 import { View } from 'react-native';
-import DayCard from './DayCard/DayCard';
-import ListHeader from './ListHeader/ListHeader';
+import DayCard from './DayCard';
+import L from './List.styles';
 
 interface IProps {
   id: string;
@@ -10,15 +10,15 @@ interface IProps {
     day: string;
     moon: string;
   };
-  onNavigateDiaryPage: (day: string) => void;
+  onNavigateDiaryPage: (day: string) => () => void;
 }
 
 const RenderCard: FC<IProps> = ({ id, itemData, onNavigateDiaryPage }) => (
   <View key={id}>
     {id.split('-')[2] === '01' && (
-      <ListHeader>
+      <L.ListHeaderText>
         {id.split('-')[1] === '01' ? `${id.split('-')[0]}-${id.split('-')[1]}` : id.split('-')[1]}월
-      </ListHeader>
+      </L.ListHeaderText>
     )}
     <DayCard onPress={onNavigateDiaryPage} {...{ id, ...itemData }} />
   </View>

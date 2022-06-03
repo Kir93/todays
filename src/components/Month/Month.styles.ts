@@ -1,7 +1,7 @@
 import styled from 'styled-components/native';
 import { Calendar } from 'react-native-calendars';
 
-export const MonthCalendar = styled(Calendar).attrs(({ theme }) => ({
+const MonthCalendar = styled(Calendar).attrs(({ theme }) => ({
   theme: {
     backgroundColor: theme.backgroundColor,
     calendarBackground: theme.backgroundColor,
@@ -22,3 +22,5 @@ export const MonthCalendar = styled(Calendar).attrs(({ theme }) => ({
 }))`
   height: 600px;
 `;
+
+export default MonthCalendar;

@@ -1,5 +1,5 @@
 import styled from 'styled-components/native';
-import { WINDOW_HEIGHT } from '@utils/windowSize';
+import { WINDOW_HEIGHT } from 'configs/windowSize';
 
 const WritingToggleWrap = styled.TouchableOpacity`
   display: flex;

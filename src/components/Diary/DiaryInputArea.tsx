@@ -1,4 +1,4 @@
-import React, { FC } from 'react';
+import React, { FC, memo } from 'react';
 import { Ionicons } from '@expo/vector-icons';
 import D from './Diary.styles';
 
@@ -42,4 +42,4 @@ const DiaryInputArea: FC<IProps> = ({
   </>
 );
 
-export default React.memo(DiaryInputArea);
+export default memo(DiaryInputArea);
