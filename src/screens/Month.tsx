@@ -6,13 +6,12 @@ import { LocaleConfig } from 'react-native-calendars';
 import { useNavigation } from '@react-navigation/native';
 import { DateData } from 'react-native-calendars/src/types';
 
-import convertKey from '@hooks/convertKey';
-
-import monthLocaleData from '@utils/monthLocaleData';
+import monthLocaleData from '@configs/monthLocaleData';
+import convertKey from '@utils/convertKey';
 
 import Text from '@atoms/Text';
 import AppLayout from '@components/AppLayout/AppLayout';
-import { MonthCalendar } from '@components/Month/Month.styles';
+import MonthCalendar from '@components/Month/Month.styles';
 
 LocaleConfig.defaultLocale = 'ko';
 LocaleConfig.locales.ko = monthLocaleData;

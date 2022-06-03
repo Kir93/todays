@@ -3,12 +3,12 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import { Keyboard, TouchableOpacity } from 'react-native';
 import { useNavigation, useRoute } from '@react-navigation/native';
 
-import maxim from '@utils/maxim.json';
+import maxim from '@configs/maxim.json';
 
-import useInput from '@hooks/useInput';
-import getToday from '@hooks/getToday';
-import useBoolean from '@hooks/useBoolean';
-import convertKey from '@hooks/convertKey';
+import useInput from '@utils/useInput';
+import getToday from '@utils/getToday';
+import useBoolean from '@utils/useBoolean';
+import convertKey from '@utils/convertKey';
 
 import Text from '@atoms/Text';
 

@@ -4,7 +4,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import { useNavigation } from '@react-navigation/native';
 import { TouchableOpacity, VirtualizedList } from 'react-native';
 
-import convertKey from '@hooks/convertKey';
+import convertKey from '@utils/convertKey';
 
 import Text from '@atoms/Text';
 

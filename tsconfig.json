@@ -25,7 +25,7 @@
       "@assets/*": ["assets/*"],
       "@atoms/*": ["atoms/*"],
       "@components/*": ["components/*"],
-      "@hooks/*": ["hooks/*"],
+      "@configs/*": ["configs/*"],
       "@navigators/*": ["navigators/*"],
       "@reducers/*": ["reducers/*"],
       "@styles/*": ["styles/*"],
