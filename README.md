@@ -20,5 +20,9 @@
   - [x] Month
 - [x] Code Refactoring 1st
 - [ ] Code Refactoring 2nd
+  - [x] atoms, components folder cleaning
+  - [x] other folder naming changed
+  - [x] screen file cleaning
+  - [ ] code refactoring
 - [ ] Making AAB File
 - [ ] Real Using QA
