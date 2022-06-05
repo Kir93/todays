@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useMemo, useState } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { Keyboard, TouchableOpacity } from 'react-native';
 import { useNavigation, useRoute } from '@react-navigation/native';
@@ -21,20 +21,20 @@ interface IParams {
 }
 
 const Diary = (): React.ReactElement => {
-  const route = useRoute();
+  const router = useRoute();
   const navigation = useNavigation();
   const [randomNumber, setRandomNumber] = useState(0);
   const { message, author } = maxim[randomNumber];
   const [{ year, month, day }, setDate] = useState(getToday());
 
   const [focus, , setFocus] = useBoolean(false);
-  const [sunny, toggleSunny] = useBoolean(false);
-  const [moon, toggleMoon] = useBoolean(false);
+  const [dayInputArea, toggleDayInputArea] = useBoolean(false);
+  const [moonInputArea, toggleMoonInputArea] = useBoolean(false);
 
   const [dayInput, onChangeDayInput, setDayInput] = useInput('');
   const [moonInput, onChangeMoonInput, setMoonInput] = useInput('');
 
-  const onNavigateListPage = useCallback(() => navigation.navigate('List'), [navigation, day]);
+  const onNavigateListPage = () => navigation.navigate('List');
 
   const DayTitle = useMemo(
     () => (
@@ -45,43 +45,34 @@ const Diary = (): React.ReactElement => {
     [onNavigateListPage, day],
   );
 
-  const getTodayData = useCallback(
-    async (getDate?: string) => {
-      const data = await AsyncStorage.getItem(getDate ?? convertKey({ year, month, day }));
-      if (data) {
-        const parsingData = JSON.parse(data);
-        setDayInput(parsingData?.day);
-        setMoonInput(parsingData?.moon);
-      } else {
-        setDayInput('');
-        setMoonInput('');
-      }
-    },
-    [day],
-  );
+  const getTodayData = async (getDate?: string) => {
+    const data = await AsyncStorage.getItem(getDate ?? convertKey({ year, month, day }));
+    if (!data) {
+      setDayInput('');
+      setMoonInput('');
+      return;
+    }
+    const parsingData = JSON.parse(data);
+    setDayInput(parsingData?.day);
+    setMoonInput(parsingData?.moon);
+  };
 
-  const onInputAreaToggle = useCallback(
-    (type: 'sunny' | 'moon' | '') => async () => {
-      setFocus(false);
-      await AsyncStorage.setItem(
-        convertKey({ year, month, day }),
-        JSON.stringify({ day: dayInput, moon: moonInput }),
-      );
-      Keyboard.dismiss();
-      if (type === 'sunny') toggleSunny();
-      else if (type === 'moon') toggleMoon();
-    },
-    [toggleSunny, toggleMoon, convertKey, Keyboard],
-  );
+  const onInputAreaToggle = (type: string) => async () => {
+    setFocus(false);
+    await AsyncStorage.setItem(
+      convertKey({ year, month, day }),
+      JSON.stringify({ day: dayInput, moon: moonInput }),
+    );
+    Keyboard.dismiss();
+    if (type === 'day') toggleDayInputArea();
+    else if (type === 'moon') toggleMoonInputArea();
+  };
 
-  const onInputToggle = useCallback(
-    (toggle: boolean, type: string) => () => {
-      if (!focus) setFocus(toggle);
-      if (type === 'sunny') return toggle ? toggleMoon(true) : toggleMoon(false);
-      return toggle ? toggleSunny(true) : toggleSunny(false);
-    },
-    [focus, toggleMoon, toggleSunny],
-  );
+  const onInputToggle = (toggle: boolean, type: string) => () => {
+    if (!focus) setFocus(toggle);
+    if (type === 'day') toggleMoonInputArea(!!toggle);
+    else if (type === 'moon') toggleDayInputArea(!!toggle);
+  };
 
   useEffect(() => {
     const newRandomNumber = Math.floor(Math.random() * maxim.length);
@@ -92,8 +83,8 @@ const Diary = (): React.ReactElement => {
   }, [maxim, DayTitle, navigation]);
 
   useEffect(() => {
-    if (route.params) {
-      const { day: paramDay } = route.params as IParams;
+    if (router.params) {
+      const { day: paramDay } = router.params as IParams;
       const [otherYear, otherMonth, otherDay] = paramDay.split('-');
       setDate({ year: otherYear, month: otherMonth, day: otherDay });
       getTodayData(paramDay);
@@ -101,17 +92,17 @@ const Diary = (): React.ReactElement => {
       setDate(getToday());
       getTodayData();
     }
-  }, [route]);
+  }, [router.params]);
 
   return (
     <AppLayout onPress={onInputAreaToggle('')}>
       <>
         <GoodWord {...{ focus, message, author }} />
         <DiaryInputArea
-          type="sunny"
+          type="day"
           value={dayInput}
-          area={sunny}
-          done={!focus && dayInput !== ''}
+          area={dayInputArea}
+          done={Boolean(!focus && dayInput?.length)}
           onChangeText={onChangeDayInput}
           onInputAreaToggle={onInputAreaToggle}
           onInputToggle={onInputToggle}
@@ -119,8 +110,8 @@ const Diary = (): React.ReactElement => {
         <DiaryInputArea
           type="moon"
           value={moonInput}
-          area={moon}
-          done={!focus && moonInput !== ''}
+          area={moonInputArea}
+          done={Boolean(!focus && moonInput?.length)}
           onChangeText={onChangeMoonInput}
           onInputAreaToggle={onInputAreaToggle}
           onInputToggle={onInputToggle}

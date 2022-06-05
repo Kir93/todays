@@ -1,22 +1,24 @@
 import React, { FC, memo } from 'react';
 import { Ionicons } from '@expo/vector-icons';
+
+import Theme from '@styles/theme';
 import D from './Diary.styles';
 
 interface IProps {
-  type: 'sunny' | 'moon';
+  type: 'day' | 'moon';
   value: string;
   area: boolean;
   done: boolean;
   onChangeText: (value: string) => void;
-  onInputAreaToggle: (type: 'sunny' | 'moon') => () => void;
+  onInputAreaToggle: (type: 'day' | 'moon') => () => void;
   onInputToggle: (toggle: boolean, type: string) => () => void;
 }
 
 const DiaryInputArea: FC<IProps> = ({
-  type = 'sunny',
+  type,
   value,
-  area = false,
-  done = false,
+  area,
+  done,
   onChangeText,
   onInputAreaToggle,
   onInputToggle,
@@ -24,11 +26,15 @@ const DiaryInputArea: FC<IProps> = ({
   <>
     <D.WritingToggleWrap onPress={onInputAreaToggle(type)}>
       <Ionicons
-        name={type === 'sunny' ? 'sunny-outline' : 'moon-outline'}
-        color="#736355"
+        name={type === 'day' ? 'sunny-outline' : 'moon-outline'}
+        color={Theme.primaryColor}
         size={24}
       />
-      <Ionicons name={area ? 'ios-chevron-up' : 'ios-chevron-down'} color="#736355" size={24} />
+      <Ionicons
+        name={area ? 'ios-chevron-up' : 'ios-chevron-down'}
+        color={Theme.primaryColor}
+        size={24}
+      />
     </D.WritingToggleWrap>
     <D.WritingArea
       multiline
