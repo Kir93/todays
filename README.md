@@ -24,5 +24,8 @@
   - [x] other folder naming changed
   - [x] screen file cleaning
   - [ ] code refactoring
+    - [ ] Diary
+    - [ ] List
+    - [ ] Month
 - [ ] Making AAB File
 - [ ] Real Using QA
