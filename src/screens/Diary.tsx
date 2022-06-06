@@ -50,11 +50,11 @@ const Diary = (): React.ReactElement => {
     if (!data) {
       setDayInput('');
       setMoonInput('');
-      return;
+    } else {
+      const parsingData = JSON.parse(data);
+      setDayInput(parsingData?.day);
+      setMoonInput(parsingData?.moon);
     }
-    const parsingData = JSON.parse(data);
-    setDayInput(parsingData?.day);
-    setMoonInput(parsingData?.moon);
   };
 
   const onInputAreaToggle = (type: string) => async () => {
@@ -96,27 +96,25 @@ const Diary = (): React.ReactElement => {
 
   return (
     <AppLayout onPress={onInputAreaToggle('')}>
-      <>
-        <GoodWord {...{ focus, message, author }} />
-        <DiaryInputArea
-          type="day"
-          value={dayInput}
-          area={dayInputArea}
-          done={Boolean(!focus && dayInput?.length)}
-          onChangeText={onChangeDayInput}
-          onInputAreaToggle={onInputAreaToggle}
-          onInputToggle={onInputToggle}
-        />
-        <DiaryInputArea
-          type="moon"
-          value={moonInput}
-          area={moonInputArea}
-          done={Boolean(!focus && moonInput?.length)}
-          onChangeText={onChangeMoonInput}
-          onInputAreaToggle={onInputAreaToggle}
-          onInputToggle={onInputToggle}
-        />
-      </>
+      <GoodWord {...{ focus, message, author }} />
+      <DiaryInputArea
+        type="day"
+        value={dayInput}
+        area={dayInputArea}
+        done={Boolean(!focus && dayInput?.length)}
+        onChangeText={onChangeDayInput}
+        onInputAreaToggle={onInputAreaToggle}
+        onInputToggle={onInputToggle}
+      />
+      <DiaryInputArea
+        type="moon"
+        value={moonInput}
+        area={moonInputArea}
+        done={Boolean(!focus && moonInput?.length)}
+        onChangeText={onChangeMoonInput}
+        onInputAreaToggle={onInputAreaToggle}
+        onInputToggle={onInputToggle}
+      />
     </AppLayout>
   );
 };

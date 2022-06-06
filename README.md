@@ -24,7 +24,7 @@
   - [x] other folder naming changed
   - [x] screen file cleaning
   - [ ] code refactoring
-    - [ ] Diary
+    - [x] Diary
     - [ ] List
     - [ ] Month
 - [ ] Making AAB File
