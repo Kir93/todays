@@ -28,30 +28,29 @@ const List = (): React.ReactElement => {
   const onNavigateMonthPage = () => navigation.navigate('Month');
   const onNavigateDiaryPage = (day: string) => () => navigation.navigate('Diary', { day });
 
-  const keyExtractor = useCallback(({ id }) => id, []);
+  const keyExtractor = ({ id }: IList) => id;
 
-  const getItemCount = useCallback(() => data.length, [data.length]);
+  const getItemCount = () => data?.length;
 
-  const getMonthData = async (monthData: IList) => {
-    const thisData = await AsyncStorage.getItem(monthData.id);
-    if (thisData) {
-      const parseData = JSON.parse(thisData);
-      return new Promise((resolve) => resolve({ ...monthData, ...parseData }));
+  const getMonthData = async ({ id, thisDay }: { id: string; thisDay: number }) => {
+    const thisMonthData = await AsyncStorage.getItem(id);
+    if (thisMonthData) {
+      const parseData = JSON.parse(thisMonthData);
+      return new Promise((resolve) => resolve(parseData));
     }
-    return new Promise((resolve) => resolve(monthData));
+    return new Promise((resolve) => resolve({ id, thisDay, day: '', moon: '' }));
   };
 
-  const getMonthDates = async (monthDates: IList[]) => {
+  const getMonthDates = async (monthDates: { id: string; thisDay: number }[]) => {
     const render = (await Promise.all(
       monthDates.map((v) => new Promise((resolve) => resolve(getMonthData(v)))),
     )) as IList[];
-    setData(render);
+    setData((prev) => [...prev, ...render]);
   };
 
   const getItem = useCallback((items, index) => items[index], []);
 
   const onEndReached = useCallback(() => {
-    const beforeData = data;
     let nextMonth = month - 1;
     let nextYear = year;
     if (month === 1) {
@@ -70,12 +69,10 @@ const List = (): React.ReactElement => {
       return {
         id,
         thisDay: nextDate - i,
-        day: '',
-        moon: '',
       };
     });
 
-    getMonthDates([...beforeData, ...nextDateData]);
+    getMonthDates(nextDateData);
   }, [data]);
   const MonthTitle = useMemo(
     () => (
