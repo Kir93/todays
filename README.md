@@ -25,7 +25,7 @@
   - [x] screen file cleaning
   - [ ] code refactoring
     - [x] Diary
-    - [ ] List
+    - [x] List
     - [ ] Month
 - [ ] Making AAB File
 - [ ] Real Using QA

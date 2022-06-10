@@ -2,18 +2,23 @@ import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import dayjs from 'dayjs';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { useNavigation } from '@react-navigation/native';
-import { TouchableOpacity, VirtualizedList } from 'react-native';
+import { ListRenderItem, TouchableOpacity, VirtualizedList } from 'react-native';
 
 import convertKey from '@utils/convertKey';
 
 import Text from '@atoms/Text';
 
-import AppLayout from '@components/AppLayout/AppLayout';
 import RenderCard from '@components/List/RenderCard';
+import AppLayout from '@components/AppLayout/AppLayout';
 
-interface IList {
+import L from '@components/List/List.styles';
+
+interface IListParts {
   id: string;
   thisDay: number;
+}
+
+interface IList extends IListParts {
   day: string;
   moon: string;
 }
@@ -30,18 +35,18 @@ const List = (): React.ReactElement => {
 
   const keyExtractor = ({ id }: IList) => id;
 
-  const getItemCount = () => data?.length;
+  const getItemCount = useCallback(() => data?.length, [data?.length]);
 
-  const getMonthData = async ({ id, thisDay }: { id: string; thisDay: number }) => {
+  const getMonthData = async ({ id, thisDay }: IListParts) => {
     const thisMonthData = await AsyncStorage.getItem(id);
     if (thisMonthData) {
       const parseData = JSON.parse(thisMonthData);
-      return new Promise((resolve) => resolve(parseData));
+      return new Promise((resolve) => resolve({ id, thisDay, ...parseData }));
     }
     return new Promise((resolve) => resolve({ id, thisDay, day: '', moon: '' }));
   };
 
-  const getMonthDates = async (monthDates: { id: string; thisDay: number }[]) => {
+  const getMonthDates = async (monthDates: IListParts[]) => {
     const render = (await Promise.all(
       monthDates.map((v) => new Promise((resolve) => resolve(getMonthData(v)))),
     )) as IList[];
@@ -74,6 +79,7 @@ const List = (): React.ReactElement => {
 
     getMonthDates(nextDateData);
   }, [data]);
+
   const MonthTitle = useMemo(
     () => (
       <TouchableOpacity onPress={onNavigateMonthPage}>
@@ -91,37 +97,36 @@ const List = (): React.ReactElement => {
 
   useEffect(() => {
     if (data?.length) return;
-    const defaultData = [...Array(toDay)].map((_, i) => {
-      const id = convertKey({
+    const defaultData = [...Array(toDay)].map((_, i) => ({
+      id: convertKey({
         year: year.toString(),
         month: month.toString(),
         day: (toDay - i).toString(),
-      });
-
-      return {
-        id,
-        thisDay: toDay - i,
-        day: '',
-        moon: '',
-      };
-    });
+      }),
+      thisDay: toDay - i,
+    }));
     getMonthDates(defaultData);
   }, []);
 
-  const renderItem = ({ item: { id, ...itemData } }: { item: IList }) => (
+  const renderItem: ListRenderItem<IList> = ({ item: { id, ...itemData } }) => (
     <RenderCard key={id} {...{ id, itemData, onNavigateDiaryPage }} />
   );
 
-  if (!data.length) return <Text>Loading...</Text>;
+  if (!data.length)
+    return (
+      <L.ListLoadingWrapper>
+        <Text>Loading...</Text>
+      </L.ListLoadingWrapper>
+    );
 
   return (
     <AppLayout>
       <VirtualizedList
         inverted
         removeClippedSubviews
+        initialNumToRender={toDay}
         onEndReachedThreshold={0.5}
         showsVerticalScrollIndicator={false}
-        initialNumToRender={toDay}
         {...{ data, keyExtractor, getItem, getItemCount, renderItem, onEndReached }}
       />
     </AppLayout>
