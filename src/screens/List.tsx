@@ -12,6 +12,7 @@ import RenderCard from '@components/List/RenderCard';
 import AppLayout from '@components/AppLayout/AppLayout';
 
 import L from '@components/List/List.styles';
+import A from '@components/AppLayout/AppLayout.styles';
 
 interface IListParts {
   id: string;
@@ -114,9 +115,9 @@ const List = (): React.ReactElement => {
 
   if (!data.length)
     return (
-      <L.ListLoadingWrapper>
+      <A.LoadingWrapper>
         <Text>Loading...</Text>
-      </L.ListLoadingWrapper>
+      </A.LoadingWrapper>
     );
 
   return (

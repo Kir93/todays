@@ -2,12 +2,6 @@ import styled from 'styled-components/native';
 
 import Text from '@atoms/Text';
 
-const ListLoadingWrapper = styled.View`
-  flex: 1;
-  justify-content: center;
-  align-items: center;
-`;
-
 const DayCardWrapper = styled.TouchableOpacity`
   flex-direction: row;
   align-items: center;
@@ -50,7 +44,6 @@ export const ListHeaderText = styled(Text)`
 `;
 
 const L = {
-  ListLoadingWrapper,
   DayCardWrapper,
   CardContentsWrap,
   DetailContentsWrap,
