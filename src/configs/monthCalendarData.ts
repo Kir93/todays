@@ -1,4 +1,9 @@
-const monthLocaleData = {
+export const monthDotData = {
+  sunny: { key: 'vacation', color: 'red' },
+  moon: { key: 'massage', color: 'blue' },
+};
+
+export const monthLocaleData = {
   monthNames: [
     '1월 ',
     '2월 ',
@@ -18,5 +23,3 @@ const monthLocaleData = {
   dayNamesShort: ['일', '월', '화', '수', '목', '금', '토'],
   today: '오늘',
 };
-
-export default monthLocaleData;

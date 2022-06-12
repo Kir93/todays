@@ -6,7 +6,7 @@ import { LocaleConfig } from 'react-native-calendars';
 import { useNavigation } from '@react-navigation/native';
 import { DateData } from 'react-native-calendars/src/types';
 
-import monthLocaleData from '@configs/monthLocaleData';
+import { monthDotData, monthLocaleData } from '@configs/monthCalendarData';
 import convertKey from '@utils/convertKey';
 
 import Text from '@atoms/Text';
@@ -24,9 +24,6 @@ interface DotProps {
 interface IMarkDate {
   [key: string]: { dots: DotProps[] };
 }
-
-const sunny = { key: 'vacation', color: 'red' };
-const moon = { key: 'massage', color: 'blue' };
 
 const Month = (): React.ReactElement => {
   const maxDate = dayjs().toDate().toDateString();
@@ -49,6 +46,7 @@ const Month = (): React.ReactElement => {
 
     thisMonth.forEach((v) => {
       if (v[1] === null) return;
+      const { sunny, moon } = monthDotData;
       const dayData = JSON.parse(v[1]);
       const dots: DotProps[] = [];
       if (dayData.day) dots.push(sunny);
