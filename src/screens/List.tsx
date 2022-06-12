@@ -11,7 +11,6 @@ import Text from '@atoms/Text';
 import RenderCard from '@components/List/RenderCard';
 import AppLayout from '@components/AppLayout/AppLayout';
 
-import L from '@components/List/List.styles';
 import A from '@components/AppLayout/AppLayout.styles';
 
 interface IListParts {
