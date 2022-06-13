@@ -1,5 +1,11 @@
 import styled from 'styled-components/native';
 
+const LoadingWrapper = styled.View`
+  flex: 1;
+  justify-content: center;
+  align-items: center;
+`;
+
 export const AvoidView = styled.Pressable`
   flex: 1;
 `;
@@ -11,6 +17,7 @@ export const SafeAreaView = styled.KeyboardAvoidingView`
 `;
 
 const A = {
+  LoadingWrapper,
   AvoidView,
   SafeAreaView,
 };
