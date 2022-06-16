@@ -7,12 +7,11 @@ import { useNavigation } from '@react-navigation/native';
 import { DateData } from 'react-native-calendars/src/types';
 
 import { monthDotData, monthLocaleData } from '@configs/monthCalendarData';
+
 import convertKey from '@utils/convertKey';
+import useBoolean from '@utils/useBoolean';
 
-import Text from '@atoms/Text';
 import AppLayout from '@components/AppLayout/AppLayout';
-
-import A from '@components/AppLayout/AppLayout.styles';
 import MonthCalendar from '@components/Month/Month.styles';
 
 LocaleConfig.defaultLocale = 'ko';
@@ -31,12 +30,13 @@ const Month = (): React.ReactElement => {
   const toMonth = dayjs().month() + 1;
   const navigation = useNavigation();
 
+  const [loading, toggleLoading] = useBoolean(true);
+
   const [year, setYear] = useState(dayjs().year());
   const [month, setMonth] = useState(toMonth);
   const [day, setDay] = useState(dayjs().date());
   const [disableArrowRight, setDisableArrowRight] = useState(true);
   const [markedDates, setMarkedDates] = useState<IMarkDate>({});
-  const [loading, setLoading] = useState(true);
 
   const getMonthData = useCallback(async () => {
     const defaultData = [...Array(day)].map((_v, i) =>
@@ -57,7 +57,7 @@ const Month = (): React.ReactElement => {
         return prev;
       });
     });
-    setLoading(false);
+    toggleLoading();
   }, [month]);
 
   const onVisibleMonthsChange = useCallback(
@@ -84,15 +84,8 @@ const Month = (): React.ReactElement => {
     getMonthData();
   }, [getMonthData]);
 
-  if (loading)
-    return (
-      <A.LoadingWrapper>
-        <Text>Loading...</Text>
-      </A.LoadingWrapper>
-    );
-
   return (
-    <AppLayout>
+    <AppLayout loading={loading}>
       <MonthCalendar
         hideExtraDays
         markingType="multi-dot"

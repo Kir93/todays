@@ -28,6 +28,7 @@ const Diary = (): React.ReactElement => {
   const [{ year, month, day }, setDate] = useState(getToday());
 
   const [focus, , setFocus] = useBoolean(false);
+  const [loading, toggleLoading] = useBoolean(true);
   const [dayInputArea, toggleDayInputArea] = useBoolean(false);
   const [moonInputArea, toggleMoonInputArea] = useBoolean(false);
 
@@ -92,10 +93,11 @@ const Diary = (): React.ReactElement => {
       setDate(getToday());
       getTodayData();
     }
+    toggleLoading();
   }, [router.params]);
 
   return (
-    <AppLayout onPress={onInputAreaToggle('')}>
+    <AppLayout loading={loading} onPress={onInputAreaToggle('')}>
       <GoodWord {...{ focus, message, author }} />
       <DiaryInputArea
         type="day"

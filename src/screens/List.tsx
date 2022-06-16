@@ -11,8 +11,6 @@ import Text from '@atoms/Text';
 import RenderCard from '@components/List/RenderCard';
 import AppLayout from '@components/AppLayout/AppLayout';
 
-import A from '@components/AppLayout/AppLayout.styles';
-
 interface IListParts {
   id: string;
   thisDay: number;
@@ -112,15 +110,8 @@ const List = (): React.ReactElement => {
     <RenderCard key={id} {...{ id, itemData, onNavigateDiaryPage }} />
   );
 
-  if (!data.length)
-    return (
-      <A.LoadingWrapper>
-        <Text>Loading...</Text>
-      </A.LoadingWrapper>
-    );
-
   return (
-    <AppLayout>
+    <AppLayout loading={!data.length}>
       <VirtualizedList
         inverted
         removeClippedSubviews
