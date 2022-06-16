@@ -26,55 +26,51 @@ interface IMarkDate {
 }
 
 const Month = (): React.ReactElement => {
-  const maxDate = dayjs().toDate().toDateString();
-  const toMonth = dayjs().month() + 1;
   const navigation = useNavigation();
+  const toMonth = dayjs().month() + 1;
+  const maxDate = dayjs().toDate().toDateString();
 
   const [loading, toggleLoading] = useBoolean(true);
 
-  const [year, setYear] = useState(dayjs().year());
   const [month, setMonth] = useState(toMonth);
   const [day, setDay] = useState(dayjs().date());
-  const [disableArrowRight, setDisableArrowRight] = useState(true);
+  const [year, setYear] = useState(dayjs().year());
   const [markedDates, setMarkedDates] = useState<IMarkDate>({});
+  const [disableArrowRight, setDisableArrowRight] = useState(true);
 
   const getMonthData = useCallback(async () => {
-    const defaultData = [...Array(day)].map((_v, i) =>
-      convertKey({ year: year.toString(), month: month.toString(), day: i.toString() }),
+    const defaultData = [...Array(day)].map((_, monthDay) =>
+      convertKey({ year: year.toString(), month: month.toString(), day: monthDay.toString() }),
     );
 
-    const thisMonth = await AsyncStorage.multiGet(defaultData);
+    const thisMonthData = await AsyncStorage.multiGet(defaultData);
 
-    thisMonth.forEach((v) => {
-      if (v[1] === null) return;
+    thisMonthData.forEach((monthDayData) => {
+      if (monthDayData[1] === null) return;
       const { sunny, moon } = monthDotData;
-      const dayData = JSON.parse(v[1]);
+      const dayData = JSON.parse(monthDayData[1]);
       const dots: DotProps[] = [];
       if (dayData.day) dots.push(sunny);
       if (dayData.moon) dots.push(moon);
       setMarkedDates((prev) => {
-        prev[`${v[0]}`] = { dots };
+        prev[`${monthDayData[0]}`] = { dots };
         return prev;
       });
     });
     toggleLoading();
   }, [month]);
 
-  const onVisibleMonthsChange = useCallback(
-    (date: DateData[]) => {
-      const { year: localYear, month: localMonth, dateString } = date[0];
-      setYear(localYear);
-      setMonth(localMonth);
-      setDay(dayjs(dateString).daysInMonth());
-      setDisableArrowRight(localMonth === toMonth);
-    },
-    [toMonth],
-  );
+  const onVisibleMonthsChange = ([
+    { year: localYear, month: localMonth, dateString },
+  ]: DateData[]) => {
+    setYear(localYear);
+    setMonth(localMonth);
+    setDay(dayjs(dateString).daysInMonth());
+    setDisableArrowRight(localMonth === toMonth);
+  };
 
-  const onDayPress = useCallback(
-    (data) => navigation.navigate('Diary', { day: `${data.year}-${data.month}-${data.day}` }),
-    [navigation],
-  );
+  const onDayPress = ({ year: pressYear, month: pressMonth, day: pressDay }: DateData) =>
+    navigation.navigate('Diary', { day: `${pressYear}-${pressMonth}-${pressDay}` });
 
   useEffect(() => {
     navigation.setOptions({ headerTitle: `${year} 年` });
