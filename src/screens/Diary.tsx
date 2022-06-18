@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { Keyboard, TouchableOpacity } from 'react-native';
 import { useNavigation, useRoute } from '@react-navigation/native';
@@ -17,18 +17,20 @@ import AppLayout from '@components/AppLayout/AppLayout';
 import DiaryInputArea from '@components/Diary/DiaryInputArea';
 
 interface IParams {
+  year: string;
+  month: string;
   day: string;
 }
 
 const Diary = (): React.ReactElement => {
   const router = useRoute();
+  const param = router?.params as IParams;
   const navigation = useNavigation();
   const [randomNumber, setRandomNumber] = useState(0);
   const { message, author } = maxim[randomNumber];
-  const [{ year, month, day }, setDate] = useState(getToday());
+  const [date, setDate] = useState(getToday());
 
   const [focus, , setFocus] = useBoolean(false);
-  const [loading, toggleLoading] = useBoolean(true);
   const [dayInputArea, toggleDayInputArea] = useBoolean(false);
   const [moonInputArea, toggleMoonInputArea] = useBoolean(false);
 
@@ -37,17 +39,8 @@ const Diary = (): React.ReactElement => {
 
   const onNavigateListPage = () => navigation.navigate('List');
 
-  const DayTitle = useMemo(
-    () => (
-      <TouchableOpacity onPress={onNavigateListPage}>
-        <Text>{`${day} 日`}</Text>
-      </TouchableOpacity>
-    ),
-    [onNavigateListPage, day],
-  );
-
-  const getTodayData = async (getDate?: string) => {
-    const data = await AsyncStorage.getItem(getDate ?? convertKey({ year, month, day }));
+  const getTodayData = useCallback(async (getDate?: string) => {
+    const data = await AsyncStorage.getItem(getDate ?? convertKey(date));
     if (!data) {
       setDayInput('');
       setMoonInput('');
@@ -56,12 +49,12 @@ const Diary = (): React.ReactElement => {
       setDayInput(parsingData?.day);
       setMoonInput(parsingData?.moon);
     }
-  };
+  }, []);
 
   const onInputAreaToggle = (type: string) => async () => {
     setFocus(false);
     await AsyncStorage.setItem(
-      convertKey({ year, month, day }),
+      convertKey(date),
       JSON.stringify({ day: dayInput, moon: moonInput }),
     );
     Keyboard.dismiss();
@@ -79,25 +72,26 @@ const Diary = (): React.ReactElement => {
     const newRandomNumber = Math.floor(Math.random() * maxim.length);
     setRandomNumber(newRandomNumber);
     navigation.setOptions({
-      headerTitle: DayTitle,
+      headerTitle: (
+        <TouchableOpacity onPress={onNavigateListPage}>
+          <Text>{`${date?.day} 日`}</Text>
+        </TouchableOpacity>
+      ),
     });
-  }, [maxim, DayTitle, navigation]);
+  }, [date]);
 
   useEffect(() => {
-    if (router.params) {
-      const { day: paramDay } = router.params as IParams;
-      const [otherYear, otherMonth, otherDay] = paramDay.split('-');
-      setDate({ year: otherYear, month: otherMonth, day: otherDay });
-      getTodayData(paramDay);
-    } else {
-      setDate(getToday());
-      getTodayData();
-    }
-    toggleLoading();
-  }, [router.params]);
+    if (!param) return;
+    setDate((prev) => ({
+      year: prev.year !== param.year ? param.year : prev.year,
+      month: prev.month !== param.month ? param.month : prev.month,
+      day: param.day,
+    }));
+    getTodayData(param.day);
+  }, [param]);
 
   return (
-    <AppLayout loading={loading} onPress={onInputAreaToggle('')}>
+    <AppLayout onPress={onInputAreaToggle('')}>
       <GoodWord {...{ focus, message, author }} />
       <DiaryInputArea
         type="day"

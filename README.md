@@ -28,5 +28,8 @@
     - [x] List
     - [x] Month
 - [ ] Final Code Refactoring
+  - [x] Diary
+  - [ ] List
+  - [ ] Month
 - [ ] Making AAB File
 - [ ] Real Using QA

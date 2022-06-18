@@ -29,7 +29,10 @@ const List = (): React.ReactElement => {
   const [data, setData] = useState<IList[]>([]);
 
   const onNavigateMonthPage = () => navigation.navigate('Month');
-  const onNavigateDiaryPage = (day: string) => () => navigation.navigate('Diary', { day });
+  const onNavigateDiaryPage = (date: string) => () => {
+    const [paramYear, paramMonth, paramDay] = date.split('-');
+    navigation.navigate('Diary', { year: paramYear, month: paramMonth, day: paramDay });
+  };
 
   const keyExtractor = ({ id }: IList) => id;
 
