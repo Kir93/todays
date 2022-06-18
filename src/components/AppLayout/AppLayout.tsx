@@ -4,11 +4,11 @@ import A from './AppLayout.styles';
 
 interface IProps {
   children: JSX.Element | JSX.Element[];
-  loading: boolean;
+  loading?: boolean;
   onPress?: () => void;
 }
 
-const AppLayout: FC<IProps> = ({ children, loading = true, onPress }) =>
+const AppLayout: FC<IProps> = ({ children, loading, onPress }) =>
   loading ? (
     <A.LoadingWrapper>
       <Text>Loading...</Text>
@@ -22,5 +22,6 @@ const AppLayout: FC<IProps> = ({ children, loading = true, onPress }) =>
 export default AppLayout;
 
 AppLayout.defaultProps = {
+  loading: false,
   onPress: () => {},
 };
