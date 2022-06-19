@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useMemo, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import dayjs from 'dayjs';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { useNavigation } from '@react-navigation/native';
@@ -36,18 +36,18 @@ const List = (): React.ReactElement => {
 
   const keyExtractor = ({ id }: IList) => id;
 
-  const getItemCount = useCallback(() => data?.length, [data?.length]);
-
-  const getMonthData = async ({ id, thisDay }: IListParts) => {
-    const thisMonthData = await AsyncStorage.getItem(id);
-    if (thisMonthData) {
-      const parseData = JSON.parse(thisMonthData);
-      return new Promise((resolve) => resolve({ id, thisDay, ...parseData }));
-    }
-    return new Promise((resolve) => resolve({ id, thisDay, day: '', moon: '' }));
-  };
+  const getItemCount = () => data?.length;
 
   const getMonthDates = async (monthDates: IListParts[]) => {
+    const getMonthData = async ({ id, thisDay }: IListParts) => {
+      const thisMonthData = await AsyncStorage.getItem(id);
+      if (thisMonthData) {
+        const parseData = JSON.parse(thisMonthData);
+        return new Promise((resolve) => resolve({ id, thisDay, ...parseData }));
+      }
+      return new Promise((resolve) => resolve({ id, thisDay, day: '', moon: '' }));
+    };
+
     const render = (await Promise.all(
       monthDates.map((v) => new Promise((resolve) => resolve(getMonthData(v)))),
     )) as IList[];
@@ -81,20 +81,15 @@ const List = (): React.ReactElement => {
     getMonthDates(nextDateData);
   }, [data]);
 
-  const MonthTitle = useMemo(
-    () => (
-      <TouchableOpacity onPress={onNavigateMonthPage}>
-        <Text>{year}年</Text>
-      </TouchableOpacity>
-    ),
-    [year, onNavigateMonthPage],
-  );
-
   useEffect(() => {
     navigation.setOptions({
-      headerTitle: MonthTitle,
+      headerTitle: (
+        <TouchableOpacity onPress={onNavigateMonthPage}>
+          <Text>{year}年</Text>
+        </TouchableOpacity>
+      ),
     });
-  }, [MonthTitle]);
+  }, [year]);
 
   useEffect(() => {
     if (data?.length) return;
