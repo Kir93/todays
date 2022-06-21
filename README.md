@@ -31,5 +31,5 @@
   - [x] Diary
   - [x] List
   - [x] Month
-- [ ] Making Android APK File
+- [x] Making Android APK File
 - [ ] Real Using QA
