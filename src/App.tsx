@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import * as Font from 'expo-font';
 import * as SplashScreen from 'expo-splash-screen';
+import { StatusBar } from 'expo-status-bar';
 import { Ionicons } from '@expo/vector-icons';
 import { ThemeProvider } from 'styled-components/native';
 import { NavigationContainer } from '@react-navigation/native';
@@ -61,13 +62,13 @@ export default function App(): React.ReactElement {
   useEffect(() => {
     preload();
   }, []);
-
   if (loading) return <></>;
 
   return (
     <ThemeProvider theme={Theme}>
       <SafeAreaProvider>
         <NavigationContainer>
+          <StatusBar hidden backgroundColor={Theme.backgroundColor} />
           <DiaryStackNav />
         </NavigationContainer>
       </SafeAreaProvider>
