@@ -4,6 +4,7 @@
   "expo": {
     "name": "todays",
     "slug": "todays",
+    "sdkVersion": "45.0.0",
     "version": "1.0.0",
     "assetBundlePatterns": ["**/*"],
     "jsEngine": "hermes",
