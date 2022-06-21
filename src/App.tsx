@@ -14,6 +14,7 @@ import {
 
 import Theme from '@styles/theme';
 import DiaryStackNav from '@navigators/DiaryStackNav';
+import { Alert, BackHandler } from 'react-native';
 
 export default function App(): React.ReactElement {
   const [loading, setLoading] = useState(true);
@@ -38,6 +39,24 @@ export default function App(): React.ReactElement {
       setLoading(false);
     }
   };
+
+  useEffect(() => {
+    const backAction = () => {
+      Alert.alert('Todays를 종료하시겠습니까?', '오늘도 즐거운 하루 되세요 :)', [
+        {
+          text: '취소',
+          onPress: () => null,
+          style: 'cancel',
+        },
+        { text: '네', onPress: () => BackHandler.exitApp() },
+      ]);
+      return true;
+    };
+
+    const backHandler = BackHandler.addEventListener('hardwareBackPress', backAction);
+
+    return () => backHandler.remove();
+  }, []);
 
   useEffect(() => {
     preload();
