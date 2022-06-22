@@ -2,7 +2,7 @@ import React, { useCallback, useEffect, useState } from 'react';
 import dayjs from 'dayjs';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { useNavigation } from '@react-navigation/native';
-import { ListRenderItem, TouchableOpacity, View, VirtualizedList } from 'react-native';
+import { ListRenderItem, TouchableOpacity, VirtualizedList } from 'react-native';
 
 import convertKey from '@utils/convertKey';
 
