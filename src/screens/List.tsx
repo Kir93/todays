@@ -2,7 +2,7 @@ import React, { useCallback, useEffect, useState } from 'react';
 import dayjs from 'dayjs';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { useNavigation } from '@react-navigation/native';
-import { ListRenderItem, TouchableOpacity, VirtualizedList } from 'react-native';
+import { ListRenderItem, TouchableOpacity, View, VirtualizedList } from 'react-native';
 
 import convertKey from '@utils/convertKey';
 
@@ -10,6 +10,7 @@ import Text from '@atoms/Text';
 
 import RenderCard from '@components/List/RenderCard';
 import AppLayout from '@components/AppLayout/AppLayout';
+import L from '@components/List/List.styles';
 
 interface IListParts {
   id: string;
@@ -116,6 +117,7 @@ const List = (): React.ReactElement => {
         initialNumToRender={toDay}
         onEndReachedThreshold={0.5}
         showsVerticalScrollIndicator={false}
+        ListHeaderComponent={<L.ListHeaderPaddingView />}
         {...{ data, keyExtractor, getItem, getItemCount, renderItem, onEndReached }}
       />
     </AppLayout>

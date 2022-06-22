@@ -2,6 +2,10 @@ import styled from 'styled-components/native';
 
 import Text from '@atoms/Text';
 
+const ListHeaderPaddingView = styled.View`
+  padding-bottom: 35px;
+`;
+
 const DayCardWrapper = styled.TouchableOpacity`
   flex-direction: row;
   align-items: center;
@@ -44,6 +48,7 @@ export const ListHeaderText = styled(Text)`
 `;
 
 const L = {
+  ListHeaderPaddingView,
   DayCardWrapper,
   CardContentsWrap,
   DetailContentsWrap,
