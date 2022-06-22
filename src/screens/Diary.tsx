@@ -37,8 +37,6 @@ const Diary = (): React.ReactElement => {
   const [dayInput, onChangeDayInput, setDayInput] = useInput('');
   const [moonInput, onChangeMoonInput, setMoonInput] = useInput('');
 
-  const onNavigateListPage = () => navigation.navigate('List');
-
   const getTodayData = useCallback(async (getDate?: string) => {
     const data = await AsyncStorage.getItem(getDate ?? convertKey(date));
     if (!data) {
@@ -71,6 +69,12 @@ const Diary = (): React.ReactElement => {
   useEffect(() => {
     const newRandomNumber = Math.floor(Math.random() * maxim.length);
     setRandomNumber(newRandomNumber);
+    const onNavigateListPage = () => {
+      if (focus) {
+        onInputAreaToggle('')();
+      } else navigation.navigate('List');
+    };
+
     navigation.setOptions({
       headerTitle: (
         <TouchableOpacity onPress={onNavigateListPage}>
@@ -78,16 +82,16 @@ const Diary = (): React.ReactElement => {
         </TouchableOpacity>
       ),
     });
-  }, [date]);
+  }, [focus, date]);
 
   useEffect(() => {
-    if (!param) return;
-    setDate((prev) => ({
-      year: prev.year !== param.year ? param.year : prev.year,
-      month: prev.month !== param.month ? param.month : prev.month,
-      day: param.day,
-    }));
-    getTodayData(param.day);
+    if (param?.year)
+      setDate((prev) => ({
+        year: prev.year !== param.year ? param.year : prev.year,
+        month: prev.month !== param.month ? param.month : prev.month,
+        day: param.day,
+      }));
+    getTodayData(param?.year ? `${param.year}-${param.month}-${param.day}` : undefined);
   }, [param]);
 
   return (
