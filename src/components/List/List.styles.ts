@@ -15,6 +15,7 @@ const DayCardWrapper = styled.TouchableOpacity`
   padding: 15px;
   padding-right: 20px;
   margin: 5px 15px;
+  height: 100px;
 `;
 const CardContentsWrap = styled.View`
   width: 75%;
@@ -24,7 +25,7 @@ const CardContentsWrap = styled.View`
 const DetailContentsWrap = styled.View`
   flex-direction: row;
   align-items: center;
-  margin: 3px 0;
+  height: 35px;
 `;
 
 const CardDayText = styled(Text)`
@@ -35,7 +36,9 @@ const CardDayText = styled(Text)`
 `;
 
 const CardText = styled(Text)`
-  padding-left: 10px;
+  flex-shrink: 1;
+  margin-left: 10px;
+  line-height: 18px;
   font-size: 16px;
 `;
 

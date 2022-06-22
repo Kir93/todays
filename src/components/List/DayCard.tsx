@@ -20,7 +20,7 @@ const DayCard: FC<IProps> = ({ id, thisDay, day = '', moon = '', onPress }) => (
       </L.DetailContentsWrap>
       <L.DetailContentsWrap>
         <Ionicons name="moon-outline" color="#736355" size={18} />
-        <L.CardText>{moon}</L.CardText>
+        <L.CardText numberOfLines={1}>{moon}</L.CardText>
       </L.DetailContentsWrap>
     </L.CardContentsWrap>
   </L.DayCardWrapper>
