@@ -6,11 +6,11 @@ const LoadingWrapper = styled.View`
   align-items: center;
 `;
 
-export const AvoidView = styled.Pressable`
+const AvoidView = styled.Pressable`
   flex: 1;
 `;
 
-export const SafeAreaView = styled.KeyboardAvoidingView`
+const SafeAreaView = styled.KeyboardAvoidingView`
   flex: 1;
   padding: 12px 24px;
   background-color: ${(props) => props.theme.backgroundColor};
