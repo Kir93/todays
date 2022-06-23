@@ -73,9 +73,8 @@ const Diary = (): React.ReactElement => {
     const newRandomNumber = Math.floor(Math.random() * maxim.length);
     setRandomNumber(newRandomNumber);
     const onNavigateListPage = () => {
-      if (focus) {
-        onInputAreaToggle('')();
-      } else navigation.navigate('List');
+      onInputAreaToggle('')();
+      navigation.navigate('List');
     };
 
     navigation.setOptions({
@@ -85,7 +84,7 @@ const Diary = (): React.ReactElement => {
         </TouchableOpacity>
       ),
     });
-  }, [focus, date]);
+  }, [dayInput, moonInput, date]);
 
   useEffect(() => {
     setLoading(true);
