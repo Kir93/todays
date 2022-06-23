@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { Keyboard, TouchableOpacity } from 'react-native';
 import { useNavigation, useRoute } from '@react-navigation/native';
@@ -27,7 +27,6 @@ const Diary = (): React.ReactElement => {
   const param = router?.params as IParams;
   const navigation = useNavigation();
   const [randomNumber, setRandomNumber] = useState(0);
-  const { message, author } = maxim[randomNumber];
   const [date, setDate] = useState(getToday());
   const [loading, setLoading] = useState(true);
 
@@ -37,6 +36,8 @@ const Diary = (): React.ReactElement => {
 
   const [dayInput, onChangeDayInput, setDayInput] = useInput('');
   const [moonInput, onChangeMoonInput, setMoonInput] = useInput('');
+
+  const { message, author } = useMemo(() => maxim[randomNumber], [randomNumber]);
 
   const getTodayData = async (getDate: string) => {
     const data = await AsyncStorage.getItem(getDate);
