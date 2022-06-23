@@ -24,11 +24,12 @@ interface IMarkDate {
   [key: string]: { dots: DotProps[] };
 }
 
+const toYear = dayjs().year();
+const toMonth = dayjs().month() + 1;
+const maxDate = dayjs().toDate().toDateString();
+
 const Month = (): React.ReactElement => {
   const navigation = useNavigation();
-  const toYear = dayjs().year();
-  const toMonth = dayjs().month() + 1;
-  const maxDate = dayjs().toDate().toDateString();
 
   const [year, setYear] = useState(toYear);
   const [month, setMonth] = useState(toMonth);
