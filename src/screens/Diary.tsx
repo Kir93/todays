@@ -27,7 +27,7 @@ const Diary = (): React.ReactElement => {
   const param = router?.params as IParams;
   const navigation = useNavigation();
   const [randomNumber, setRandomNumber] = useState(0);
-  const [date, setDate] = useState(getToday());
+  const [date, setDate] = useState(() => getToday());
   const [loading, setLoading] = useState(true);
 
   const [focus, , setFocus] = useBoolean(false);

@@ -25,8 +25,8 @@ interface IList extends IListParts {
 const List = (): React.ReactElement => {
   const toDay = dayjs().date();
   const navigation = useNavigation();
-  const [year, setYear] = useState(dayjs().year());
-  const [month, setMonth] = useState(dayjs().month() + 1);
+  const [year, setYear] = useState(() => dayjs().year());
+  const [month, setMonth] = useState(() => dayjs().month() + 1);
   const [data, setData] = useState<IList[]>([]);
 
   const onNavigateMonthPage = () => navigation.navigate('Month');
