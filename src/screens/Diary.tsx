@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { Keyboard, TouchableOpacity } from 'react-native';
 import { useNavigation, useRoute } from '@react-navigation/native';
@@ -29,6 +29,7 @@ const Diary = (): React.ReactElement => {
   const [randomNumber, setRandomNumber] = useState(0);
   const { message, author } = maxim[randomNumber];
   const [date, setDate] = useState(getToday());
+  const [loading, setLoading] = useState(true);
 
   const [focus, , setFocus] = useBoolean(false);
   const [dayInputArea, toggleDayInputArea] = useBoolean(false);
@@ -37,8 +38,8 @@ const Diary = (): React.ReactElement => {
   const [dayInput, onChangeDayInput, setDayInput] = useInput('');
   const [moonInput, onChangeMoonInput, setMoonInput] = useInput('');
 
-  const getTodayData = useCallback(async (getDate?: string) => {
-    const data = await AsyncStorage.getItem(getDate ?? convertKey(date));
+  const getTodayData = async (getDate: string) => {
+    const data = await AsyncStorage.getItem(getDate);
     if (!data) {
       setDayInput('');
       setMoonInput('');
@@ -47,7 +48,8 @@ const Diary = (): React.ReactElement => {
       setDayInput(parsingData?.day);
       setMoonInput(parsingData?.moon);
     }
-  }, []);
+    setLoading(false);
+  };
 
   const onInputAreaToggle = (type: string) => async () => {
     setFocus(false);
@@ -85,17 +87,21 @@ const Diary = (): React.ReactElement => {
   }, [focus, date]);
 
   useEffect(() => {
-    if (param?.year)
+    setLoading(true);
+    let getDateKey = convertKey(date);
+    if (param) {
+      getDateKey = convertKey(param);
       setDate((prev) => ({
-        year: prev.year !== param.year ? param.year : prev.year,
-        month: prev.month !== param.month ? param.month : prev.month,
-        day: param.day,
+        year: prev?.year !== param?.year ? param?.year : prev?.year,
+        month: prev?.month !== param?.month ? param?.month : prev?.month,
+        day: param?.day,
       }));
-    getTodayData(param?.year ? `${param.year}-${param.month}-${param.day}` : undefined);
+    }
+    getTodayData(getDateKey);
   }, [param]);
 
   return (
-    <AppLayout onPress={onInputAreaToggle('')}>
+    <AppLayout loading={loading} onPress={onInputAreaToggle('')}>
       <GoodWord {...{ focus, message, author }} />
       <DiaryInputArea
         type="day"
