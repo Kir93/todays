@@ -16,6 +16,7 @@ import {
 import Theme from '@styles/theme';
 import DiaryStackNav from '@navigators/DiaryStackNav';
 import { Alert, BackHandler } from 'react-native';
+import LoadingScreen from '@components/LoadingScreen/LoadingScreen';
 
 export default function App(): React.ReactElement {
   const [loading, setLoading] = useState(true);
@@ -62,7 +63,8 @@ export default function App(): React.ReactElement {
   useEffect(() => {
     preload();
   }, []);
-  if (loading) return <></>;
+
+  if (loading) return <LoadingScreen />;
 
   return (
     <ThemeProvider theme={Theme}>
