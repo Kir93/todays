@@ -13,6 +13,7 @@
     },
     "ios": {
       "bundleIdentifier": "todays.kr"
-    }
+    },
+    "description": ""
   }
 }
