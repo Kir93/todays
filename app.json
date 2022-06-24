@@ -5,9 +5,7 @@
     "name": "todays",
     "slug": "todays",
     "version": "1.0.0",
-    "assetBundlePatterns": [
-      "**/*"
-    ],
+    "assetBundlePatterns": ["**/*"],
     "jsEngine": "hermes",
     "android": {
       "package": "todays.kr",
