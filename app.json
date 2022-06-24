@@ -4,15 +4,25 @@
   "expo": {
     "name": "todays",
     "slug": "todays",
-    "sdkVersion": "45.0.0",
     "version": "1.0.0",
-    "assetBundlePatterns": ["**/*"],
+    "assetBundlePatterns": [
+      "**/*"
+    ],
     "jsEngine": "hermes",
     "android": {
-      "package": "todays.kr"
+      "package": "todays.kr",
+      "adaptiveIcon": {
+        "foregroundImage": "./src/assets/icon.png",
+        "backgroundColor": "#f2f0f0"
+      }
     },
     "ios": {
       "bundleIdentifier": "todays.kr"
+    },
+    "icon": "./src/assets/icon.png",
+    "splash": {
+      "image": "./src/assets/splash.png",
+      "resizeMode": "cover"
     },
     "description": ""
   }
