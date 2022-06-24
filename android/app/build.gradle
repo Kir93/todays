@@ -178,16 +178,7 @@ android {
             }
         }
     }
-    signingConfigs {
-        release {
-            if (project.hasProperty('TODAYS_STORE_FILE')) {
-                storeFile file(TODAYS_STORE_FILE)
-                storePassword TODAYS_STORE_PASSWORD
-                keyAlias TODAYS_KEY_ALIAS
-                keyPassword TODAYS_KEY_PASSWORD
-            }
-        }
-    }
+
     if (isNewArchitectureEnabled()) {
         // We configure the NDK build only if you decide to opt-in for the New Architecture.
         externalNativeBuild {
@@ -252,7 +243,7 @@ android {
         release {
             // Caution! In production, you need to generate your own keystore file.
             // see https://reactnative.dev/docs/signed-apk-android.
-            signingConfig signingConfigs.release
+            signingConfig signingConfigs.debug
             minifyEnabled enableProguardInReleaseBuilds
             proguardFiles getDefaultProguardFile("proguard-android.txt"), "proguard-rules.pro"
         }
