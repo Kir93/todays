@@ -1,7 +1,8 @@
 import React, { useCallback, useEffect, useState } from 'react';
 import dayjs from 'dayjs';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import { useNavigation } from '@react-navigation/native';
+import { StackNavigationProp } from '@react-navigation/stack';
+import { ParamListBase, useNavigation } from '@react-navigation/native';
 import { ListRenderItem, TouchableOpacity, VirtualizedList } from 'react-native';
 
 import convertKey from '@utils/convertKey';
@@ -10,6 +11,7 @@ import Text from '@atoms/Text';
 
 import RenderCard from '@components/List/RenderCard';
 import AppLayout from '@components/AppLayout/AppLayout';
+
 import L from '@components/List/List.styles';
 
 interface IListParts {
@@ -24,7 +26,7 @@ interface IList extends IListParts {
 
 const List = (): React.ReactElement => {
   const toDay = dayjs().date();
-  const navigation = useNavigation();
+  const navigation = useNavigation<StackNavigationProp<ParamListBase>>();
   const [year, setYear] = useState(() => dayjs().year());
   const [month, setMonth] = useState(() => dayjs().month() + 1);
   const [data, setData] = useState<IList[]>([]);
@@ -32,7 +34,7 @@ const List = (): React.ReactElement => {
   const onNavigateMonthPage = () => navigation.navigate('Month');
   const onNavigateDiaryPage = (date: string) => () => {
     const [paramYear, paramMonth, paramDay] = date.split('-');
-    navigation.navigate('Diary', { year: paramYear, month: paramMonth, day: paramDay });
+    navigation.push('Diary', { year: paramYear, month: paramMonth, day: paramDay });
   };
 
   const keyExtractor = ({ id }: IList) => id;
@@ -84,7 +86,7 @@ const List = (): React.ReactElement => {
 
   useEffect(() => {
     navigation.setOptions({
-      headerTitle: (
+      headerTitle: () => (
         <TouchableOpacity onPress={onNavigateMonthPage}>
           <Text>{year}年</Text>
         </TouchableOpacity>
