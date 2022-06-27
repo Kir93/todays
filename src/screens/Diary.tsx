@@ -74,7 +74,7 @@ const Diary = (): React.ReactElement => {
     setRandomNumber(newRandomNumber);
     const onNavigateListPage = () => {
       onInputAreaToggle('')();
-      navigation.navigate('List');
+      navigation.navigate('List', { oldToday: date?.day });
     };
 
     navigation.setOptions({
