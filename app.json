@@ -5,14 +5,16 @@
     "name": "todays",
     "slug": "todays",
     "version": "1.0.1",
-    "assetBundlePatterns": ["**/*"],
+    "assetBundlePatterns": [
+      "**/*"
+    ],
     "jsEngine": "hermes",
     "android": {
-      "package": "todays.kr",
       "adaptiveIcon": {
         "foregroundImage": "./src/assets/icon.png",
         "backgroundColor": "#f2f0f0"
-      }
+      },
+      "versionCode": 2
     },
     "ios": {
       "bundleIdentifier": "todays.kr"
