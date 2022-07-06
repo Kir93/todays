@@ -1,35 +1,34 @@
-# Develop List
+# Todays
 
-- [x] Month Able Days Color Changed
-- [x] Month Type Organized
-- [x] Month Day Press Route API Added
-- [x] Month, List Data Get Error Fixed
-- [x] Diary Screen Refactoring
-- [x] List Screen Refactoring
-- [x] Month Screen Refactoring
-- [x] App Loading Refactoring
-- [x] Diary Screen Keyboard Dismiss Fix
-- [x] Diary Screen TextArea Done Fix
-- [x] List Screen ListView changed VirtualizedList
-- [x] Month Screen Change Month Fix
-- [x] Month Screen 2nd Refactoring
-- [x] Android Test
-  - [x] Navigation
-  - [x] Diary
-  - [x] List
-  - [x] Month
-- [x] Code Refactoring 1st
-- [x] Code Refactoring 2nd
-  - [x] atoms, components folder cleaning
-  - [x] other folder naming changed
-  - [x] screen file cleaning
-  - [x] code refactoring
-    - [x] Diary
-    - [x] List
-    - [x] Month
-- [x] Final Code Refactoring
-  - [x] Diary
-  - [x] List
-  - [x] Month
-- [x] Making Android APK File
-- [ ] Real Using QA
+## 프로젝트 간단 설명
+
+하루의 루틴을 하나로 수행할 수 있는 App.
+
+## 필요 기능
+
+- 미완료 : :white_check_mark:
+- 완료 : :white_large_square:
+
+| 기능      | 진행 내용                                                 |      완료 여부       |
+| :-------- | :-------------------------------------------------------- | :------------------: |
+| 일기      | 매일의 아침 저녁 일기를 작성하여 list, month로 볼 수 있음 | :white_large_square: |
+| 할일 관리 | 매일의 할 일에 대해 작성하여 완료 여부를 체크             |                      |
+
+## 기술 스택
+
+| 이름              | 버전    |
+| :---------------- | :------ |
+| React             | v17.0.2 |
+| React-native      | v0.68.2 |
+| Expo              | v45.0.6 |
+| Styled-components | v5.3.0  |
+
+## Quick Start
+
+```
+git clone https://github.com/tirrilee-team02/todays.git
+cd todays
+yarn
+cd ios && pod install && cd ..
+yarn ios || yarn android
+```
