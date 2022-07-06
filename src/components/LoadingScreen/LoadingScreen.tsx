@@ -1,14 +1,9 @@
 import React from 'react';
-import { Image } from 'react-native';
 
 import Splash from '@assets/splash.png';
 
-import L from './LoadingScreen.styles';
+import Image from './LoadingScreen.styles';
 
-const LoadingScreen: React.FC = () => (
-  <L.Wrapper>
-    <Image source={Splash} resizeMode="cover" />
-  </L.Wrapper>
-);
+const LoadingScreen: React.FC = () => <Image source={Splash} />;
 
 export default LoadingScreen;
