@@ -1,5 +1,6 @@
-import Text from '@atoms/Text';
 import React, { FC } from 'react';
+
+import LoadingScreen from '@components/LoadingScreen/LoadingScreen';
 import A from './AppLayout.styles';
 
 interface IProps {
@@ -10,9 +11,7 @@ interface IProps {
 
 const AppLayout: FC<IProps> = ({ children, loading, onPress }) =>
   loading ? (
-    <A.LoadingWrapper>
-      <Text>Loading...</Text>
-    </A.LoadingWrapper>
+    <LoadingScreen />
   ) : (
     <A.AvoidView onPress={onPress}>
       <A.SafeAreaView>{children}</A.SafeAreaView>
