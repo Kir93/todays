@@ -4,7 +4,7 @@
   "expo": {
     "name": "todays",
     "slug": "todays",
-    "version": "1.0.1",
+    "version": "1.0.2",
     "assetBundlePatterns": [
       "**/*"
     ],
@@ -14,7 +14,7 @@
         "foregroundImage": "./src/assets/icon.png",
         "backgroundColor": "#f2f0f0"
       },
-      "versionCode": 3
+      "versionCode": 4
     },
     "ios": {
       "bundleIdentifier": "todays.kr"
