@@ -6,6 +6,7 @@ import { Ionicons } from '@expo/vector-icons';
 import { ThemeProvider } from 'styled-components/native';
 import { NavigationContainer } from '@react-navigation/native';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
+import { BackHandler, ToastAndroid } from 'react-native';
 
 import {
   NotoSansKR_400Regular,
@@ -15,11 +16,11 @@ import {
 
 import Theme from '@styles/theme';
 import DiaryStackNav from '@navigators/DiaryStackNav';
-import { Alert, BackHandler } from 'react-native';
 import LoadingScreen from '@components/LoadingScreen/LoadingScreen';
 
 export default function App(): React.ReactElement {
   const [loading, setLoading] = useState(true);
+  const [isExit, setIsExit] = useState(false);
 
   const preload = async () => {
     try {
@@ -44,21 +45,20 @@ export default function App(): React.ReactElement {
 
   useEffect(() => {
     const backAction = () => {
-      Alert.alert('Todays를 종료하시겠습니까?', '오늘도 즐거운 하루 되세요 :)', [
-        {
-          text: '취소',
-          onPress: () => null,
-          style: 'cancel',
-        },
-        { text: '네', onPress: () => BackHandler.exitApp() },
-      ]);
+      const resetTimeout = setTimeout(() => setIsExit(false), 2000);
+      if (isExit) {
+        BackHandler.exitApp();
+        clearTimeout(resetTimeout);
+      }
+      ToastAndroid.show('한번 더 누르시면 Todays가 종료됩니다! :)', 2000);
+      setIsExit(true);
       return true;
     };
 
     const backHandler = BackHandler.addEventListener('hardwareBackPress', backAction);
 
     return () => backHandler.remove();
-  }, []);
+  }, [isExit]);
 
   useEffect(() => {
     preload();
