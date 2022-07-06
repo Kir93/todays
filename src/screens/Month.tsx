@@ -12,6 +12,7 @@ import convertKey from '@utils/convertKey';
 
 import AppLayout from '@components/AppLayout/AppLayout';
 import MonthCalendar from '@components/Month/Month.styles';
+import Text from '@atoms/Text';
 
 LocaleConfig.defaultLocale = 'ko';
 LocaleConfig.locales.ko = monthLocaleData;
@@ -75,7 +76,7 @@ const Month = (): React.ReactElement => {
   }, [month]);
 
   useEffect(() => {
-    navigation.setOptions({ headerTitle: `${year} 年` });
+    navigation.setOptions({ headerTitle: <Text>{year} 年</Text> });
   }, [year]);
 
   useEffect(() => {
