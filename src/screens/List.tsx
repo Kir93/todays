@@ -67,7 +67,7 @@ const List = (): React.ReactElement => {
     setData((prev) => [...prev, ...render]);
   };
 
-  const getItem = useCallback((items, index) => items[index], []);
+  const getItem = useCallback((items: IList[], index: number) => items[index], []);
 
   const onEndReached = useCallback(() => {
     let nextMonth = month - 1;
