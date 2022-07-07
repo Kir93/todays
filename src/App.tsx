@@ -4,7 +4,7 @@ import * as SplashScreen from 'expo-splash-screen';
 import { StatusBar } from 'expo-status-bar';
 import { Ionicons } from '@expo/vector-icons';
 import { ThemeProvider } from 'styled-components/native';
-import { NavigationContainer } from '@react-navigation/native';
+import { createNavigationContainerRef, NavigationContainer } from '@react-navigation/native';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
 import { BackHandler, ToastAndroid } from 'react-native';
 
@@ -19,6 +19,7 @@ import DiaryStackNav from '@navigators/DiaryStackNav';
 import LoadingScreen from '@components/LoadingScreen/LoadingScreen';
 
 export default function App(): React.ReactElement {
+  const navigationRef = createNavigationContainerRef();
   const [loading, setLoading] = useState(true);
   const [isExit, setIsExit] = useState(false);
 
@@ -45,6 +46,7 @@ export default function App(): React.ReactElement {
 
   useEffect(() => {
     const backAction = () => {
+      if (navigationRef.current?.canGoBack()) return false;
       const resetTimeout = setTimeout(() => setIsExit(false), 2000);
       if (isExit) {
         BackHandler.exitApp();
@@ -69,7 +71,7 @@ export default function App(): React.ReactElement {
   return (
     <ThemeProvider theme={Theme}>
       <SafeAreaProvider>
-        <NavigationContainer>
+        <NavigationContainer ref={navigationRef}>
           <StatusBar hidden backgroundColor={Theme.backgroundColor} />
           <DiaryStackNav />
         </NavigationContainer>
