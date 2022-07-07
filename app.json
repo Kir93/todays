@@ -14,7 +14,7 @@
         "foregroundImage": "./src/assets/icon.png",
         "backgroundColor": "#f2f0f0"
       },
-      "versionCode": 4
+      "versionCode": 5
     },
     "ios": {
       "bundleIdentifier": "todays.kr"
