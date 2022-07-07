@@ -5,14 +5,18 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import { LocaleConfig } from 'react-native-calendars';
 import { useNavigation } from '@react-navigation/native';
 import { DateData } from 'react-native-calendars/src/types';
+import { StackNavigationProp } from '@react-navigation/stack';
 
 import { monthDotData, monthLocaleData } from '@configs/monthCalendarData';
 
+import { DiaryStackNavParamList } from '@navigators/DiaryStackNav';
+
 import convertKey from '@utils/convertKey';
+
+import Text from '@atoms/Text';
 
 import AppLayout from '@components/AppLayout/AppLayout';
 import MonthCalendar from '@components/Month/Month.styles';
-import Text from '@atoms/Text';
 
 LocaleConfig.defaultLocale = 'ko';
 LocaleConfig.locales.ko = monthLocaleData;
@@ -30,7 +34,7 @@ const toMonth = dayjs().month() + 1;
 const maxDate = dayjs().toDate().toDateString();
 
 const Month = (): React.ReactElement => {
-  const navigation = useNavigation();
+  const navigation = useNavigation<StackNavigationProp<DiaryStackNavParamList>>();
 
   const [year, setYear] = useState(toYear);
   const [month, setMonth] = useState(toMonth);
@@ -76,7 +80,7 @@ const Month = (): React.ReactElement => {
   }, [month]);
 
   useEffect(() => {
-    navigation.setOptions({ headerTitle: <Text>{year} 年</Text> });
+    navigation.setOptions({ headerTitle: () => <Text>{year} 年</Text> });
   }, [year]);
 
   useEffect(() => {

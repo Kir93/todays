@@ -5,6 +5,12 @@ import Diary from '@screens/Diary';
 import List from '@screens/List';
 import Month from '@screens/Month';
 
+export type DiaryStackNavParamList = {
+  Diary: { year: string; month: string; day: string } | undefined;
+  List: { oldToday: string };
+  Month: undefined;
+};
+
 const Stack = createStackNavigator();
 
 const screenOptions: StackNavigationOptions = {
@@ -20,7 +26,7 @@ const screenOptions: StackNavigationOptions = {
 };
 
 const DiaryStackNav = (): React.ReactElement => (
-  <Stack.Navigator screenOptions={screenOptions}>
+  <Stack.Navigator screenOptions={screenOptions} initialRouteName="Diary">
     <Stack.Screen name="Diary" component={Diary} />
     <Stack.Screen name="List" component={List} />
     <Stack.Screen name="Month" component={Month} />

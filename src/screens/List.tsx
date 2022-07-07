@@ -3,7 +3,9 @@ import dayjs from 'dayjs';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { StackNavigationProp } from '@react-navigation/stack';
 import { ListRenderItem, TouchableOpacity, VirtualizedList } from 'react-native';
-import { ParamListBase, useNavigation, useRoute } from '@react-navigation/native';
+import { RouteProp, useNavigation, useRoute } from '@react-navigation/native';
+
+import { DiaryStackNavParamList } from '@navigators/DiaryStackNav';
 
 import convertKey from '@utils/convertKey';
 
@@ -24,14 +26,10 @@ interface IList extends IListParts {
   moon: string;
 }
 
-interface IParams {
-  oldToday: string;
-}
-
 const List = (): React.ReactElement => {
-  const router = useRoute();
-  const param = router?.params as IParams;
-  const navigation = useNavigation<StackNavigationProp<ParamListBase>>();
+  const router = useRoute<RouteProp<{ params: DiaryStackNavParamList['List'] }>>();
+  const { oldToday } = router?.params;
+  const navigation = useNavigation<StackNavigationProp<DiaryStackNavParamList>>();
   const [year, setYear] = useState(() => dayjs().year());
   const [month, setMonth] = useState(() => dayjs().month() + 1);
   const [data, setData] = useState<IList[]>([]);
@@ -41,8 +39,8 @@ const List = (): React.ReactElement => {
   const onNavigateMonthPage = () => navigation.navigate('Month');
   const onNavigateDiaryPage = (date: string) => () => {
     const [paramYear, paramMonth, paramDay] = date.split('-');
-    const oldToday = parseInt(param?.oldToday, 10);
-    if (oldToday !== toDay && toDay === parseInt(paramDay, 10))
+    const parseToday = parseInt(oldToday, 10);
+    if (parseToday !== toDay && toDay === parseInt(paramDay, 10))
       navigation.navigate('Diary', { year: paramYear, month: paramMonth, day: paramDay });
     else navigation.push('Diary', { year: paramYear, month: paramMonth, day: paramDay });
   };
