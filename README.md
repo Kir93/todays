@@ -32,3 +32,9 @@ yarn
 cd ios && pod install && cd ..
 yarn ios || yarn android
 ```
+
+## Fix List
+
+- [x] Diary Screen에서만 Android App종료 할 수 있도록 수정
+- [ ] List Screen에서 데이터 과도하게 불러올 때 깜빡이는 현상
+- [ ] List Screen에서 데이터 과도하게 불러올 때 데이터 정확하게 안 나오는 현상
