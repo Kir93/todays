@@ -115,15 +115,17 @@ const List = (): React.ReactElement => {
     getMonthDates(defaultData);
   }, []);
 
-  const renderItem: ListRenderItem<IList> = ({ item: { id, ...itemData } }) => (
-    <RenderCard key={id} {...{ id, itemData, onNavigateDiaryPage }} />
+  const renderItem: ListRenderItem<IList> = useCallback(
+    ({ item: { id, ...itemData } }) => (
+      <RenderCard key={id} {...{ id, itemData, onNavigateDiaryPage }} />
+    ),
+    [onNavigateDiaryPage],
   );
 
   return (
     <AppLayout loading={!data.length}>
       <VirtualizedList
         inverted
-        removeClippedSubviews
         initialNumToRender={toDay}
         onEndReachedThreshold={0.5}
         showsVerticalScrollIndicator={false}

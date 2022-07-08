@@ -35,5 +35,5 @@ yarn ios || yarn android
 
 ## Fix List
 
-- [ ] List Screen에서 데이터 과도하게 불러올 때 깜빡이는 현상
-- [ ] List Screen에서 데이터 과도하게 불러올 때 데이터 정확하게 안 나오는 현상
+- [x] List Screen에서 데이터 과도하게 불러올 때 깜빡이는 현상
+- [x] List Screen에서 데이터 과도하게 불러올 때 데이터 정확하게 안 나오는 현상
