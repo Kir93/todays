@@ -4,9 +4,9 @@ import * as SplashScreen from 'expo-splash-screen';
 import { StatusBar } from 'expo-status-bar';
 import { Ionicons } from '@expo/vector-icons';
 import { ThemeProvider } from 'styled-components/native';
-import { createNavigationContainerRef, NavigationContainer } from '@react-navigation/native';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
 import { BackHandler, ToastAndroid } from 'react-native';
+import { createNavigationContainerRef, NavigationContainer } from '@react-navigation/native';
 
 import {
   NotoSansKR_400Regular,
@@ -47,12 +47,12 @@ export default function App(): React.ReactElement {
   useEffect(() => {
     const backAction = () => {
       if (navigationRef.current?.canGoBack()) return false;
-      const resetTimeout = setTimeout(() => setIsExit(false), 2000);
+      const resetTimeout = setTimeout(() => setIsExit(false), 1000);
       if (isExit) {
         BackHandler.exitApp();
         clearTimeout(resetTimeout);
       }
-      ToastAndroid.show('한번 더 누르시면 Todays가 종료됩니다! :)', 2000);
+      ToastAndroid.show('한번 더 누르시면 Todays가 종료됩니다! :)', 1000);
       setIsExit(true);
       return true;
     };
