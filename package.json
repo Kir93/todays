@@ -1,4 +1,9 @@
 {
+  "name": "todays",
+  "version": "1.0.2",
+  "author": "Kir93",
+  "private": true,
+  "license": "MIT",
   "main": "index.js",
   "scripts": {
     "android": "expo start --android",
@@ -68,13 +73,10 @@
   "jest": {
     "preset": "react-native"
   },
-  "private": true,
   "lint-staged": {
     "**/*.{tsx,ts}": [
       "eslint --fix",
       "prettier --write"
     ]
-  },
-  "name": "todays",
-  "version": "1.0.2"
+  }
 }
