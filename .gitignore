@@ -46,8 +46,9 @@ buck-out/
 # Bundle artifacts
 *.jsbundle
 
-# CocoaPods
-/ios/Pods/
+# Native codes
+ios/
+android/
 
 # Expo
 .expo/
